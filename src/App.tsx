@@ -1,0 +1,745 @@
+import { motion } from 'framer-motion'
+import {
+  BookOpen,
+  Bot,
+  Code,
+  Database,
+  ExternalLink,
+  FolderOpen,
+  GitBranch,
+  Github,
+  Heart,
+  Linkedin,
+  Mail,
+  Menu,
+  MonitorSmartphone,
+  Moon,
+  Star,
+  Sun,
+  Terminal,
+  User,
+  X
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { FaMedium, FaWhatsapp } from 'react-icons/fa'
+import {
+  SiCentos,
+  SiChartdotjs,
+  SiCss3,
+  SiDjango,
+  SiFirebase,
+  SiFlask,
+  SiGit,
+  SiGithub,
+  SiHtml5,
+  SiJavascript,
+  SiKalilinux,
+  SiNumpy,
+  SiPython,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+  SiUbuntu
+} from 'react-icons/si'
+import ChatWidget from './components/ChatWidget'
+import ContactForm from './components/ContactForm'
+import FlowingBlogRiver from './components/FlowingBlogRiver'
+import QuotesSection from './components/QuotesSection'
+
+function App() {
+  const [darkMode, setDarkMode] = useState(false)
+  const [activeSection, setActiveSection] = useState('home')
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Map sections to their corresponding titles
+  const sectionTitles = {
+    home: "Sakthi | Title Page",
+    about: "Sakthi | ReadMe.md",
+    skills: "Sakthi | Toolkit",
+    projects: "Sakthi | Lab Repos",
+    contact: "Sakthi | Contact"
+  }
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [darkMode])
+
+  useEffect(() => {
+    // Update document title when active section changes
+    document.title = sectionTitles[activeSection as keyof typeof sectionTitles] || "Sakthi's Portfolio"
+
+    // Create observer for sections
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      {
+        rootMargin: '-50% 0px', // Consider section in view when it reaches middle of viewport
+        threshold: 0
+      }
+    )
+
+    // Observe all sections
+    const sections = document.querySelectorAll('section[id]')
+    sections.forEach((section) => observer.observe(section))
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section))
+    }
+  }, [activeSection])
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode)
+  }
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    element?.scrollIntoView({ behavior: 'smooth' })
+    setActiveSection(sectionId)
+  }
+
+  useEffect(() => {
+    // Close mobile menu on viewport >= md
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMobileOpen(false)
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-paper-100 dark:bg-black transition-colors duration-300">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-paper-50/80 dark:bg-black/80 backdrop-blur-md border-b border-paper-300 dark:border-gray-700">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+          <motion.div 
+            className="font-notebook text-2xl font-bold text-highlight-blue dark:text-highlight-cyan inline-flex items-center gap-2 cursor-pointer"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            onClick={() => scrollToSection('home')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                scrollToSection('home');
+              }
+            }}
+            aria-label="Go to Home"
+            title="Go to Home"
+          >
+            <img src="/images/blue avatar.png" alt="Logo" className="w-7 h-7 rounded-full object-cover" />
+            <span>Sakthi's Notebook</span>
+          </motion.div>
+          
+          <div className="hidden md:flex space-x-8">
+            {[
+              { id: 'home', label: 'Titlepage', icon: BookOpen },
+              { id: 'about', label: 'Readme.md', icon: User },
+              { id: 'skills', label: 'ToolKit Arsenal', icon: Code },
+              { id: 'projects', label: 'Lap Repos', icon: FolderOpen },
+              { id: 'contact', label: 'Secure Note', icon: Mail }
+            ].map(({ id, label, icon: Icon }) => (
+              <button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ink-highlight ${
+                  activeSection === id 
+                    ? 'text-highlight-blue dark:text-highlight-cyan' 
+                    : 'text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan'
+                }`}
+              >
+                <Icon size={18} />
+                <span className="font-body">{label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200"
+              aria-label="Toggle theme"
+              title="Toggle theme"
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button
+              className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200 md:hidden"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
+
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="md:hidden border-t border-paper-300 dark:border-gray-700 bg-paper-50/95 dark:bg-black/95 backdrop-blur"
+          >
+            <div className="max-w-6xl mx-auto px-4 py-3 grid gap-2">
+              {[
+                { id: 'home', label: 'Titlepage', icon: BookOpen },
+                { id: 'about', label: 'Readme.md', icon: User },
+                { id: 'skills', label: 'ToolKit Arsenal', icon: Code },
+                { id: 'projects', label: 'Lap Repos', icon: FolderOpen },
+                { id: 'contact', label: 'Secure Note', icon: Mail }
+              ].map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  onClick={() => { scrollToSection(id); setMobileOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors duration-200 ${
+                    activeSection === id 
+                      ? 'bg-paper-200/70 dark:bg-gray-800/70 text-highlight-blue dark:text-highlight-cyan'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-paper-200/60 dark:hover:bg-gray-800/60'
+                  }`}
+                >
+                  <Icon size={18} />
+                  <span className="font-body">{label}</span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </nav>
+
+      {/* Cover Page */}
+      <section id="home" className="min-h-screen flex items-center justify-center py-28 md:py-20 dark:bg-black">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="notebook-page animate-notebook-open p-8 md:p-12"
+          >
+            <motion.h1 
+              className="text-5xl md:text-8xl font-notebook font-bold mb-4 md:mb-6 text-shadow"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+            >
+              <span className="text-highlight-blue dark:text-highlight-cyan">Sakthi</span>
+              <br />
+              <span className="text-gray-700 dark:text-gray-200">Murugan</span>
+            </motion.h1>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+              className="font-handwriting text-xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8"
+            >
+              Frontend Developer & Cybersecurity Enthusiast
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.6 }}
+              className="flex justify-center items-center space-x-8 mb-10"
+            >
+              {[
+                { icon: Github, href: 'https://github.com/Sakthi102003', color: 'hover:text-gray-800 dark:hover:text-gray-200' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', color: 'hover:text-blue-600' },
+                { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', color: 'hover:text-green-600' },
+                { icon: FaWhatsapp, href: 'tel:+919791747058', color: 'hover:text-green-600' },
+                { icon: FaMedium, href: 'https://medium.com/@sakthimurugan102003', color: 'hover:text-black-600' }
+              ].map(({ icon: Icon, href, color }) => (
+                <a
+                  key={href}
+                  href={href}
+                  className={`text-gray-500 dark:text-gray-400 ${color} transition-all duration-200 transform hover:scale-110 p-2`}
+                >
+                  <Icon size={32} />
+                </a>
+              ))}
+            </motion.div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <motion.button
+                onClick={() => scrollToSection('about')}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5, duration: 0.6 }}
+                className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-gray-900 px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2"
+              >
+                <span>Open My Notebook</span>
+                <BookOpen size={20} />
+              </motion.button>
+
+              <motion.a
+                href="https://drive.google.com/file/d/1M1-y8bF_pbcY6cPtLd8Qiqn9DrK-yOlr/view?usp=sharing"
+                download="Sakthi_Murugan_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.7, duration: 0.6 }}
+                className="bg-white dark:bg-gray-800 text-highlight-blue dark:text-highlight-cyan border-2 border-highlight-blue dark:border-highlight-cyan px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2"
+              >
+                <span>Download Resume</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </motion.a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Quotes Section */}
+      <QuotesSection />
+
+      {/* About Section */}
+      <section id="about" className="py-20 md:py-28 dark:bg-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="notebook-page p-8 md:p-12"
+          >
+            <div className="flex items-center mb-8">
+              <User className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
+              <h2 className="text-4xl font-notebook font-bold">Readme.md</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <div className="polaroid max-w-[400px] w-full mx-auto">
+                  <div className="aspect-[4/5] bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg overflow-hidden">
+                    <img 
+                      src="/images/profile.jpg"
+                      alt="Sakthi Murugan"
+                      className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="text-center font-handwriting text-lg mt-2">That's me! 📸</p>
+                </div>
+              </div>
+              
+              <div className="space-y-8">
+                <div className="font-handwriting space-y-6">
+                  <div>
+                    <h3 className="text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3">🛡️ Who am I?</h3>
+                    <p className="text-xl leading-relaxed">
+                      A cybersecurity enthusiast and developer scribbling down ways to outsmart the bad guys (and occasionally… my own code 🤦‍♂️).
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3">⚡ What I do:</h3>
+                    <p className="text-xl leading-relaxed">
+                      Build real-world projects powered by Python, Machine Learning 🤖, and modern web tech 🌐—basically turning messy ideas into tools that (mostly) behave.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3">🚀 Why I'm here:</h3>
+                    <p className="text-xl leading-relaxed">
+                      Because staying ahead in tech isn't just work—it's my favorite cure for boredom and my way of keeping this notebook full of experiments, doodles, and maybe a few breakthroughs.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-8">
+                  <div className="flex items-center space-x-3">
+                    <Star className="text-yellow-500" size={24} />
+                    <span className="text-lg">Python & Machine Learning Enthusiast</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Heart className="text-red-500" size={24} />
+                    <span className="text-lg">Cybersecurity Passionate</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <BookOpen className="text-blue-500" size={24} />
+                    <span className="text-lg">Always Learning, Always Building</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-20 bg-paper-50 dark:bg-black">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-center mb-8">
+              <Code className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
+              <h2 className="text-4xl font-notebook font-bold">Toolkit Arsenal</h2>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="notebook-page p-8 md:p-12"
+            >
+              <div className="space-y-10">
+                {/* Languages */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <Code className="text-purple-500" size={24} />
+                    <h3 className="font-notebook font-bold text-xl">Languages</h3>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-handwriting text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#3776AB] transition-colors">
+                      <SiPython className="text-2xl" />
+                      <span>Python</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#E34F26] transition-colors">
+                      <SiHtml5 className="text-2xl" />
+                      <span>HTML</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#1572B6] transition-colors">
+                      <SiCss3 className="text-2xl" />
+                      <span>CSS</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#F7DF1E] transition-colors">
+                      <SiJavascript className="text-2xl" />
+                      <span>JavaScript</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#3178C6] transition-colors">
+                      <SiTypescript className="text-2xl" />
+                      <span>TypeScript</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Frontend */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <MonitorSmartphone className="text-blue-500" size={24} />
+                    <h3 className="font-notebook font-bold text-xl">Frontend</h3>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-handwriting text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#61DAFB] transition-colors">
+                      <SiReact className="text-2xl" />
+                      <span>React.js</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#06B6D4] transition-colors">
+                      <SiTailwindcss className="text-2xl" />
+                      <span>Tailwind CSS</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#FF6384] transition-colors">
+                      <SiChartdotjs className="text-2xl" />
+                      <span>Chart.js</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Backend/ML */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <Bot className="text-green-500" size={24} />
+                    <h3 className="font-notebook font-bold text-xl">Backend/ML</h3>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 font-handwriting text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#000000] transition-colors">
+                      <SiFlask className="text-2xl" />
+                      <span>Flask</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#092E20] transition-colors">
+                      <SiDjango className="text-2xl" />
+                      <span>Django</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#4DABCF] transition-colors">
+                      <SiNumpy className="text-2xl" />
+                      <span>NumPy</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#3b82f6] dark:hover:text-[#fbbf24] transition-colors">
+                      <Database className="text-2xl" />
+                      <span>SQL</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tools */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <GitBranch className="text-orange-500" size={24} />
+                    <h3 className="font-notebook font-bold text-xl">Tools</h3>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-handwriting text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#F05032] transition-colors">
+                      <SiGit className="text-2xl" />
+                      <span>Git</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#181717] transition-colors">
+                      <SiGithub className="text-2xl" />
+                      <span>GitHub</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#FFCA28] transition-colors">
+                      <SiFirebase className="text-2xl" />
+                      <span>Firebase</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#007ACC] transition-colors">
+                      <Code className="text-2xl" />
+                      <span>VS Code</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Operating Systems */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <Terminal className="text-red-500" size={24} />
+                    <h3 className="font-notebook font-bold text-xl">Operating Systems</h3>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 font-handwriting text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#E95420] transition-colors">
+                      <SiUbuntu className="text-2xl" />
+                      <span>Ubuntu</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#557C94] transition-colors">
+                      <SiKalilinux className="text-2xl" />
+                      <span>Kali Linux</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#932279] transition-colors">
+                      <SiCentos className="text-2xl" />
+                      <span>CentOS</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-20 md:py-28 dark:bg-black">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="notebook-page p-10 md:p-14"
+          >
+            <div className="flex items-center mb-10">
+              <FolderOpen className="text-highlight-blue dark:text-highlight-cyan mr-4" size={32} />
+              <h2 className="text-4xl font-notebook font-bold">Lab Repos</h2>
+            </div>
+            
+            <div className="space-y-16">
+              {[
+                {
+                  title: 'Reposocope',
+                  description: 'Developed a comprehensive React-based analytics tool that provides deep insights into GitHub user activity. The application analyzes repositories, technology stacks, contribution patterns, and generates detailed reports with comparison features between users.',
+                  tech: ['React', 'GitHub API', 'chart.js', 'HTML & CSS', 'Framer Motion', 'TypeScript', 'Javascript'],
+                  status: 'Completed',
+                  link: 'https://github.com/Sakthi102003/reposcope',
+                  demoLink: 'https://reposcope-2003.web.app/',
+                  details: [
+                    'User Activity Analysis',
+                    'Repository Statistics',
+                    'Tech Stack Analysis',
+                    'Usage Statistics',
+                    'Downloadable Reports',
+                    'User Comparison Features'
+                  ]
+                },
+                {
+                  title: 'Phishield',
+                  description: 'Built an advanced machine learning-based web application that detects phishing websites in real-time. The system uses sophisticated algorithms to analyze URLs and website characteristics, providing instant threat assessment with detailed reporting and user-friendly interface.',
+                  tech: ['Python', 'React.js', 'Flask', 'Scikit Learn', 'Pandas & NumPy'],
+                  status: 'Completed',
+                  link: 'https://github.com/Sakthi102003/phishield',
+                  demoLink: 'https://phisshield.onrender.com/',
+                  details: [
+                    'Real-time URL Analysis',
+'ML-based Threat Detection',
+'User-friendly Reporting',
+'Clean UI Design',
+'Threat Intelligence',
+'Security Recommendations'
+                  ]
+                },
+                {
+                  title: 'Tech IQ',
+                  description: 'An innovative AI-powered platform that helps developers and teams make informed decisions about their technology stack. The application leverages OpenAI and Google Gemini to provide intelligent recommendations, cost estimations, and development roadmaps.',
+                  tech: ['React', 'OpenAI API', 'Gemini API', 'Vite', 'Firebase', 'Express.js'],
+                  status: 'Completed',
+                  link: 'https://github.com/Sakthi102003/tech-iq',
+                  demoLink: 'https://tech-iq.onrender.com/',
+                  details: [
+   'AI-Powered Recommendations',
+   'Flexible AI Configuration',
+   'Provider Comparison',
+   'Cost Estimation',
+   'Development Roadmap',
+   'PDF Export',
+   'GitHub Templates'
+                  ]
+                },
+                {
+                  title: 'GuardianHash',
+                  description: 'Created a comprehensive file integrity monitoring solution with both command-line and graphical interfaces. The tool generates and verifies cryptographic hashes to detect file tampering, maintains detailed logs, and can send email alerts for security incidents.',
+                  tech: ['Python', 'Tkinter', 'Cryptography', 'JSON', 'Email APIs'],
+                  status: 'Completed',
+                  link: 'https://github.com/Sakthi102003/GuardianHash',
+                  details: [
+                    'MD5/SHA256 Hash Generation',
+                    'File Tampering Detection',
+                    'CLI and GUI Interfaces',
+                    'JSON Log Generation',
+                    'Email Alert System',
+                    'Batch File Processing'
+                  ]
+                }
+              ].map((project, index) => (
+                <motion.div
+                  key={project.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.2, duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="border-b border-gray-200 dark:border-gray-700 last:border-0 pb-12 last:pb-0 pt-8 first:pt-0"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="flex-1 pr-6">
+                      <h3 className="font-notebook font-bold text-2xl text-highlight-blue dark:text-highlight-cyan mb-3">
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300 text-lg mb-4 leading-relaxed">{project.description}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <a 
+                        href={project.link}
+                        className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors flex-shrink-0 p-2"
+                        title="View Source Code"
+                      >
+                        <Github size={24} />
+                      </a>
+                      {project.demoLink && (
+                        <a 
+                          href={project.demoLink}
+                          className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors flex-shrink-0 p-2"
+                          title="View Live Demo"
+                        >
+                          <ExternalLink size={24} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <ul className="list-disc mb-6 space-y-3 text-gray-600 dark:text-gray-300 pl-5">
+                    {project.details.map((detail, i) => (
+                      <li key={i} className="font-handwriting text-lg leading-relaxed pl-2">{detail}</li>
+                    ))}
+                  </ul>
+                  
+                  <div className="flex flex-wrap items-center gap-4">
+                    <span className={`px-4 py-1.5 rounded-full text-sm font-medium ${
+                      project.status === 'Completed' 
+                        ? 'bg-green-200 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+                        : 'bg-yellow-200 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
+                    }`}>
+                      {project.status}
+                    </span>
+                    {project.tech.map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 md:py-28 bg-paper-50 dark:bg-black">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="notebook-page p-8 md:p-12 pl-16 md:pl-20"
+          >
+            <div className="flex items-center justify-center mb-8">
+              <Mail className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
+              <h2 className="text-4xl font-notebook font-bold">Secure Note</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="font-notebook text-2xl mb-4">Send me a message</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  I'd love to hear from you! Whether it's a project collaboration, 
+                  job opportunity, or just a friendly hello, feel free to reach out.
+                </p>
+                
+                <div className="space-y-4">
+  {/* Email */}
+  <div className="flex items-center space-x-3">
+    <Mail className="text-highlight-blue dark:text-highlight-cyan" size={22} />
+    <a href="mailto:sakthimurugan102003@gmail.com" className="hover:underline hover:text-highlight-blue dark:hover:text-highlight-cyan transition" >
+      sakthimurugan102003@gmail.com
+    </a>
+  </div>
+                  <div className="flex items-center space-x-3">
+                    <Github className="text-highlight-blue dark:text-highlight-cyan" size={20} />
+                    <a href="https://github.com/Sakthi102003" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors">github.com/Sakthi102003</a>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Linkedin className="text-highlight-blue dark:text-highlight-cyan" size={20} />
+                    <a href="https://www.linkedin.com/in/sakthimurugan-s/" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors">linkedin.com/in/sakthimurugan-s</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg border-l-4 border-highlight-blue dark:border-highlight-cyan">
+                <ContactForm />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Flowing Blog River */}
+      <FlowingBlogRiver />
+
+      {/* Footer */}
+      <footer className="py-8 text-center text-gray-500 dark:text-gray-400">
+        <div className="notebook-divider mb-6"></div>
+        <p className="font-handwriting text-lg">
+          Made with ❤️ and lots of ☕ by Sakthimurugan
+        </p>
+        <p className="text-sm mt-2">© 2025 - All Rights reserved.</p>
+      </footer>
+
+      {/* Chat Widget */}
+      <ChatWidget />
+    </div>
+  )
+}
+
+export default App
