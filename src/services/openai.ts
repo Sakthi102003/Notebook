@@ -43,7 +43,7 @@ For specific inquiries: Provide the relevant contact method (GitHub for code col
 export async function getChatResponse(userMessage: string): Promise<string> {
     // Throw early if API key is missing
     if (!import.meta.env.VITE_OPENAI_API_KEY) {
-        throw new Error('Missing OpenAI API key');
+        throw new Error('Chat feature is temporarily unavailable');
     }
 
     const completion = await openai.chat.completions.create({
