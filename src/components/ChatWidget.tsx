@@ -52,11 +52,6 @@ Or use the contact form in the Contact section.`
 ]
 
 const ChatWidget: React.FC = () => {
-  // Don't render the chat widget if OpenAI API key is not available
-  if (!import.meta.env.VITE_OPENAI_API_KEY) {
-    return null
-  }
-
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
