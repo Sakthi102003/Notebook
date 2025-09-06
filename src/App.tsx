@@ -1,45 +1,45 @@
 import { motion } from 'framer-motion'
 import {
-    BookOpen,
-    Bot,
-    Code,
-    Database,
-    ExternalLink,
-    FolderOpen,
-    GitBranch,
-    Github,
-    Heart,
-    Linkedin,
-    Mail,
-    Menu,
-    MonitorSmartphone,
-    Moon,
-    Star,
-    Sun,
-    Terminal,
-    User,
-    X
+  BookOpen,
+  Bot,
+  Code,
+  Database,
+  ExternalLink,
+  FolderOpen,
+  GitBranch,
+  Github,
+  Heart,
+  Linkedin,
+  Mail,
+  Menu,
+  MonitorSmartphone,
+  Moon,
+  Star,
+  Sun,
+  Terminal,
+  User,
+  X
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaMedium, FaWhatsapp } from 'react-icons/fa'
 import {
-    SiCentos,
-    SiChartdotjs,
-    SiCss3,
-    SiDjango,
-    SiFirebase,
-    SiFlask,
-    SiGit,
-    SiGithub,
-    SiHtml5,
-    SiJavascript,
-    SiKalilinux,
-    SiNumpy,
-    SiPython,
-    SiReact,
-    SiTailwindcss,
-    SiTypescript,
-    SiUbuntu
+  SiCentos,
+  SiChartdotjs,
+  SiCss3,
+  SiDjango,
+  SiFirebase,
+  SiFlask,
+  SiGit,
+  SiGithub,
+  SiHtml5,
+  SiJavascript,
+  SiKalilinux,
+  SiNumpy,
+  SiPython,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+  SiUbuntu
 } from 'react-icons/si'
 import ChatWidget from './components/ChatWidget'
 import ContactForm from './components/ContactForm'
@@ -597,7 +597,6 @@ function App() {
                   tech: ['React', 'OpenAI API', 'Gemini API', 'Vite', 'Firebase', 'Express.js'],
                   status: 'Completed',
                   link: 'https://github.com/Sakthi102003/tech-iq',
-                  demoLink: 'https://tech-iq.onrender.com/',
                   details: [
    'AI-Powered Recommendations',
    'Flexible AI Configuration',
@@ -606,6 +605,23 @@ function App() {
    'Development Roadmap',
    'PDF Export',
    'GitHub Templates'
+                  ]
+                },
+                {
+                  title: 'CyberBuddy',
+                  description: 'An intelligent cybersecurity chatbot designed to provide real-time security assistance, threat analysis, and educational guidance. Built with advanced AI capabilities to help users understand cybersecurity concepts, analyze potential threats, and get personalized security recommendations.',
+                  tech: ['React', 'Gemini API', 'Python', 'Cybersecurity APIs', 'NLP'],
+                  status: 'Completed',
+                  link: 'https://github.com/Sakthi102003/CyberBuddy',
+                  demoLink: 'https://cyberbuddy-hzlt.onrender.com/',
+                  details: [
+                    'Real-time Threat Analysis',
+                    'Security Best Practices Guide',
+                    'Vulnerability Assessment',
+                    'Incident Response Support',
+                    'Educational Content Delivery',
+                    'Personalized Security Recommendations',
+                    'Interactive Learning Modules'
                   ]
                 },
                 {
