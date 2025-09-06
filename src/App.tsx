@@ -1,45 +1,45 @@
 import { motion } from 'framer-motion'
 import {
-  BookOpen,
-  Bot,
-  Code,
-  Database,
-  ExternalLink,
-  FolderOpen,
-  GitBranch,
-  Github,
-  Heart,
-  Linkedin,
-  Mail,
-  Menu,
-  MonitorSmartphone,
-  Moon,
-  Star,
-  Sun,
-  Terminal,
-  User,
-  X
+    BookOpen,
+    Bot,
+    Code,
+    Database,
+    ExternalLink,
+    FolderOpen,
+    GitBranch,
+    Github,
+    Heart,
+    Linkedin,
+    Mail,
+    Menu,
+    MonitorSmartphone,
+    Moon,
+    Star,
+    Sun,
+    Terminal,
+    User,
+    X
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaMedium, FaWhatsapp } from 'react-icons/fa'
 import {
-  SiCentos,
-  SiChartdotjs,
-  SiCss3,
-  SiDjango,
-  SiFirebase,
-  SiFlask,
-  SiGit,
-  SiGithub,
-  SiHtml5,
-  SiJavascript,
-  SiKalilinux,
-  SiNumpy,
-  SiPython,
-  SiReact,
-  SiTailwindcss,
-  SiTypescript,
-  SiUbuntu
+    SiCentos,
+    SiChartdotjs,
+    SiCss3,
+    SiDjango,
+    SiFirebase,
+    SiFlask,
+    SiGit,
+    SiGithub,
+    SiHtml5,
+    SiJavascript,
+    SiKalilinux,
+    SiNumpy,
+    SiPython,
+    SiReact,
+    SiTailwindcss,
+    SiTypescript,
+    SiUbuntu
 } from 'react-icons/si'
 import ChatWidget from './components/ChatWidget'
 import ContactForm from './components/ContactForm'
@@ -219,12 +219,12 @@ function App() {
 
       {/* Cover Page */}
       <section id="home" className="min-h-screen flex items-center justify-center py-28 md:py-20 dark:bg-black">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="notebook-page animate-notebook-open p-8 md:p-12"
+            className="notebook-page animate-notebook-open p-6 sm:p-8 md:p-12"
           >
             <motion.h1 
               className="text-5xl md:text-8xl font-notebook font-bold mb-4 md:mb-6 text-shadow"
@@ -306,13 +306,13 @@ function App() {
 
       {/* About Section */}
       <section id="about" className="py-20 md:py-28 dark:bg-black">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="notebook-page p-8 md:p-12"
+            className="notebook-page p-6 sm:p-8 md:p-12"
           >
             <div className="flex items-center mb-8">
               <User className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
@@ -329,29 +329,41 @@ function App() {
                       className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <p className="text-center font-handwriting text-lg mt-2">That's me! 📸</p>
+                  <p className="text-center font-handwriting text-lg mt-2 flex items-center justify-center gap-1">
+                    <span>That's me!</span>
+                    <span>📸</span>
+                  </p>
                 </div>
               </div>
               
               <div className="space-y-8">
                 <div className="font-handwriting space-y-6">
                   <div>
-                    <h3 className="text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3">🛡️ Who am I?</h3>
-                    <p className="text-xl leading-relaxed">
+                    <h3 className="text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3 flex items-start gap-2">
+                      <span className="flex-shrink-0">🛡️</span>
+                      <span>Who am I?</span>
+                    </h3>
+                    <p className="text-lg md:text-xl leading-relaxed">
                       A cybersecurity enthusiast and developer scribbling down ways to outsmart the bad guys (and occasionally… my own code 🤦‍♂️).
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3">⚡ What I do:</h3>
-                    <p className="text-xl leading-relaxed">
+                    <h3 className="text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3 flex items-start gap-2">
+                      <span className="flex-shrink-0">⚡</span>
+                      <span>What I do:</span>
+                    </h3>
+                    <p className="text-lg md:text-xl leading-relaxed">
                       Build real-world projects powered by Python, Machine Learning 🤖, and modern web tech 🌐—basically turning messy ideas into tools that (mostly) behave.
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3">🚀 Why I'm here:</h3>
-                    <p className="text-xl leading-relaxed">
+                    <h3 className="text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3 flex items-start gap-2">
+                      <span className="flex-shrink-0">🚀</span>
+                      <span>Why I'm here:</span>
+                    </h3>
+                    <p className="text-lg md:text-xl leading-relaxed">
                       Because staying ahead in tech isn't just work—it's my favorite cure for boredom and my way of keeping this notebook full of experiments, doodles, and maybe a few breakthroughs.
                     </p>
                   </div>
@@ -379,7 +391,7 @@ function App() {
 
       {/* Skills Section */}
       <section id="skills" className="py-20 bg-paper-50 dark:bg-black">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -388,7 +400,7 @@ function App() {
           >
             <div className="flex items-center mb-8">
               <Code className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
-              <h2 className="text-4xl font-notebook font-bold">Toolkit Arsenal</h2>
+              <h2 className="text-3xl md:text-4xl font-notebook font-bold">Toolkit Arsenal</h2>
             </div>
             
             <motion.div
@@ -396,7 +408,7 @@ function App() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="notebook-page p-8 md:p-12"
+              className="notebook-page p-6 sm:p-8 md:p-12"
             >
               <div className="space-y-10">
                 {/* Languages */}
@@ -532,17 +544,17 @@ function App() {
 
       {/* Projects Section */}
       <section id="projects" className="py-20 md:py-28 dark:bg-black">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="notebook-page p-10 md:p-14"
+            className="notebook-page p-6 sm:p-10 md:p-14"
           >
             <div className="flex items-center mb-10">
               <FolderOpen className="text-highlight-blue dark:text-highlight-cyan mr-4" size={32} />
-              <h2 className="text-4xl font-notebook font-bold">Lab Repos</h2>
+              <h2 className="text-3xl md:text-4xl font-notebook font-bold">Lab Repos</h2>
             </div>
             
             <div className="space-y-16">
@@ -676,17 +688,17 @@ function App() {
 
       {/* Contact Section */}
       <section id="contact" className="py-20 md:py-28 bg-paper-50 dark:bg-black">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="notebook-page p-8 md:p-12 pl-16 md:pl-20"
+            className="notebook-page p-6 sm:p-8 md:p-12 pl-8 sm:pl-16 md:pl-20"
           >
             <div className="flex items-center justify-center mb-8">
               <Mail className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
-              <h2 className="text-4xl font-notebook font-bold">Secure Note</h2>
+              <h2 className="text-3xl md:text-4xl font-notebook font-bold">Secure Note</h2>
             </div>
             
             <div className="grid md:grid-cols-2 gap-8">
