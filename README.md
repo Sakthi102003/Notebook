@@ -164,7 +164,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 ## 👨‍💻 Author
 
 **Sakthi Murugan**
-- Portfolio: [Your Portfolio URL]
+- Portfolio: [sakthimurugan.dev](https://sakthimurugan.dev)
 - GitHub: [@Sakthi102003](https://github.com/Sakthi102003)
 - LinkedIn: [linkedin.com/in/sakthimurugan-s](https://www.linkedin.com/in/sakthimurugan-s/)
 
