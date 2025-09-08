@@ -119,9 +119,9 @@ function App() {
     <div className="min-h-screen bg-paper-100 dark:bg-black transition-colors duration-300">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-paper-50/80 dark:bg-black/80 backdrop-blur-md border-b border-paper-300 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
           <motion.div 
-            className="font-notebook text-2xl font-bold text-highlight-blue dark:text-highlight-cyan inline-flex items-center gap-2 cursor-pointer"
+            className="font-notebook text-lg sm:text-xl md:text-2xl font-bold text-highlight-blue dark:text-highlight-cyan inline-flex items-center gap-2 cursor-pointer min-w-0"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -137,8 +137,8 @@ function App() {
             aria-label="Go to Home"
             title="Go to Home"
           >
-            <img src="/images/blue avatar.png" alt="Logo" className="w-7 h-7 rounded-full object-cover" />
-            <span>Sakthi's Notebook</span>
+            <img src="/images/blue avatar.png" alt="Logo" className="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover flex-shrink-0" />
+            <span className="truncate">Sakthi's Notebook</span>
           </motion.div>
           
           <div className="hidden md:flex space-x-8">
@@ -164,22 +164,22 @@ function App() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200"
+              className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200 flex-shrink-0"
               aria-label="Toggle theme"
               title="Toggle theme"
             >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button
-              className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200 md:hidden"
+              className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200 md:hidden flex-shrink-0"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Toggle navigation menu"
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -191,7 +191,7 @@ function App() {
             exit={{ opacity: 0, y: -10 }}
             className="md:hidden border-t border-paper-300 dark:border-gray-700 bg-paper-50/95 dark:bg-black/95 backdrop-blur"
           >
-            <div className="max-w-6xl mx-auto px-4 py-3 grid gap-2">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 grid gap-2">
               {[
                 { id: 'home', label: 'Titlepage', icon: BookOpen },
                 { id: 'about', label: 'Readme.md', icon: User },
@@ -202,14 +202,14 @@ function App() {
                 <button
                   key={id}
                   onClick={() => { scrollToSection(id); setMobileOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors duration-200 ${
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors duration-200 min-w-0 ${
                     activeSection === id 
                       ? 'bg-paper-200/70 dark:bg-gray-800/70 text-highlight-blue dark:text-highlight-cyan'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-paper-200/60 dark:hover:bg-gray-800/60'
                   }`}
                 >
-                  <Icon size={18} />
-                  <span className="font-body">{label}</span>
+                  <Icon size={18} className="flex-shrink-0" />
+                  <span className="font-body truncate">{label}</span>
                 </button>
               ))}
             </div>
@@ -219,15 +219,15 @@ function App() {
 
       {/* Cover Page */}
       <section id="home" className="min-h-screen flex items-center justify-center py-28 md:py-20 dark:bg-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="notebook-page animate-notebook-open p-6 sm:p-8 md:p-12"
+            className="notebook-page animate-notebook-open p-4 sm:p-6 md:p-8 lg:p-12 pl-8 sm:pl-12 md:pl-16 lg:pl-20"
           >
             <motion.h1 
-              className="text-5xl md:text-8xl font-notebook font-bold mb-4 md:mb-6 text-shadow"
+              className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-notebook font-bold mb-4 md:mb-6 text-shadow leading-tight"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
@@ -241,7 +241,7 @@ function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="font-handwriting text-xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8"
+              className="font-handwriting text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8"
             >
               Frontend Developer & Cybersecurity Enthusiast
             </motion.div>
@@ -250,7 +250,7 @@ function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 0.6 }}
-              className="flex justify-center items-center space-x-8 mb-10"
+              className="flex justify-center items-center flex-wrap gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 px-4"
             >
               {[
                 { icon: Github, href: 'https://github.com/Sakthi102003', color: 'hover:text-gray-800 dark:hover:text-gray-200' },
@@ -262,23 +262,23 @@ function App() {
                 <a
                   key={href}
                   href={href}
-                  className={`text-gray-500 dark:text-gray-400 ${color} transition-all duration-200 transform hover:scale-110 p-2`}
+                  className={`text-gray-500 dark:text-gray-400 ${color} transition-all duration-200 transform hover:scale-110 p-2 flex-shrink-0`}
                 >
-                  <Icon size={32} />
+                  <Icon size={28} className="sm:w-8 sm:h-8" />
                 </a>
               ))}
             </motion.div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <motion.button
                 onClick={() => scrollToSection('about')}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.6 }}
-                className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-gray-900 px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2"
+                className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-gray-900 px-6 sm:px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
               >
                 <span>Open My Notebook</span>
-                <BookOpen size={20} />
+                <BookOpen size={18} className="sm:w-5 sm:h-5" />
               </motion.button>
 
               <motion.a
@@ -289,10 +289,10 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.7, duration: 0.6 }}
-                className="bg-white dark:bg-gray-800 text-highlight-blue dark:text-highlight-cyan border-2 border-highlight-blue dark:border-highlight-cyan px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2"
+                className="bg-white dark:bg-gray-800 text-highlight-blue dark:text-highlight-cyan border-2 border-highlight-blue dark:border-highlight-cyan px-6 sm:px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
               >
                 <span>Download Resume</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
               </motion.a>
@@ -312,16 +312,16 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="notebook-page p-6 sm:p-8 md:p-12"
+            className="notebook-page p-4 sm:p-6 md:p-8 lg:p-12 pl-8 sm:pl-12 md:pl-16 lg:pl-20"
           >
-            <div className="flex items-center mb-8">
-              <User className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
-              <h2 className="text-4xl font-notebook font-bold">Readme.md</h2>
+            <div className="flex items-center mb-6 sm:mb-8">
+              <User className="text-highlight-blue dark:text-highlight-cyan mr-2 sm:mr-3 flex-shrink-0" size={28} />
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Readme.md</h2>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <div className="polaroid max-w-[400px] w-full mx-auto">
+            <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-center">
+              <div className="order-2 lg:order-1">
+                <div className="polaroid max-w-[300px] sm:max-w-[350px] md:max-w-[400px] w-full mx-auto">
                   <div className="aspect-[4/5] bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg overflow-hidden">
                     <img 
                       src="/images/profile.jpg"
@@ -329,58 +329,58 @@ function App() {
                       className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <p className="text-center font-handwriting text-lg mt-2 flex items-center justify-center gap-1">
+                  <p className="text-center font-handwriting text-base sm:text-lg mt-2 flex items-center justify-center gap-1">
                     <span>That's me!</span>
                     <span>📸</span>
                   </p>
                 </div>
               </div>
               
-              <div className="space-y-8">
-                <div className="font-handwriting space-y-6">
+              <div className="space-y-6 sm:space-y-8 order-1 lg:order-2">
+                <div className="font-handwriting space-y-4 sm:space-y-6">
                   <div>
-                    <h3 className="text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3 flex items-start gap-2">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3 flex items-start gap-2">
                       <span className="flex-shrink-0">🛡️</span>
                       <span>Who am I?</span>
                     </h3>
-                    <p className="text-lg md:text-xl leading-relaxed">
+                    <p className="text-base sm:text-lg md:text-xl leading-relaxed">
                       A cybersecurity enthusiast and developer scribbling down ways to outsmart the bad guys (and occasionally… my own code 🤦‍♂️).
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3 flex items-start gap-2">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3 flex items-start gap-2">
                       <span className="flex-shrink-0">⚡</span>
                       <span>What I do:</span>
                     </h3>
-                    <p className="text-lg md:text-xl leading-relaxed">
+                    <p className="text-base sm:text-lg md:text-xl leading-relaxed">
                       Build real-world projects powered by Python, Machine Learning 🤖, and modern web tech 🌐—basically turning messy ideas into tools that (mostly) behave.
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-3 flex items-start gap-2">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3 flex items-start gap-2">
                       <span className="flex-shrink-0">🚀</span>
                       <span>Why I'm here:</span>
                     </h3>
-                    <p className="text-lg md:text-xl leading-relaxed">
+                    <p className="text-base sm:text-lg md:text-xl leading-relaxed">
                       Because staying ahead in tech isn't just work—it's my favorite cure for boredom and my way of keeping this notebook full of experiments, doodles, and maybe a few breakthroughs.
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-8">
+                <div className="space-y-3 sm:space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6 sm:pt-8">
                   <div className="flex items-center space-x-3">
-                    <Star className="text-yellow-500" size={24} />
-                    <span className="text-lg">Python & Machine Learning Enthusiast</span>
+                    <Star className="text-yellow-500 flex-shrink-0" size={20} />
+                    <span className="text-base sm:text-lg">Python & Machine Learning Enthusiast</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Heart className="text-red-500" size={24} />
-                    <span className="text-lg">Cybersecurity Passionate</span>
+                    <Heart className="text-red-500 flex-shrink-0" size={20} />
+                    <span className="text-base sm:text-lg">Cybersecurity Passionate</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <BookOpen className="text-blue-500" size={24} />
-                    <span className="text-lg">Always Learning, Always Building</span>
+                    <BookOpen className="text-blue-500 flex-shrink-0" size={20} />
+                    <span className="text-base sm:text-lg">Always Learning, Always Building</span>
                   </div>
                 </div>
               </div>
@@ -391,16 +391,16 @@ function App() {
 
       {/* Skills Section */}
       <section id="skills" className="py-20 bg-paper-50 dark:bg-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center mb-8">
-              <Code className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
-              <h2 className="text-3xl md:text-4xl font-notebook font-bold">Toolkit Arsenal</h2>
+            <div className="flex items-center mb-6 sm:mb-8">
+              <Code className="text-highlight-blue dark:text-highlight-cyan mr-2 sm:mr-3 flex-shrink-0" size={28} />
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Toolkit Arsenal</h2>
             </div>
             
             <motion.div
@@ -408,131 +408,131 @@ function App() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="notebook-page p-6 sm:p-8 md:p-12"
+              className="notebook-page p-4 sm:p-6 md:p-8 lg:p-12 pl-8 sm:pl-12 md:pl-16 lg:pl-20"
             >
-              <div className="space-y-10">
+              <div className="space-y-8 sm:space-y-10">
                 {/* Languages */}
                 <div>
-                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <Code className="text-purple-500" size={24} />
-                    <h3 className="font-notebook font-bold text-xl">Languages</h3>
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <Code className="text-purple-500 flex-shrink-0" size={20} />
+                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Languages</h3>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-handwriting text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#3776AB] transition-colors">
-                      <SiPython className="text-2xl" />
-                      <span>Python</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#3776AB] transition-colors min-w-0">
+                      <SiPython className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Python</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#E34F26] transition-colors">
-                      <SiHtml5 className="text-2xl" />
-                      <span>HTML</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#E34F26] transition-colors min-w-0">
+                      <SiHtml5 className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">HTML</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#1572B6] transition-colors">
-                      <SiCss3 className="text-2xl" />
-                      <span>CSS</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#1572B6] transition-colors min-w-0">
+                      <SiCss3 className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">CSS</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#F7DF1E] transition-colors">
-                      <SiJavascript className="text-2xl" />
-                      <span>JavaScript</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#F7DF1E] transition-colors min-w-0">
+                      <SiJavascript className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">JavaScript</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#3178C6] transition-colors">
-                      <SiTypescript className="text-2xl" />
-                      <span>TypeScript</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#3178C6] transition-colors min-w-0">
+                      <SiTypescript className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">TypeScript</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Frontend */}
                 <div>
-                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <MonitorSmartphone className="text-blue-500" size={24} />
-                    <h3 className="font-notebook font-bold text-xl">Frontend</h3>
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <MonitorSmartphone className="text-blue-500 flex-shrink-0" size={20} />
+                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Frontend</h3>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-handwriting text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#61DAFB] transition-colors">
-                      <SiReact className="text-2xl" />
-                      <span>React.js</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#61DAFB] transition-colors min-w-0">
+                      <SiReact className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">React.js</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#06B6D4] transition-colors">
-                      <SiTailwindcss className="text-2xl" />
-                      <span>Tailwind CSS</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#06B6D4] transition-colors min-w-0">
+                      <SiTailwindcss className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Tailwind CSS</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#FF6384] transition-colors">
-                      <SiChartdotjs className="text-2xl" />
-                      <span>Chart.js</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#FF6384] transition-colors min-w-0">
+                      <SiChartdotjs className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Chart.js</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Backend/ML */}
                 <div>
-                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <Bot className="text-green-500" size={24} />
-                    <h3 className="font-notebook font-bold text-xl">Backend/ML</h3>
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <Bot className="text-green-500 flex-shrink-0" size={20} />
+                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Backend/ML</h3>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 font-handwriting text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#000000] transition-colors">
-                      <SiFlask className="text-2xl" />
-                      <span>Flask</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#000000] transition-colors min-w-0">
+                      <SiFlask className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Flask</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#092E20] transition-colors">
-                      <SiDjango className="text-2xl" />
-                      <span>Django</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#092E20] transition-colors min-w-0">
+                      <SiDjango className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Django</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#4DABCF] transition-colors">
-                      <SiNumpy className="text-2xl" />
-                      <span>NumPy</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#4DABCF] transition-colors min-w-0">
+                      <SiNumpy className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">NumPy</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#3b82f6] dark:hover:text-[#fbbf24] transition-colors">
-                      <Database className="text-2xl" />
-                      <span>SQL</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#3b82f6] dark:hover:text-[#fbbf24] transition-colors min-w-0">
+                      <Database className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">SQL</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Tools */}
                 <div>
-                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <GitBranch className="text-orange-500" size={24} />
-                    <h3 className="font-notebook font-bold text-xl">Tools</h3>
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <GitBranch className="text-orange-500 flex-shrink-0" size={20} />
+                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Tools</h3>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-handwriting text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#F05032] transition-colors">
-                      <SiGit className="text-2xl" />
-                      <span>Git</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#F05032] transition-colors min-w-0">
+                      <SiGit className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Git</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#181717] transition-colors">
-                      <SiGithub className="text-2xl" />
-                      <span>GitHub</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#181717] transition-colors min-w-0">
+                      <SiGithub className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">GitHub</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#FFCA28] transition-colors">
-                      <SiFirebase className="text-2xl" />
-                      <span>Firebase</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#FFCA28] transition-colors min-w-0">
+                      <SiFirebase className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Firebase</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#007ACC] transition-colors">
-                      <Code className="text-2xl" />
-                      <span>VS Code</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#007ACC] transition-colors min-w-0">
+                      <Code className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">VS Code</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Operating Systems */}
                 <div>
-                  <div className="flex items-center gap-3 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <Terminal className="text-red-500" size={24} />
-                    <h3 className="font-notebook font-bold text-xl">Operating Systems</h3>
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                    <Terminal className="text-red-500 flex-shrink-0" size={20} />
+                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Operating Systems</h3>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 font-handwriting text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#E95420] transition-colors">
-                      <SiUbuntu className="text-2xl" />
-                      <span>Ubuntu</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
+                    <div className="flex items-center gap-3 p-2 hover:text-[#E95420] transition-colors min-w-0">
+                      <SiUbuntu className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Ubuntu</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#557C94] transition-colors">
-                      <SiKalilinux className="text-2xl" />
-                      <span>Kali Linux</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#557C94] transition-colors min-w-0">
+                      <SiKalilinux className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">Kali Linux</span>
                     </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#932279] transition-colors">
-                      <SiCentos className="text-2xl" />
-                      <span>CentOS</span>
+                    <div className="flex items-center gap-3 p-2 hover:text-[#932279] transition-colors min-w-0">
+                      <SiCentos className="text-xl sm:text-2xl flex-shrink-0" />
+                      <span className="truncate">CentOS</span>
                     </div>
                   </div>
                 </div>
@@ -550,14 +550,14 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="notebook-page p-6 sm:p-10 md:p-14"
+            className="notebook-page p-4 sm:p-6 md:p-10 lg:p-14 pl-8 sm:pl-12 md:pl-16 lg:pl-20"
           >
-            <div className="flex items-center mb-10">
-              <FolderOpen className="text-highlight-blue dark:text-highlight-cyan mr-4" size={32} />
-              <h2 className="text-3xl md:text-4xl font-notebook font-bold">Lab Repos</h2>
+            <div className="flex items-center mb-8 sm:mb-10">
+              <FolderOpen className="text-highlight-blue dark:text-highlight-cyan mr-3 sm:mr-4 flex-shrink-0" size={28} />
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Lab Repos</h2>
             </div>
             
-            <div className="space-y-16">
+            <div className="space-y-12 sm:space-y-16">
               {[
                 {
                   title: 'Reposocope',
@@ -646,43 +646,43 @@ function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.6 }}
                   viewport={{ once: true }}
-                  className="border-b border-gray-200 dark:border-gray-700 last:border-0 pb-12 last:pb-0 pt-8 first:pt-0"
+                  className="border-b border-gray-200 dark:border-gray-700 last:border-0 pb-8 sm:pb-12 last:pb-0 pt-6 sm:pt-8 first:pt-0"
                 >
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="flex-1 pr-6">
-                      <h3 className="font-notebook font-bold text-2xl text-highlight-blue dark:text-highlight-cyan mb-3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 sm:mb-6">
+                    <div className="flex-1 mb-4 sm:mb-0 sm:pr-6">
+                      <h3 className="font-notebook font-bold text-xl sm:text-2xl text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3">
                         {project.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-lg mb-4 leading-relaxed">{project.description}</p>
+                      <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg mb-4 leading-relaxed">{project.description}</p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 sm:gap-3 flex-shrink-0">
                       <a 
                         href={project.link}
-                        className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors flex-shrink-0 p-2"
+                        className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors p-2"
                         title="View Source Code"
                       >
-                        <Github size={24} />
+                        <Github size={20} className="sm:w-6 sm:h-6" />
                       </a>
                       {project.demoLink && (
                         <a 
                           href={project.demoLink}
-                          className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors flex-shrink-0 p-2"
+                          className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors p-2"
                           title="View Live Demo"
                         >
-                          <ExternalLink size={24} />
+                          <ExternalLink size={20} className="sm:w-6 sm:h-6" />
                         </a>
                       )}
                     </div>
                   </div>
 
-                  <ul className="list-disc mb-6 space-y-3 text-gray-600 dark:text-gray-300 pl-5">
+                  <ul className="list-disc mb-4 sm:mb-6 space-y-2 sm:space-y-3 text-gray-600 dark:text-gray-300 pl-4 sm:pl-5">
                     {project.details.map((detail, i) => (
-                      <li key={i} className="font-handwriting text-lg leading-relaxed pl-2">{detail}</li>
+                      <li key={i} className="font-handwriting text-base sm:text-lg leading-relaxed pl-1 sm:pl-2">{detail}</li>
                     ))}
                   </ul>
                   
-                  <div className="flex flex-wrap items-center gap-4">
-                    <span className={`px-4 py-1.5 rounded-full text-sm font-medium ${
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                    <span className={`px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium ${
                       project.status === 'Completed' 
                         ? 'bg-green-200 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                         : 'bg-yellow-200 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
@@ -690,7 +690,7 @@ function App() {
                       {project.status}
                     </span>
                     {project.tech.map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm font-medium">
+                      <span key={tech} className="px-2 sm:px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-xs sm:text-sm font-medium">
                         {tech}
                       </span>
                     ))}
@@ -710,41 +710,41 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="notebook-page p-6 sm:p-8 md:p-12 pl-8 sm:pl-16 md:pl-20"
+            className="notebook-page p-4 sm:p-6 md:p-8 lg:p-12 pl-6 sm:pl-12 md:pl-16 lg:pl-20"
           >
-            <div className="flex items-center justify-center mb-8">
-              <Mail className="text-highlight-blue dark:text-highlight-cyan mr-3" size={32} />
-              <h2 className="text-3xl md:text-4xl font-notebook font-bold">Secure Note</h2>
+            <div className="flex items-center justify-center mb-6 sm:mb-8">
+              <Mail className="text-highlight-blue dark:text-highlight-cyan mr-2 sm:mr-3 flex-shrink-0" size={28} />
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Secure Note</h2>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
               <div>
-                <h3 className="font-notebook text-2xl mb-4">Send me a message</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <h3 className="font-notebook text-xl sm:text-2xl mb-3 sm:mb-4">Send me a message</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
                   I'd love to hear from you! Whether it's a project collaboration, 
                   job opportunity, or just a friendly hello, feel free to reach out.
                 </p>
                 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
   {/* Email */}
   <div className="flex items-center space-x-3">
-    <Mail className="text-highlight-blue dark:text-highlight-cyan" size={22} />
-    <a href="mailto:sakthimurugan102003@gmail.com" className="hover:underline hover:text-highlight-blue dark:hover:text-highlight-cyan transition" >
+    <Mail className="text-highlight-blue dark:text-highlight-cyan flex-shrink-0" size={18} />
+    <a href="mailto:sakthimurugan102003@gmail.com" className="hover:underline hover:text-highlight-blue dark:hover:text-highlight-cyan transition text-sm sm:text-base break-all" >
       sakthimurugan102003@gmail.com
     </a>
   </div>
                   <div className="flex items-center space-x-3">
-                    <Github className="text-highlight-blue dark:text-highlight-cyan" size={20} />
-                    <a href="https://github.com/Sakthi102003" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors">github.com/Sakthi102003</a>
+                    <Github className="text-highlight-blue dark:text-highlight-cyan flex-shrink-0" size={18} />
+                    <a href="https://github.com/Sakthi102003" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors text-sm sm:text-base break-all">github.com/Sakthi102003</a>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Linkedin className="text-highlight-blue dark:text-highlight-cyan" size={20} />
-                    <a href="https://www.linkedin.com/in/sakthimurugan-s/" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors">linkedin.com/in/sakthimurugan-s</a>
+                    <Linkedin className="text-highlight-blue dark:text-highlight-cyan flex-shrink-0" size={18} />
+                    <a href="https://www.linkedin.com/in/sakthimurugan-s/" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors text-sm sm:text-base break-all">linkedin.com/in/sakthimurugan-s</a>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg border-l-4 border-highlight-blue dark:border-highlight-cyan">
+              <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg border-l-4 border-highlight-blue dark:border-highlight-cyan">
                 <ContactForm />
               </div>
             </div>

@@ -22,7 +22,7 @@
 @layer components {
   .notebook-page {
     @apply bg-paper-50 dark:bg-gray-900 border border-paper-300 dark:border-gray-700;
-    @apply shadow-notebook rounded-lg p-6 mb-8;
+    @apply shadow-notebook rounded-lg p-4 sm:p-6 mb-6 sm:mb-8;
     @apply relative overflow-hidden;
     background-image: 
       repeating-linear-gradient(
@@ -35,18 +35,23 @@
 
   .notebook-page::before {
     content: '';
-    @apply absolute left-0 top-0 bottom-0 w-12 bg-red-200 dark:bg-red-900/20;
+    @apply absolute left-0 top-0 bottom-0 w-6 sm:w-8 md:w-12 bg-red-200 dark:bg-red-900/20;
     @apply border-r-2 border-red-300 dark:border-red-700;
+  }
+
+  /* Ensure proper spacing for content within notebook pages */
+  .notebook-page > * {
+    @apply relative z-10;
   }
 
   .sticky-note {
     @apply bg-yellow-200 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700;
-    @apply shadow-sticky-note rounded-sm p-4 transform rotate-1;
+    @apply shadow-sticky-note rounded-sm p-3 sm:p-4 transform rotate-1;
     @apply transition-transform duration-200 hover:rotate-0 hover:scale-105;
   }
 
   .polaroid {
-    @apply bg-white dark:bg-gray-800 p-4 pb-8 shadow-polaroid;
+    @apply bg-white dark:bg-gray-800 p-3 sm:p-4 pb-6 sm:pb-8 shadow-polaroid;
     @apply transform rotate-2 transition-transform duration-300;
     @apply hover:rotate-0 hover:scale-105;
   }
@@ -120,6 +125,18 @@
   .animate-flow {
     animation: flow 40s linear infinite;
     width: calc(200% + 2rem);
+  }
+
+  /* Mobile-specific fixes */
+  @media (max-width: 640px) {
+    .notebook-page {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    
+    .notebook-page::before {
+      width: 1.5rem; /* 6 in Tailwind = 1.5rem */
+    }
   }
 
   @keyframes flow {
