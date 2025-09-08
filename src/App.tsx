@@ -613,7 +613,7 @@ function App() {
                   tech: ['React', 'Gemini API', 'Python', 'Cybersecurity APIs', 'NLP'],
                   status: 'Completed',
                   link: 'https://github.com/Sakthi102003/CyberBuddy',
-                  demoLink: 'https://cyberbuddy-hzlt.onrender.com/',
+                  demoLink: 'https://cyberbuddy-x7zp.onrender.com/',
                   details: [
                     'Real-time Threat Analysis',
                     'Security Best Practices Guide',
