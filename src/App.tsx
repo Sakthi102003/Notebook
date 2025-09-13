@@ -1,22 +1,18 @@
 import { motion } from 'framer-motion'
 import {
   BookOpen,
-  Bot,
   Code,
   Database,
   ExternalLink,
   FolderOpen,
-  GitBranch,
   Github,
   Heart,
   Linkedin,
   Mail,
   Menu,
-  MonitorSmartphone,
   Moon,
   Star,
   Sun,
-  Terminal,
   User,
   X
 } from 'lucide-react'
@@ -410,131 +406,89 @@ function App() {
               viewport={{ once: true }}
               className="notebook-page p-4 sm:p-6 md:p-8 lg:p-12 pl-8 sm:pl-12 md:pl-16 lg:pl-20"
             >
-              <div className="space-y-8 sm:space-y-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 font-handwriting text-base sm:text-lg">
                 {/* Languages */}
-                <div>
-                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <Code className="text-purple-500 flex-shrink-0" size={20} />
-                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Languages</h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#3776AB] transition-colors min-w-0">
-                      <SiPython className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Python</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#E34F26] transition-colors min-w-0">
-                      <SiHtml5 className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">HTML</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#1572B6] transition-colors min-w-0">
-                      <SiCss3 className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">CSS</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#F7DF1E] transition-colors min-w-0">
-                      <SiJavascript className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">JavaScript</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#3178C6] transition-colors min-w-0">
-                      <SiTypescript className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">TypeScript</span>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#3776AB] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiPython className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Python</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#E34F26] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiHtml5 className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">HTML</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#1572B6] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiCss3 className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">CSS</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#F7DF1E] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiJavascript className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">JavaScript</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#3178C6] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiTypescript className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">TypeScript</span>
                 </div>
 
-                {/* Frontend */}
-                <div>
-                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <MonitorSmartphone className="text-blue-500 flex-shrink-0" size={20} />
-                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Frontend</h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#61DAFB] transition-colors min-w-0">
-                      <SiReact className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">React.js</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#06B6D4] transition-colors min-w-0">
-                      <SiTailwindcss className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Tailwind CSS</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#FF6384] transition-colors min-w-0">
-                      <SiChartdotjs className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Chart.js</span>
-                    </div>
-                  </div>
+                {/* Frontend & Frameworks */}
+                <div className="flex items-center gap-3 p-3 hover:text-[#61DAFB] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiReact className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">React.js</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#06B6D4] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiTailwindcss className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Tailwind CSS</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#FF6384] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiChartdotjs className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Chart.js</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#000000] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiFlask className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Flask</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#092E20] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiDjango className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Django</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#4DABCF] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiNumpy className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">NumPy</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#3b82f6] dark:hover:text-[#fbbf24] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Database className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">SQL</span>
                 </div>
 
-                {/* Backend/ML */}
-                <div>
-                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <Bot className="text-green-500 flex-shrink-0" size={20} />
-                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Backend/ML</h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#000000] transition-colors min-w-0">
-                      <SiFlask className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Flask</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#092E20] transition-colors min-w-0">
-                      <SiDjango className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Django</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#4DABCF] transition-colors min-w-0">
-                      <SiNumpy className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">NumPy</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#3b82f6] dark:hover:text-[#fbbf24] transition-colors min-w-0">
-                      <Database className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">SQL</span>
-                    </div>
-                  </div>
+                {/* Tools & Platforms */}
+                <div className="flex items-center gap-3 p-3 hover:text-[#F05032] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiGit className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Git</span>
                 </div>
-
-                {/* Tools */}
-                <div>
-                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <GitBranch className="text-orange-500 flex-shrink-0" size={20} />
-                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Tools</h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#F05032] transition-colors min-w-0">
-                      <SiGit className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Git</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#181717] transition-colors min-w-0">
-                      <SiGithub className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">GitHub</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#FFCA28] transition-colors min-w-0">
-                      <SiFirebase className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Firebase</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#007ACC] transition-colors min-w-0">
-                      <Code className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">VS Code</span>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#181717] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiGithub className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">GitHub</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#FFCA28] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiFirebase className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Firebase</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#007ACC] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Code className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">VS Code</span>
                 </div>
 
                 {/* Operating Systems */}
-                <div>
-                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    <Terminal className="text-red-500 flex-shrink-0" size={20} />
-                    <h3 className="font-notebook font-bold text-lg sm:text-xl">Operating Systems</h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-handwriting text-base sm:text-lg">
-                    <div className="flex items-center gap-3 p-2 hover:text-[#E95420] transition-colors min-w-0">
-                      <SiUbuntu className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Ubuntu</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#557C94] transition-colors min-w-0">
-                      <SiKalilinux className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">Kali Linux</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:text-[#932279] transition-colors min-w-0">
-                      <SiCentos className="text-xl sm:text-2xl flex-shrink-0" />
-                      <span className="truncate">CentOS</span>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#E95420] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiUbuntu className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Ubuntu</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#557C94] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiKalilinux className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">Kali Linux</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 hover:text-[#932279] transition-colors min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <SiCentos className="text-xl sm:text-2xl flex-shrink-0" />
+                  <span className="truncate">CentOS</span>
                 </div>
               </div>
             </motion.div>
