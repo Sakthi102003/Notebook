@@ -368,7 +368,7 @@ function App() {
                 <div className="space-y-3 sm:space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6 sm:pt-8">
                   <div className="flex items-center space-x-3">
                     <Star className="text-yellow-500 flex-shrink-0" size={20} />
-                    <span className="text-base sm:text-lg">Python & Machine Learning Enthusiast</span>
+                    <span className="text-base sm:text-lg">Python & Frontend Enthusiast</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Heart className="text-red-500 flex-shrink-0" size={20} />
