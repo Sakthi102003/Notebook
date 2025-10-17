@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "devicon-react-svg": "^0.2.4",
     "firebase": "^12.4.0",

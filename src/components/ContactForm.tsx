@@ -1,52 +1,66 @@
-import emailjs from '@emailjs/browser'
 import { motion } from 'framer-motion'
 import { Send } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY as string
 
 export default function ContactForm() {
-  const formRef = useRef<HTMLFormElement | null>(null)
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null)
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setStatus(null)
-
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      setStatus({ type: 'error', message: 'Email service is not configured. Please set env variables.' })
-      return
-    }
-
-    const form = formRef.current
-    if (!form) return
-
     setLoading(true)
+
+    const formData = new FormData(e.currentTarget)
+    
+    // Add Web3Forms access key
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY)
+
     try {
-      const result = await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, { publicKey: PUBLIC_KEY })
-      if (result.status === 200) {
-        setStatus({ type: 'success', message: 'Message sent successfully. I will get back to you soon.' })
-        form.reset()
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setStatus({ 
+          type: 'success', 
+          message: 'Message sent successfully! I will get back to you soon. ✉️' 
+        })
+        // Safely reset form
+        const form = e.currentTarget
+        if (form) {
+          setTimeout(() => form.reset(), 100)
+        }
       } else {
-        setStatus({ type: 'error', message: 'Failed to send message. Please try again later.' })
+        console.error("Form submission error:", data)
+        setStatus({ 
+          type: 'error', 
+          message: data.message || 'Failed to send message. Please try again.' 
+        })
       }
-    } catch (err) {
-      setStatus({ type: 'error', message: 'Failed to send message. Please try again.' })
+    } catch (error) {
+      console.error("Form submission error:", error)
+      setStatus({ 
+        type: 'error', 
+        message: 'Failed to send message. Please try again later.' 
+      })
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} className="space-y-6" aria-describedby="contact-form-status">
+    <form onSubmit={onSubmit} className="space-y-6" aria-describedby="contact-form-status">
       <div>
-        <label htmlFor="user_name" className="block font-notebook font-medium mb-2">Name</label>
+        <label htmlFor="name" className="block font-notebook font-medium mb-2">Name</label>
         <input
-          id="user_name"
-          name="user_name"
+          id="name"
+          name="name"
           type="text"
           required
           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:border-highlight-blue dark:focus:border-highlight-cyan focus:outline-none transition-colors"
@@ -55,10 +69,10 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="user_email" className="block font-notebook font-medium mb-2">Email</label>
+        <label htmlFor="email" className="block font-notebook font-medium mb-2">Email</label>
         <input
-          id="user_email"
-          name="user_email"
+          id="email"
+          name="email"
           type="email"
           required
           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:border-highlight-blue dark:focus:border-highlight-cyan focus:outline-none transition-colors"
