@@ -5,9 +5,73 @@
 
 @layer base {
   body {
-    @apply bg-paper-100 dark:bg-black text-ink-light dark:text-ink-dark font-body;
-    @apply transition-colors duration-300 ease-in-out;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f3f4f6' fill-opacity='0.1'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='37' cy='37' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    @apply bg-paper-100 text-ink-light font-body;
+    @apply transition-colors duration-1000 ease-in-out;
+  }
+
+  /* Dawn theme (5-8 AM) - Soft pink/purple sunrise colors */
+  html.dawn body {
+    background: linear-gradient(135deg, #fef5e7 0%, #fad7e4 30%, #e8c9f5 70%, #d4d4f7 100%);
+    color: #1e293b;
+  }
+
+  html.dawn {
+    --color-primary: #e91e63;
+    --color-secondary: #9c27b0;
+    --color-bg-primary: #fef5e7;
+    --color-bg-secondary: #fad7e4;
+  }
+
+  /* Morning theme (8-12 PM) - Bright, energetic morning colors */
+  html.morning body {
+    background: linear-gradient(135deg, #fffef9 0%, #fff9e6 30%, #e3f2fd 70%, #daf5f0 100%);
+    color: #0f172a;
+  }
+
+  html.morning {
+    --color-primary: #3b82f6;
+    --color-secondary: #0ea5e9;
+    --color-bg-primary: #fffef9;
+    --color-bg-secondary: #fff9e6;
+  }
+
+  /* Afternoon theme (12-5 PM) - Warm midday colors */
+  html.afternoon body {
+    background: linear-gradient(135deg, #fffbf0 0%, #fff4e0 30%, #ffe8d1 70%, #ffecd2 100%);
+    color: #1e293b;
+  }
+
+  html.afternoon {
+    --color-primary: #f59e0b;
+    --color-secondary: #f97316;
+    --color-bg-primary: #fffbf0;
+    --color-bg-secondary: #fff4e0;
+  }
+
+  /* Evening theme (5-8 PM) - Golden hour orange/amber tones */
+  html.evening body {
+    background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 30%, #fbb6ce 70%, #c084fc 100%);
+    color: #18181b;
+  }
+
+  html.evening {
+    --color-primary: #ea580c;
+    --color-secondary: #dc2626;
+    --color-bg-primary: #fff7ed;
+    --color-bg-secondary: #fed7aa;
+  }
+
+  /* Night theme (8 PM-5 AM) - Deep blues and purples */
+  html.night body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 30%, #312e81 70%, #1e3a8a 100%);
+    color: #f8fafc;
+  }
+
+  html.night {
+    --color-primary: #06b6d4;
+    --color-secondary: #8b5cf6;
+    --color-bg-primary: #0f172a;
+    --color-bg-secondary: #1e1b4b;
   }
 
   html {
@@ -147,4 +211,130 @@
       transform: translateX(-50%);
     }
   }
+
+  /* Time-based theme support: treat night as dark mode */
+  html.night .dark\:bg-black { background-color: #000 !important; }
+  html.night .dark\:bg-gray-900 { background-color: rgb(17 24 39) !important; }
+  html.night .dark\:bg-gray-800 { background-color: rgb(31 41 55) !important; }
+  html.night .dark\:bg-gray-700 { background-color: rgb(55 65 81) !important; }
+  html.night .dark\:text-gray-200 { color: rgb(229 231 235) !important; }
+  html.night .dark\:text-gray-300 { color: rgb(209 213 219) !important; }
+  html.night .dark\:text-gray-400 { color: rgb(156 163 175) !important; }
+  html.night .dark\:text-highlight-cyan { color: #06b6d4 !important; }
+  html.night .dark\:text-ink-dark { color: #f8fafc !important; }
+  html.night .dark\:border-gray-700 { border-color: rgb(55 65 81) !important; }
+  html.night .dark\:border-gray-600 { border-color: rgb(75 85 99) !important; }
+  html.night .dark\:hover\:bg-gray-800:hover { background-color: rgb(31 41 55) !important; }
+  html.night .dark\:hover\:bg-gray-800\/60:hover { background-color: rgb(31 41 55 / 0.6) !important; }
+  html.night .dark\:hover\:text-highlight-cyan:hover { color: #06b6d4 !important; }
+  html.night .dark\:hover\:text-gray-200:hover { color: rgb(229 231 235) !important; }
+  html.night .dark\:from-blue-900 { --tw-gradient-from: rgb(30 58 138) !important; }
+  html.night .dark\:to-purple-900 { --tw-gradient-to: rgb(88 28 135) !important; }
+  html.night .dark\:bg-red-900\/20 { background-color: rgb(127 29 29 / 0.2) !important; }
+  html.night .dark\:border-red-700 { border-color: rgb(185 28 28) !important; }
+  html.night .dark\:bg-yellow-900\/30 { background-color: rgb(113 63 18 / 0.3) !important; }
+  html.night .dark\:border-yellow-700 { border-color: rgb(161 98 7) !important; }
+  html.night .dark\:bg-highlight-cyan { background-color: #06b6d4 !important; }
+  html.night .dark\:text-gray-900 { color: rgb(17 24 39) !important; }
+  html.night .dark\:border-highlight-cyan { border-color: #06b6d4 !important; }
+  html.night .dark\:bg-black\/80 { background-color: rgb(0 0 0 / 0.8) !important; }
+  html.night .dark\:bg-black\/95 { background-color: rgb(0 0 0 / 0.95) !important; }
+  html.night .dark\:bg-gray-800\/70 { background-color: rgb(31 41 55 / 0.7) !important; }
+  html.night .dark\:border-l-highlight-cyan { border-left-color: #06b6d4 !important; }
+  html.night .dark\:border-r-white { border-right-color: #fff !important; }
+
+  /* Navigation adaptive styles */
+  html.dawn nav { 
+    background-color: rgba(254, 245, 231, 0.8) !important; 
+    border-bottom-color: rgba(233, 30, 99, 0.2) !important;
+  }
+  
+  html.morning nav { 
+    background-color: rgba(255, 254, 249, 0.8) !important; 
+    border-bottom-color: rgba(59, 130, 246, 0.2) !important;
+  }
+  
+  html.afternoon nav { 
+    background-color: rgba(255, 251, 240, 0.8) !important; 
+    border-bottom-color: rgba(245, 158, 11, 0.2) !important;
+  }
+  
+  html.evening nav { 
+    background-color: rgba(255, 247, 237, 0.8) !important; 
+    border-bottom-color: rgba(234, 88, 12, 0.2) !important;
+  }
+  
+  html.night nav { 
+    background-color: rgba(15, 23, 42, 0.8) !important; 
+    border-bottom-color: rgba(55, 65, 81, 0.5) !important;
+  }
+
+  /* Mobile menu adaptive styles */
+  html.dawn .md\:hidden.bg-white\/95 { 
+    background-color: rgba(254, 245, 231, 0.95) !important; 
+  }
+  
+  html.morning .md\:hidden.bg-white\/95 { 
+    background-color: rgba(255, 254, 249, 0.95) !important; 
+  }
+  
+  html.afternoon .md\:hidden.bg-white\/95 { 
+    background-color: rgba(255, 251, 240, 0.95) !important; 
+  }
+  
+  html.evening .md\:hidden.bg-white\/95 { 
+    background-color: rgba(255, 247, 237, 0.95) !important; 
+  }
+  
+  html.night .md\:hidden.bg-white\/95 { 
+    background-color: rgba(15, 23, 42, 0.95) !important; 
+  }
+
+  /* Date/Time display adaptive styles */
+  html.dawn .bg-paper-200\/50 { 
+    background-color: rgba(254, 245, 231, 0.5) !important; 
+    color: #831843 !important;
+  }
+  
+  html.morning .bg-paper-200\/50 { 
+    background-color: rgba(255, 254, 249, 0.5) !important; 
+    color: #1e40af !important;
+  }
+  
+  html.afternoon .bg-paper-200\/50 { 
+    background-color: rgba(255, 251, 240, 0.5) !important; 
+    color: #b45309 !important;
+  }
+  
+  html.evening .bg-paper-200\/50 { 
+    background-color: rgba(255, 247, 237, 0.5) !important; 
+    color: #b91c1c !important;
+  }
+  
+  html.night .bg-paper-200\/50 { 
+    background-color: rgba(30, 41, 59, 0.5) !important; 
+    color: #22d3ee !important;
+  }
+
+  /* Time emoji indicator adaptive styles */
+  html.dawn .bg-paper-200:not(.bg-paper-200\/50) { 
+    background-color: rgba(254, 245, 231, 0.8) !important; 
+  }
+  
+  html.morning .bg-paper-200:not(.bg-paper-200\/50) { 
+    background-color: rgba(255, 254, 249, 0.8) !important; 
+  }
+  
+  html.afternoon .bg-paper-200:not(.bg-paper-200\/50) { 
+    background-color: rgba(255, 251, 240, 0.8) !important; 
+  }
+  
+  html.evening .bg-paper-200:not(.bg-paper-200\/50) { 
+    background-color: rgba(255, 247, 237, 0.8) !important; 
+  }
+  
+  html.night .bg-paper-200:not(.bg-paper-200\/50) { 
+    background-color: rgba(30, 41, 59, 0.8) !important; 
+  }
 }
+

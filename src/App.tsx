@@ -10,9 +10,7 @@ import {
   Linkedin,
   Mail,
   Menu,
-  Moon,
   Star,
-  Sun,
   User,
   X
 } from 'lucide-react'
@@ -41,11 +39,39 @@ import ChatWidget from './components/ChatWidget'
 import ContactForm from './components/ContactForm'
 import FlowingBlogRiver from './components/FlowingBlogRiver'
 import QuotesSection from './components/QuotesSection'
+import VisitorCounter from './components/VisitorCounter'
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false)
+  const [timeOfDay, setTimeOfDay] = useState<'dawn' | 'morning' | 'afternoon' | 'evening' | 'night'>('morning')
   const [activeSection, setActiveSection] = useState('home')
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Function to determine time of day
+  const getTimeOfDay = () => {
+    const hour = new Date().getHours()
+    
+    if (hour >= 5 && hour < 8) return 'dawn'
+    if (hour >= 8 && hour < 12) return 'morning'
+    if (hour >= 12 && hour < 17) return 'afternoon'
+    if (hour >= 17 && hour < 20) return 'evening'
+    return 'night'
+  }
+
+  // Update time of day
+  useEffect(() => {
+    const updateTimeOfDay = () => {
+      const newTimeOfDay = getTimeOfDay()
+      setTimeOfDay(newTimeOfDay)
+      document.documentElement.className = newTimeOfDay
+    }
+
+    updateTimeOfDay()
+    
+    // Update every minute to check for time changes
+    const interval = setInterval(updateTimeOfDay, 60000)
+    
+    return () => clearInterval(interval)
+  }, [])
 
   // Map sections to their corresponding titles
   const sectionTitles = {
@@ -55,14 +81,6 @@ function App() {
     projects: "Sakthi | Lab Repos",
     contact: "Sakthi | Contact"
   }
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [darkMode])
 
   useEffect(() => {
     // Update document title when active section changes
@@ -92,10 +110,6 @@ function App() {
     }
   }, [activeSection])
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-  }
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     element?.scrollIntoView({ behavior: 'smooth' })
@@ -112,12 +126,13 @@ function App() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-paper-100 dark:bg-black transition-colors duration-300">
+    <div className="min-h-screen transition-colors duration-1000">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-paper-50/80 dark:bg-black/80 backdrop-blur-md border-b border-paper-300 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 transition-all duration-1000">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
+          {/* Logo - Left Side */}
           <motion.div 
-            className="font-notebook text-lg sm:text-xl md:text-2xl font-bold text-highlight-blue dark:text-highlight-cyan inline-flex items-center gap-2 cursor-pointer min-w-0"
+            className="font-notebook text-lg sm:text-xl md:text-2xl font-bold text-highlight-blue dark:text-highlight-cyan inline-flex items-center gap-2 cursor-pointer flex-shrink-0"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -134,10 +149,11 @@ function App() {
             title="Go to Home"
           >
             <img src="/images/blue avatar.png" alt="Logo" className="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover flex-shrink-0" />
-            <span className="truncate">Sakthi's Notebook</span>
+            <span className="whitespace-nowrap">Sakthi's Notebook</span>
           </motion.div>
           
-          <div className="hidden md:flex space-x-8">
+          {/* Navigation Menu - Center */}
+          <div className="hidden md:flex space-x-8 flex-1 justify-center">
             {[
               { id: 'home', label: 'Titlepage', icon: BookOpen },
               { id: 'about', label: 'Readme.md', icon: User },
@@ -160,15 +176,20 @@ function App() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200 flex-shrink-0"
-              aria-label="Toggle theme"
-              title="Toggle theme"
+          {/* Right Side - Time of Day Indicator and Menu */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            {/* Time of Day Indicator */}
+            <div
+              className="p-2 rounded-lg bg-paper-200 text-gray-600 transition-colors duration-200 flex items-center gap-2 flex-shrink-0"
+              title={timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)}
             >
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
+              {timeOfDay === 'dawn' && <span className="text-lg">🌅</span>}
+              {timeOfDay === 'morning' && <span className="text-lg">☀️</span>}
+              {timeOfDay === 'afternoon' && <span className="text-lg">🌤️</span>}
+              {timeOfDay === 'evening' && <span className="text-lg">🌆</span>}
+              {timeOfDay === 'night' && <span className="text-lg">🌙</span>}
+            </div>
+
             <button
               className="p-2 rounded-lg bg-paper-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200 md:hidden flex-shrink-0"
               onClick={() => setMobileOpen((v) => !v)}
@@ -185,7 +206,7 @@ function App() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden border-t border-paper-300 dark:border-gray-700 bg-paper-50/95 dark:bg-black/95 backdrop-blur"
+            className="md:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur"
           >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 grid gap-2">
               {[
@@ -214,7 +235,7 @@ function App() {
       </nav>
 
       {/* Cover Page */}
-      <section id="home" className="min-h-screen flex items-center justify-center py-28 md:py-20 dark:bg-black">
+      <section id="home" className="min-h-screen flex items-center justify-center py-28 md:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -249,12 +270,12 @@ function App() {
               className="flex justify-center items-center flex-wrap gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 px-4"
             >
               {[
-                { icon: Github, href: 'https://github.com/Sakthi102003', color: 'hover:text-gray-800 dark:hover:text-gray-200' },
-                { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', color: 'hover:text-blue-600' },
-                { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', color: 'hover:text-green-600' },
-                { icon: FaWhatsapp, href: 'tel:+919791747058', color: 'hover:text-green-600' },
-                { icon: FaMedium, href: 'https://medium.com/@sakthimurugan102003', color: 'hover:text-black-600' }
-              ].map(({ icon: Icon, href, color }) => (
+                { icon: Github, href: 'https://github.com/Sakthi102003', color: 'hover:text-gray-800 dark:hover:text-gray-200', name: 'GitHub' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', color: 'hover:text-blue-600', name: 'LinkedIn' },
+                { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', color: 'hover:text-green-600', name: 'Email' },
+                { icon: FaWhatsapp, href: 'tel:+919791747058', color: 'hover:text-green-600', name: 'WhatsApp' },
+                { icon: FaMedium, href: 'https://medium.com/@sakthimurugan102003', color: 'hover:text-black-600', name: 'Medium' }
+              ].map(({ icon: Icon, href, color, name }) => (
                 <a
                   key={href}
                   href={href}
@@ -301,7 +322,7 @@ function App() {
       <QuotesSection />
 
       {/* About Section */}
-      <section id="about" className="py-20 md:py-28 dark:bg-black">
+      <section id="about" className="py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -386,7 +407,7 @@ function App() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 bg-paper-50 dark:bg-black">
+      <section id="skills" className="py-20">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -497,7 +518,7 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 md:py-28 dark:bg-black">
+      <section id="projects" className="py-20 md:py-28">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -511,20 +532,19 @@ function App() {
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Lab Repos</h2>
             </div>
             
-            <div className="space-y-12 sm:space-y-16">
+            <div className="space-y-8 sm:space-y-10">
               {[
                 {
                   title: 'Reposocope',
                   description: 'Developed a comprehensive React-based analytics tool that provides deep insights into GitHub user activity. The application analyzes repositories, technology stacks, contribution patterns, and generates detailed reports with comparison features between users.',
-                  tech: ['React', 'GitHub API', 'chart.js', 'HTML & CSS', 'Framer Motion', 'TypeScript', 'Javascript'],
+                  tech: ['React', 'GitHub API', 'Chart.js', 'Framer Motion', 'TypeScript'],
                   status: 'Completed',
                   link: 'https://github.com/Sakthi102003/reposcope',
                   demoLink: 'https://reposcope-2003.web.app/',
-                  details: [
+                  highlights: [
                     'User Activity Analysis',
                     'Repository Statistics',
                     'Tech Stack Analysis',
-                    'Usage Statistics',
                     'Downloadable Reports',
                     'User Comparison Features'
                   ]
@@ -532,122 +552,149 @@ function App() {
                 {
                   title: 'Phishield',
                   description: 'Built an advanced machine learning-based web application that detects phishing websites in real-time. The system uses sophisticated algorithms to analyze URLs and website characteristics, providing instant threat assessment with detailed reporting and user-friendly interface.',
-                  tech: ['Python', 'React.js', 'Flask', 'Scikit Learn', 'Pandas & NumPy'],
+                  tech: ['Python', 'React.js', 'Flask', 'Scikit Learn', 'Pandas'],
                   status: 'Completed',
                   link: 'https://github.com/Sakthi102003/phishield',
                   demoLink: 'https://phisshield.onrender.com/',
-                  details: [
+                  highlights: [
                     'Real-time URL Analysis',
-'ML-based Threat Detection',
-'User-friendly Reporting',
-'Clean UI Design',
-'Threat Intelligence',
-'Security Recommendations'
+                    'ML-based Threat Detection',
+                    'User-friendly Reporting',
+                    'Security Recommendations'
                   ]
                 },
                 {
                   title: 'Tech IQ',
                   description: 'An innovative AI-powered platform that helps developers and teams make informed decisions about their technology stack. The application leverages OpenAI and Google Gemini to provide intelligent recommendations, cost estimations, and development roadmaps.',
-                  tech: ['React', 'OpenAI API', 'Gemini API', 'Vite', 'Firebase', 'Express.js'],
+                  tech: ['React', 'OpenAI API', 'Gemini API', 'Vite', 'Firebase'],
                   status: 'Completed',
                   link: 'https://github.com/Sakthi102003/tech-iq',
-                  details: [
-   'AI-Powered Recommendations',
-   'Flexible AI Configuration',
-   'Provider Comparison',
-   'Cost Estimation',
-   'Development Roadmap',
-   'PDF Export',
-   'GitHub Templates'
+                  highlights: [
+                    'AI-Powered Recommendations',
+                    'Cost Estimation',
+                    'Development Roadmap',
+                    'PDF Export'
                   ]
                 },
                 {
                   title: 'CyberBuddy',
                   description: 'An intelligent cybersecurity chatbot designed to provide real-time security assistance, threat analysis, and educational guidance. Built with advanced AI capabilities to help users understand cybersecurity concepts, analyze potential threats, and get personalized security recommendations.',
-                  tech: ['React', 'Gemini API', 'Python', 'Cybersecurity APIs', 'NLP'],
+                  tech: ['React', 'Gemini API', 'Python', 'NLP'],
                   status: 'Completed',
                   link: 'https://github.com/Sakthi102003/CyberBuddy',
                   demoLink: 'https://cyberbuddy-x7zp.onrender.com/',
-                  details: [
+                  highlights: [
                     'Real-time Threat Analysis',
-                    'Security Best Practices Guide',
+                    'Security Best Practices',
                     'Vulnerability Assessment',
-                    'Incident Response Support',
-                    'Educational Content Delivery',
-                    'Personalized Security Recommendations',
-                    'Interactive Learning Modules'
+                    'Interactive Learning'
                   ]
                 },
                 {
                   title: 'GuardianHash',
                   description: 'Created a comprehensive file integrity monitoring solution with both command-line and graphical interfaces. The tool generates and verifies cryptographic hashes to detect file tampering, maintains detailed logs, and can send email alerts for security incidents.',
-                  tech: ['Python', 'Tkinter', 'Cryptography', 'JSON', 'Email APIs'],
+                  tech: ['Python', 'Tkinter', 'Cryptography', 'JSON'],
                   status: 'Completed',
                   link: 'https://github.com/Sakthi102003/GuardianHash',
-                  details: [
-                    'MD5/SHA256 Hash Generation',
+                  highlights: [
+                    'Hash Generation (MD5/SHA256)',
                     'File Tampering Detection',
                     'CLI and GUI Interfaces',
-                    'JSON Log Generation',
-                    'Email Alert System',
-                    'Batch File Processing'
+                    'Email Alert System'
                   ]
                 }
               ].map((project, index) => (
                 <motion.div
                   key={project.title}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2, duration: 0.6 }}
+                  transition={{ delay: index * 0.15, duration: 0.6 }}
                   viewport={{ once: true }}
-                  className="border-b border-gray-200 dark:border-gray-700 last:border-0 pb-8 sm:pb-12 last:pb-0 pt-6 sm:pt-8 first:pt-0"
+                  className="group relative"
                 >
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 sm:mb-6">
-                    <div className="flex-1 mb-4 sm:mb-0 sm:pr-6">
-                      <h3 className="font-notebook font-bold text-xl sm:text-2xl text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3">
-                        {project.title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg mb-4 leading-relaxed">{project.description}</p>
-                    </div>
-                    <div className="flex gap-2 sm:gap-3 flex-shrink-0">
-                      <a 
-                        href={project.link}
-                        className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors p-2"
-                        title="View Source Code"
-                      >
-                        <Github size={20} className="sm:w-6 sm:h-6" />
-                      </a>
-                      {project.demoLink && (
+                  {/* Enhanced Project Card */}
+                  <div className="relative p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:border-highlight-blue dark:hover:border-highlight-cyan">
+                    {/* Header with Title and Links */}
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1">
+                        <h3 className="font-notebook font-bold text-2xl sm:text-3xl text-highlight-blue dark:text-highlight-cyan mb-2 group-hover:scale-105 transition-transform">
+                          {project.title}
+                        </h3>
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            project.status === 'Completed' 
+                              ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-700'
+                              : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700'
+                          }`}>
+                            ✓ {project.status}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 flex-shrink-0">
                         <a 
-                          href={project.demoLink}
-                          className="text-gray-400 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors p-2"
-                          title="View Live Demo"
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-highlight-blue dark:hover:bg-highlight-cyan hover:text-white transition-all duration-200 hover:scale-110"
+                          title="View Source Code"
                         >
-                          <ExternalLink size={20} className="sm:w-6 sm:h-6" />
+                          <Github size={20} />
                         </a>
-                      )}
+                        {project.demoLink && (
+                          <a 
+                            href={project.demoLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2.5 rounded-lg bg-highlight-blue dark:bg-highlight-cyan text-white hover:bg-blue-600 dark:hover:bg-cyan-600 transition-all duration-200 hover:scale-110"
+                            title="View Live Demo"
+                          >
+                            <ExternalLink size={20} />
+                          </a>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <ul className="list-disc mb-4 sm:mb-6 space-y-2 sm:space-y-3 text-gray-600 dark:text-gray-300 pl-4 sm:pl-5">
-                    {project.details.map((detail, i) => (
-                      <li key={i} className="font-handwriting text-base sm:text-lg leading-relaxed pl-1 sm:pl-2">{detail}</li>
-                    ))}
-                  </ul>
-                  
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                    <span className={`px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium ${
-                      project.status === 'Completed' 
-                        ? 'bg-green-200 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                        : 'bg-yellow-200 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
-                    }`}>
-                      {project.status}
-                    </span>
-                    {project.tech.map((tech) => (
-                      <span key={tech} className="px-2 sm:px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-xs sm:text-sm font-medium">
-                        {tech}
-                      </span>
-                    ))}
+                    {/* Description */}
+                    <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-5">
+                      {project.description}
+                    </p>
+
+                    {/* Highlights/Features */}
+                    <div className="mb-5">
+                      <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
+                        Key Features
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {project.highlights.map((highlight, i) => (
+                          <div key={i} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Star size={14} className="text-yellow-500 fill-yellow-500 flex-shrink-0" />
+                            <span>{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
+                        Tech Stack
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech) => (
+                          <span 
+                            key={tech} 
+                            className="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-700 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 hover:scale-105 transition-transform"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Decorative corner */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-highlight-blue/10 to-transparent dark:from-highlight-cyan/10 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </motion.div>
               ))}
@@ -657,7 +704,7 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 md:py-28 bg-paper-50 dark:bg-black">
+      <section id="contact" className="py-20 md:py-28">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -712,6 +759,12 @@ function App() {
       {/* Footer */}
       <footer className="py-8 text-center text-gray-500 dark:text-gray-400">
         <div className="notebook-divider mb-6"></div>
+        
+        {/* Visitor Counter */}
+        <div className="flex justify-center mb-6">
+          <VisitorCounter />
+        </div>
+        
         <p className="font-handwriting text-lg">
           Made with ❤️ and lots of ☕ by Sakthimurugan
         </p>

@@ -13,6 +13,7 @@
     "@emailjs/browser": "^4.4.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "devicon-react-svg": "^0.2.4",
+    "firebase": "^12.4.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",
     "openai": "^5.19.1",
