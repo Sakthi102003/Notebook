@@ -270,12 +270,12 @@ function App() {
               className="flex justify-center items-center flex-wrap gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 px-4"
             >
               {[
-                { icon: Github, href: 'https://github.com/Sakthi102003', color: 'hover:text-gray-800 dark:hover:text-gray-200', name: 'GitHub' },
-                { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', color: 'hover:text-blue-600', name: 'LinkedIn' },
-                { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', color: 'hover:text-green-600', name: 'Email' },
-                { icon: FaWhatsapp, href: 'tel:+919791747058', color: 'hover:text-green-600', name: 'WhatsApp' },
-                { icon: FaMedium, href: 'https://medium.com/@sakthimurugan102003', color: 'hover:text-black-600', name: 'Medium' }
-              ].map(({ icon: Icon, href, color, name }) => (
+                { icon: Github, href: 'https://github.com/Sakthi102003', color: 'hover:text-gray-800 dark:hover:text-gray-200' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', color: 'hover:text-blue-600' },
+                { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', color: 'hover:text-green-600' },
+                { icon: FaWhatsapp, href: 'tel:+919791747058', color: 'hover:text-green-600' },
+                { icon: FaMedium, href: 'https://medium.com/@sakthimurugan102003', color: 'hover:text-black-600' }
+              ].map(({ icon: Icon, href, color }) => (
                 <a
                   key={href}
                   href={href}
