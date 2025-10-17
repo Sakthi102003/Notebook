@@ -242,6 +242,69 @@
   html.night .dark\:bg-gray-800\/70 { background-color: rgb(31 41 55 / 0.7) !important; }
   html.night .dark\:border-l-highlight-cyan { border-left-color: #06b6d4 !important; }
   html.night .dark\:border-r-white { border-right-color: #fff !important; }
+  html.night .dark\:bg-gray-800\/50 { background-color: rgb(31 41 55 / 0.5) !important; }
+  html.night .dark\:from-blue-900\/20 { --tw-gradient-from: rgb(30 58 138 / 0.2) !important; }
+  html.night .dark\:to-purple-900\/20 { --tw-gradient-to: rgb(88 28 135 / 0.2) !important; }
+  html.night .dark\:border-blue-700 { border-color: rgb(29 78 216) !important; }
+  
+  /* Night theme: Override default text colors for better visibility */
+  html.night .text-gray-700 { color: rgb(229 231 235) !important; }
+  html.night .text-gray-600 { color: rgb(209 213 219) !important; }
+  html.night .text-gray-500 { color: rgb(156 163 175) !important; }
+  html.night .text-gray-800 { color: rgb(243 244 246) !important; }
+  html.night .text-gray-900 { color: rgb(249 250 251) !important; }
+  html.night .text-ink-light { color: #f8fafc !important; }
+  html.night h1, html.night h2, html.night h3, html.night h4, html.night h5, html.night h6 { color: #f8fafc !important; }
+  html.night .text-highlight-blue { color: #06b6d4 !important; }
+  
+  /* Night theme: Group hover text colors */
+  html.night .group-hover\:text-highlight-blue { color: rgb(209 213 219) !important; }
+  html.night .group:hover .group-hover\:text-highlight-blue { color: #06b6d4 !important; }
+  html.night .group-hover\:text-blue-700 { color: rgb(209 213 219) !important; }
+  html.night .group:hover .group-hover\:text-blue-700 { color: #22d3ee !important; }
+  
+  /* Night theme: Ensure background elements are dark */
+  html.night .bg-white { background-color: rgb(31 41 55) !important; }
+  html.night .bg-white\/50 { background-color: rgb(31 41 55 / 0.5) !important; }
+  html.night .bg-white\/80 { background-color: rgb(31 41 55 / 0.8) !important; }
+  html.night .bg-gray-100 { background-color: rgb(55 65 81) !important; }
+  html.night .bg-gray-50 { background-color: rgb(17 24 39) !important; }
+  html.night .bg-paper-50 { background-color: rgb(17 24 39) !important; }
+  
+  /* Night theme: Border colors */
+  html.night .border-gray-200 { border-color: rgb(55 65 81) !important; }
+  html.night .border-gray-300 { border-color: rgb(75 85 99) !important; }
+  html.night .border-paper-300 { border-color: rgb(55 65 81) !important; }
+  html.night .border-gray-200\/50 { border-color: rgb(55 65 81 / 0.5) !important; }
+  
+  /* Night theme: Hover states */
+  html.night .hover\:text-highlight-blue:hover { color: #06b6d4 !important; }
+  html.night .hover\:bg-gray-50:hover { background-color: rgb(55 65 81) !important; }
+  html.night .hover\:bg-highlight-blue:hover { background-color: #06b6d4 !important; }
+  
+  /* Night theme: Sticky note specific overrides */
+  html.night .sticky-note .text-gray-700 { color: rgb(17 24 39) !important; }
+  html.night .sticky-note .text-gray-800 { color: rgb(17 24 39) !important; }
+  html.night .sticky-note .text-gray-600 { color: rgb(31 41 55) !important; }
+  
+  /* Night theme: Blog card text overrides */
+  html.night .bg-yellow-200 { background-color: rgb(113 63 18) !important; }
+  html.night .border-yellow-300 { border-color: rgb(161 98 7) !important; }
+  html.night .bg-yellow-100 { background-color: rgb(113 63 18 / 0.5) !important; }
+  
+  /* Night theme: Gradient backgrounds */
+  html.night .bg-gradient-to-r.from-paper-50 { 
+    background-image: linear-gradient(to right, rgb(17 24 39), rgb(30 27 75), rgb(17 24 39)) !important; 
+  }
+  html.night .bg-gradient-to-br.from-paper-50 { 
+    background-image: linear-gradient(to bottom right, rgb(17 24 39), rgb(30 27 75)) !important; 
+  }
+  html.night .from-blue-50 { --tw-gradient-from: rgb(30 58 138) !important; }
+  html.night .to-blue-50 { --tw-gradient-to: rgb(30 58 138) !important; }
+  html.night .via-blue-50 { --tw-gradient-via: rgb(30 58 138) !important; }
+  html.night .dark\:from-blue-950 { --tw-gradient-from: rgb(23 37 84) !important; }
+  html.night .dark\:to-blue-950 { --tw-gradient-to: rgb(23 37 84) !important; }
+  html.night .dark\:via-blue-950 { --tw-gradient-via: rgb(23 37 84) !important; }
 
   /* Navigation adaptive styles */
   html.dawn nav { 
@@ -268,6 +331,10 @@
     background-color: rgba(15, 23, 42, 0.8) !important; 
     border-bottom-color: rgba(55, 65, 81, 0.5) !important;
   }
+  
+  /* Night theme: Navigation text colors */
+  html.night nav .text-gray-600 { color: rgb(209 213 219) !important; }
+  html.night nav .text-gray-700 { color: rgb(229 231 235) !important; }
 
   /* Mobile menu adaptive styles */
   html.dawn .md\:hidden.bg-white\/95 { 

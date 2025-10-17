@@ -11,64 +11,54 @@ interface BlogPost {
 
 const FlowingBlogRiver = () => {
   const [posts, setPosts] = useState<BlogPost[]>([])
-
-  // Fallback posts for the flowing river
-  const fallbackPosts: BlogPost[] = [
-    {
-      title: "Building Secure Web Applications",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "Aug 14",
-      content: "Exploring security fundamentals in modern web development and best practices..."
-    },
-    {
-      title: "ML in Cybersecurity",
-      link: "https://medium.com/@sakthimurugan102003", 
-      pubDate: "Jul 30",
-      content: "Using machine learning algorithms to detect and prevent phishing attacks..."
-    },
-    {
-      title: "React Performance Tips",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "Jul 6",
-      content: "Optimizing React applications for better performance and user experience..."
-    },
-    {
-      title: "Python Automation Scripts",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "Oct 1",
-      content: "Automating daily tasks with Python scripts to improve productivity..."
-    },
-    {
-      title: "Cybersecurity Best Practices",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "May 12",
-      content: "Essential security practices every developer should know and implement..."
-    }
-  ]
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        // Add cache buster and timeout
+        const timestamp = new Date().getTime()
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+        
         const response = await fetch(
-          'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@sakthimurugan102003/feed'
+          `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@sakthimurugan102003/feed&_cb=${timestamp}`,
+          {
+            signal: controller.signal,
+            headers: {
+              'Accept': 'application/json',
+              'Cache-Control': 'no-cache'
+            }
+          }
         )
+        
+        clearTimeout(timeoutId)
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch posts (${response.status})`)
+        }
+        
         const data = await response.json()
         
         if (data.status === 'ok' && data.items?.length > 0) {
-          const formattedPosts = data.items.slice(0, 5).map((item: any) => {
-            return {
-              title: item.title || 'Untitled Post',
-              link: item.link || 'https://medium.com/@sakthimurugan102003',
-              pubDate: item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Recent',
-              content: item.content ? item.content.replace(/<[^>]*>/g, '').substring(0, 70) + '...' : 'Check out this interesting article...'
-            };
-          })
+          // Format and duplicate posts for infinite scroll effect
+          const formattedPosts = data.items.slice(0, 5).map((item: any) => ({
+            title: item.title || 'Untitled Post',
+            link: item.link || 'https://medium.com/@sakthimurugan102003',
+            pubDate: new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            content: item.content ? item.content.replace(/<[^>]*>/g, '').substring(0, 70) + '...' : 'Check out this interesting article...'
+          }))
           setPosts([...formattedPosts, ...formattedPosts]) // Duplicate for seamless loop
+          setError(null)
         } else {
-          setPosts([...fallbackPosts, ...fallbackPosts]) // Duplicate for seamless loop
+          throw new Error('No posts found')
         }
-      } catch (error) {
-        setPosts([...fallbackPosts, ...fallbackPosts]) // Duplicate for seamless loop
+      } catch (error: any) {
+        console.error('Error fetching posts:', error)
+        setError(error.message || 'Failed to load posts')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -118,7 +108,29 @@ const FlowingBlogRiver = () => {
 
       {/* Flowing blog posts container */}
       <div className="relative overflow-hidden">
-        <div className="flex space-x-4 md:space-x-6 animate-flow">
+        {loading ? (
+          <div className="text-center py-8">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-highlight-blue dark:border-highlight-cyan"></div>
+            <p className="mt-4 font-handwriting text-gray-600 dark:text-gray-300">Loading latest posts...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-8">
+            <p className="font-handwriting text-gray-600 dark:text-gray-300">{error} 📝</p>
+            <a 
+              href="https://medium.com/@sakthimurugan102003" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-highlight-blue dark:text-highlight-cyan hover:underline mt-2 inline-block"
+            >
+              Visit my Medium profile →
+            </a>
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="font-handwriting text-gray-600 dark:text-gray-300">No posts available yet. Check back soon! ✍️</p>
+          </div>
+        ) : (
+          <div className="flex space-x-4 md:space-x-6 animate-flow">
           {posts.map((post, index) => (
             <motion.div
               key={`${post.title}-${index}`}
@@ -151,7 +163,8 @@ const FlowingBlogRiver = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* CTA */}

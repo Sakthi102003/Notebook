@@ -129,7 +129,7 @@ function App() {
     <div className="min-h-screen transition-colors duration-1000">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 transition-all duration-1000">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           {/* Logo - Left Side */}
           <motion.div 
             className="font-notebook text-lg sm:text-xl md:text-2xl font-bold text-highlight-blue dark:text-highlight-cyan inline-flex items-center gap-2 cursor-pointer flex-shrink-0"
@@ -206,9 +206,9 @@ function App() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur"
+            className="md:hidden border-t border-gray-200/50 bg-white/95 dark:bg-gray-900/95 backdrop-blur"
           >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 grid gap-2">
+            <div className="max-w-6xl mx-auto px-2 py-2 grid gap-1.5">
               {[
                 { id: 'home', label: 'Titlepage', icon: BookOpen },
                 { id: 'about', label: 'Readme.md', icon: User },
@@ -219,7 +219,7 @@ function App() {
                 <button
                   key={id}
                   onClick={() => { scrollToSection(id); setMobileOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors duration-200 min-w-0 ${
+                  className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-left transition-colors duration-200 min-w-0 ${
                     activeSection === id 
                       ? 'bg-paper-200/70 dark:bg-gray-800/70 text-highlight-blue dark:text-highlight-cyan'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-paper-200/60 dark:hover:bg-gray-800/60'

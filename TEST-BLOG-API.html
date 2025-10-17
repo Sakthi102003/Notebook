@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Medium Blog API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .post {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .post h3 {
+            margin: 0 0 10px 0;
+            color: #06b6d4;
+        }
+        .post-date {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .post-content {
+            color: #444;
+            line-height: 1.6;
+        }
+        button {
+            background: #06b6d4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0891b2;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Medium Blog API Test</h1>
+        <p>This page tests if the Medium RSS API is working correctly for your blog.</p>
+        
+        <button onclick="testAPI()">🔄 Test API</button>
+        
+        <div id="status"></div>
+        <div id="posts"></div>
+        <div id="raw"></div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const statusDiv = document.getElementById('status');
+            const postsDiv = document.getElementById('posts');
+            const rawDiv = document.getElementById('raw');
+            
+            // Clear previous results
+            postsDiv.innerHTML = '';
+            rawDiv.innerHTML = '';
+            
+            // Show loading
+            statusDiv.innerHTML = '<div class="status loading">⏳ Fetching posts from Medium...</div>';
+            
+            try {
+                const cacheBuster = new Date().getTime();
+                const url = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@sakthimurugan102003/feed&count=10&_=${cacheBuster}`;
+                
+                console.log('Fetching from:', url);
+                statusDiv.innerHTML += '<div class="status loading">📡 API URL: ' + url + '</div>';
+                
+                const response = await fetch(url, {
+                    cache: 'no-cache',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
+                });
+                
+                console.log('Response status:', response.status);
+                statusDiv.innerHTML += '<div class="status loading">📥 Response Status: ' + response.status + '</div>';
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                console.log('API Response:', data);
+                
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    statusDiv.innerHTML = `<div class="status success">✅ Success! Found ${data.items.length} blog posts</div>`;
+                    
+                    // Display posts
+                    data.items.forEach((item, index) => {
+                        const postDiv = document.createElement('div');
+                        postDiv.className = 'post';
+                        
+                        const content = item.content || item.description || '';
+                        const cleanContent = content.replace(/<[^>]*>/g, '').substring(0, 200) + '...';
+                        
+                        postDiv.innerHTML = `
+                            <h3>${index + 1}. ${item.title}</h3>
+                            <div class="post-date">📅 Published: ${new Date(item.pubDate).toLocaleString()}</div>
+                            <div class="post-content">${cleanContent}</div>
+                            <a href="${item.link}" target="_blank" style="color: #06b6d4;">Read on Medium →</a>
+                        `;
+                        
+                        postsDiv.appendChild(postDiv);
+                    });
+                    
+                    // Show raw response
+                    rawDiv.innerHTML = '<h3>Raw API Response:</h3><pre>' + JSON.stringify(data, null, 2).substring(0, 2000) + '...</pre>';
+                    
+                } else {
+                    statusDiv.innerHTML = `<div class="status error">❌ API returned no posts or error. Status: ${data.status || 'unknown'}</div>`;
+                    if (data.message) {
+                        statusDiv.innerHTML += `<div class="status error">Error message: ${data.message}</div>`;
+                    }
+                    rawDiv.innerHTML = '<h3>Raw API Response:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                statusDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                statusDiv.innerHTML += `<div class="status error">🔍 Possible causes:<br>
+                    - CORS policy blocking the request<br>
+                    - Network connection issue<br>
+                    - API rate limit exceeded<br>
+                    - Browser security settings</div>`;
+                rawDiv.innerHTML = '<h3>Error Details:</h3><pre>' + error.toString() + '</pre>';
+            }
+        }
+        
+        // Auto-run on page load
+        window.addEventListener('load', () => {
+            setTimeout(testAPI, 500);
+        });
+    </script>
+</body>
+</html>

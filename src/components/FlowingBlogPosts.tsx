@@ -21,46 +21,6 @@ const FlowingBlogPosts = ({ count = 3 }: FlowingBlogPostsProps) => {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
 
-  // Fallback posts for demo purposes
-  const fallbackPosts: BlogPost[] = [
-    {
-      title: "Building Secure Web Applications",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "2024-12-15T10:00:00Z",
-      creator: "Sakthi Murugan",
-      content: "In this article, I explore the fundamentals of building secure web applications, covering essential security practices and common vulnerabilities...",
-      categories: ["Security", "Development"],
-      guid: "1"
-    },
-    {
-      title: "ML in Cybersecurity: Detecting Phishing",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "2024-12-10T14:30:00Z",
-      creator: "Sakthi Murugan",
-      content: "Exploring how machine learning algorithms can be leveraged to detect and prevent phishing attacks in real-time applications...",
-      categories: ["ML", "Cybersecurity"],
-      guid: "2"
-    },
-    {
-      title: "React Performance Tips",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "2024-12-05T09:15:00Z",
-      creator: "Sakthi Murugan",
-      content: "Performance is crucial for user experience. Here are practical techniques for optimizing React applications and improving load times...",
-      categories: ["React", "Performance"],
-      guid: "3"
-    },
-    {
-      title: "Python Automation Scripts",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "2024-11-28T16:45:00Z",
-      creator: "Sakthi Murugan",
-      content: "Automating repetitive tasks with Python can save hours of work. Let's explore some useful automation scripts for developers...",
-      categories: ["Python", "Automation"],
-      guid: "4"
-    }
-  ]
-
   useEffect(() => {
     const fetchMediumPosts = async () => {
       try {
@@ -68,18 +28,14 @@ const FlowingBlogPosts = ({ count = 3 }: FlowingBlogPostsProps) => {
           'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@sakthimurugan102003/feed'
         )
         
-        if (!response.ok) throw new Error('Failed to fetch posts')
-        
-        const data = await response.json()
-        
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
-          setPosts(data.items.slice(0, count))
-        } else {
-          setPosts(fallbackPosts.slice(0, count))
+        if (response.ok) {
+          const data = await response.json()
+          if (data.status === 'ok' && data.items?.length > 0) {
+            setPosts(data.items.slice(0, count))
+          }
         }
       } catch (err) {
-        setPosts(fallbackPosts.slice(0, count))
-        console.log('Using fallback posts:', err)
+        console.error('Error:', err)
       } finally {
         setLoading(false)
       }
@@ -102,7 +58,24 @@ const FlowingBlogPosts = ({ count = 3 }: FlowingBlogPostsProps) => {
       : textContent
   }
 
-  if (loading) return null
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-highlight-blue dark:border-highlight-cyan"></div>
+        <p className="mt-4 font-handwriting text-gray-600 dark:text-gray-300">Loading posts...</p>
+      </div>
+    )
+  }
+
+  if (posts.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="font-handwriting text-lg text-gray-600 dark:text-gray-300">
+          No posts available yet. Stay tuned! ✍️
+        </p>
+      </div>
+    )
+  }
 
   return (
     <>

@@ -17,61 +17,21 @@ const MediumBlogSection = () => {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
 
-  // Fallback posts for demo purposes
-  const fallbackPosts: BlogPost[] = [
-    {
-      title: "Building Secure Web Applications: A Developer's Journey",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "2024-12-15T10:00:00Z",
-      creator: "Sakthi Murugan",
-      content: "In this article, I explore the fundamentals of building secure web applications, covering essential security practices, common vulnerabilities, and how to implement proper authentication and authorization mechanisms...",
-      categories: ["Web Security", "Development", "Best Practices"],
-      guid: "1"
-    },
-    {
-      title: "Machine Learning in Cybersecurity: Detecting Phishing Attacks",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "2024-12-10T14:30:00Z",
-      creator: "Sakthi Murugan",
-      content: "Exploring how machine learning algorithms can be leveraged to detect and prevent phishing attacks. We'll dive into feature engineering, model selection, and real-world implementation strategies...",
-      categories: ["Machine Learning", "Cybersecurity", "Python"],
-      guid: "2"
-    },
-    {
-      title: "React Performance Optimization: Tips from the Trenches",
-      link: "https://medium.com/@sakthimurugan102003",
-      pubDate: "2024-12-05T09:15:00Z",
-      creator: "Sakthi Murugan",
-      content: "Performance is crucial for user experience. In this comprehensive guide, I share practical techniques for optimizing React applications, from component optimization to bundle size reduction...",
-      categories: ["React", "Performance", "Frontend"],
-      guid: "3"
-    }
-  ]
-
   useEffect(() => {
     const fetchMediumPosts = async () => {
       try {
-        // Using RSS2JSON service to fetch Medium RSS feed
         const response = await fetch(
           'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@sakthimurugan102003/feed'
         )
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch posts')
-        }
-        
-        const data = await response.json()
-        
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
-          setPosts(data.items.slice(0, 6)) // Show latest 6 posts
-        } else {
-          // Use fallback posts if no articles are found or RSS fails
-          setPosts(fallbackPosts)
+        if (response.ok) {
+          const data = await response.json()
+          if (data.status === 'ok' && data.items?.length > 0) {
+            setPosts(data.items.slice(0, 6))
+          }
         }
       } catch (err) {
-        // Use fallback posts if fetch fails
-        setPosts(fallbackPosts)
-        console.log('Using fallback posts due to RSS fetch error:', err)
+        console.error('Error:', err)
       } finally {
         setLoading(false)
       }
