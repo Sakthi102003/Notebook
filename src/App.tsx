@@ -617,11 +617,11 @@ function App() {
                     {/* Header with Title and Links */}
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
-                        <h3 className="font-notebook font-bold text-2xl sm:text-3xl text-highlight-blue dark:text-highlight-cyan mb-2 group-hover:scale-105 transition-transform">
+                        <h3 className="font-notebook font-bold text-2xl sm:text-3xl text-highlight-blue dark:text-highlight-cyan mb-2 group-hover:scale-105 transition-transform pointer-events-none">
                           {project.title}
                         </h3>
                         <div className="flex items-center gap-2 mb-3">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold pointer-events-none ${
                             project.status === 'Completed' 
                               ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-700'
                               : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700'
@@ -632,13 +632,14 @@ function App() {
                       </div>
                       
                       {/* Action Buttons */}
-                      <div className="flex gap-2 flex-shrink-0">
+                      <div className="flex gap-2 flex-shrink-0 z-10 relative">
                         <a 
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-highlight-blue dark:hover:bg-highlight-cyan hover:text-white transition-all duration-200 hover:scale-110"
+                          className="inline-block p-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-highlight-blue dark:hover:bg-highlight-cyan hover:text-white transition-all duration-200 hover:scale-110 cursor-pointer pointer-events-auto"
                           title="View Source Code"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <Github size={20} />
                         </a>
@@ -647,8 +648,9 @@ function App() {
                             href={project.demoLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2.5 rounded-lg bg-highlight-blue dark:bg-highlight-cyan text-white hover:bg-blue-600 dark:hover:bg-cyan-600 transition-all duration-200 hover:scale-110"
+                            className="inline-block p-2.5 rounded-lg bg-highlight-blue dark:bg-highlight-cyan text-white hover:bg-blue-600 dark:hover:bg-cyan-600 transition-all duration-200 hover:scale-110 cursor-pointer shadow-md hover:shadow-lg pointer-events-auto"
                             title="View Live Demo"
+                            onClick={(e) => e.stopPropagation()}
                           >
                             <ExternalLink size={20} />
                           </a>
@@ -657,12 +659,12 @@ function App() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-5">
+                    <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-5 pointer-events-none">
                       {project.description}
                     </p>
 
                     {/* Highlights/Features */}
-                    <div className="mb-5">
+                    <div className="mb-5 pointer-events-none">
                       <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
                         Key Features
                       </h4>
@@ -677,7 +679,7 @@ function App() {
                     </div>
 
                     {/* Tech Stack */}
-                    <div>
+                    <div className="pointer-events-none">
                       <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
                         Tech Stack
                       </h4>
