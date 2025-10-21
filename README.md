@@ -18,6 +18,12 @@ A beautiful, responsive single-page portfolio website designed to look like a di
 - **🤖 AI Chat Assistant**: Intelligent chat widget powered by Google Gemini to answer portfolio questions
 - **📬 Contact Form**: EmailJS integration for seamless message delivery
 - **📝 Medium Blog Integration**: Flowing blog posts display from Medium RSS feed
+- **🐱 Oneko Pixel Pet**: Interactive pixel companion that follows your cursor
+  - 5 different variants (Classic, Dog, Tora, Maia, Vaporwave)
+  - Click to change variants
+  - Drag to play
+  - Right-click for dark mode
+  - Double-click to sleep
 - **🎯 Interactive Elements**: 
   - Ink highlighting effects
   - Sticky note skills section
@@ -38,6 +44,7 @@ A beautiful, responsive single-page portfolio website designed to look like a di
   - EmailJS (Contact Form)
   - Google Gemini AI (Chat Assistant)
 - **Fonts**: Google Fonts (Kalam, Shadows Into Light, Inter)
+- **Extras**: Oneko Pixel Pet (Multiple variants)
 
 ## 🚀 Getting Started
 
@@ -106,7 +113,7 @@ VITE_FIREBASE_APP_ID=your_app_id
 5. Get configuration from Project Settings
 6. Add credentials to `.env.local`
 
-For detailed Firebase setup instructions, see [FIREBASE-SETUP.md](FIREBASE-SETUP.md)
+For detailed Firebase setup instructions, see [docs/FIREBASE-SETUP.md](docs/FIREBASE-SETUP.md)
 
 #### Google Gemini Setup (Chat Assistant)
 1. Get API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
@@ -118,22 +125,56 @@ For detailed Firebase setup instructions, see [FIREBASE-SETUP.md](FIREBASE-SETUP
 ## 📁 Project Structure
 
 ```
-src/
-├── App.tsx              # Main application with time-based theme logic
-├── main.tsx             # Application entry point
-├── index.css            # Global styles with time-based theme definitions
-├── App.css              # Component-specific styles
-├── components/
-│   ├── ChatWidget.tsx         # AI chat assistant
-│   ├── ContactForm.tsx        # Email contact form
-│   ├── FlowingBlogRiver.tsx   # Medium blog integration
-│   ├── QuotesSection.tsx      # Animated quotes display
-│   ├── VisitorCounter.tsx     # Firebase visitor counter
-│   └── PixelDog.tsx           # Fun pixel art animation
-├── services/
-│   ├── firebase.ts            # Firebase Realtime Database service
-│   └── openai.ts              # OpenAI/Gemini integration
-└── assets/                    # Static assets
+Notebook/
+├── src/                      # Source code
+│   ├── components/           # React components
+│   │   ├── ChatWidget.tsx
+│   │   ├── ContactForm.tsx
+│   │   ├── FlowingBlogRiver.tsx
+│   │   ├── QuotesSection.tsx
+│   │   └── VisitorCounter.tsx
+│   ├── services/             # Backend integrations
+│   │   ├── firebase.ts
+│   │   └── openai.ts
+│   ├── utils/                # Utility functions
+│   ├── assets/               # Static assets
+│   ├── App.tsx               # Main app component
+│   ├── main.tsx              # Entry point
+│   └── index.css             # Global styles
+│
+├── public/                   # Public assets
+│   ├── images/               # Image files
+│   └── oneko/                # Oneko pixel pet files
+│       ├── oneko.js
+│       ├── oneko-classic.gif
+│       ├── oneko-dog.gif
+│       ├── oneko-tora.gif
+│       ├── oneko-maia.gif
+│       └── oneko-vaporwave.gif
+│
+├── api/                      # API routes (Vercel)
+│   ├── chat.js               # Chat API
+│   └── medium.js             # Medium blog API
+│
+├── docs/                     # Documentation
+│   ├── FIREBASE-SETUP.md
+│   ├── MEDIUM-BLOG-SYNC-GUIDE.md
+│   ├── TIME-BASED-THEME-GUIDE.md
+│   ├── ONEKO-GUIDE.md
+│   └── CHANGES-LOG.md
+│
+├── scripts/                  # Build/dev scripts
+│   └── dev-server.js
+│
+├── tests/                    # Test files
+│   └── TEST-BLOG-API.html
+│
+├── index.html                # HTML entry
+├── package.json              # Dependencies
+├── vite.config.ts            # Vite configuration
+├── tailwind.config.js        # Tailwind configuration
+├── tsconfig.json             # TypeScript configuration
+└── README.md                 # This file
 ```
 
 ## 🎨 Design Features
