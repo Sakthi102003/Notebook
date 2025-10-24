@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   BookOpen,
   Code,
@@ -40,8 +40,10 @@ import ContactForm from './components/ContactForm'
 import FlowingBlogRiver from './components/FlowingBlogRiver'
 import QuotesSection from './components/QuotesSection'
 import VisitorCounter from './components/VisitorCounter'
+import LoadingScreen from './components/LoadingScreen'
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true)
   const [timeOfDay, setTimeOfDay] = useState<'dawn' | 'morning' | 'afternoon' | 'evening' | 'night'>('morning')
   const [activeSection, setActiveSection] = useState('home')
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -126,9 +128,24 @@ function App() {
   }, [])
 
   return (
-    <div className="min-h-screen transition-colors duration-1000">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 transition-all duration-1000">
+    <>
+      {/* Loading Screen */}
+      <AnimatePresence>
+        {isLoading && (
+          <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+
+      {/* Main App Content */}
+      {!isLoading && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="min-h-screen transition-colors duration-1000"
+        >
+          {/* Navigation */}
+          <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 transition-all duration-1000">
         <div className="max-w-6xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           {/* Logo - Left Side */}
           <motion.div 
@@ -775,7 +792,9 @@ function App() {
 
       {/* Chat Widget */}
       <ChatWidget />
-    </div>
+        </motion.div>
+      )}
+    </>
   )
 }
 
