@@ -1,41 +1,36 @@
-# 📓 Digital Notebook Portfolio - Sakthi Murugan
+# 🌌 Sakthi's Space - Digital Portfolio
 
-A beautiful, responsive single-page portfolio website designed to look like a digital notebook with handwritten notes aesthetic.
+A beautiful, responsive single-page portfolio website featuring a modern "Glassmorphism" aesthetic with a space-themed narrative.
 
 ## ✨ Features
 
-- **📖 Notebook Theme**: Digital journal styling with paper textures and ruled lines
-- **🎨 Typography**: Beautiful font combinations (Kalam, Shadows Into Light, Inter)
+- **🪐 Space Theme**: Immersive glassmorphism design with animated background orbs and deep space aesthetics
+- **🎨 Typography**: Modern font combinations (Poppins, Quicksand, Inter)
 - **🌈 Time-Based Color Themes**: Automatic color schemes that change throughout the day
   - 🌅 **Dawn** (5-8 AM): Soft pink and purple sunrise gradients
   - ☀️ **Morning** (8 AM-12 PM): Bright cream to light blue gradients
   - 🌤️ **Afternoon** (12-5 PM): Warm yellow to peach gradients
   - 🌆 **Evening** (5-8 PM): Golden hour orange to pink gradients
   - 🌙 **Night** (8 PM-5 AM): Deep blue to purple dark theme
+- **🔦 Spotlight Effects**: Interactive hover effects on project cards that track cursor movement
+- **🇮🇳 Multilingual Loading Screen**: Animated slideshow greeting in multiple Indian languages
 - **👁️ Live Visitor Counter**: Real-time view count powered by Firebase Realtime Database with animated gradient display
-- **📱 Responsive Design**: Optimized for mobile and desktop
-- **⚡ Smooth Animations**: Framer Motion powered scroll and hover effects
+- **📱 Responsive Design**: Optimized for mobile and desktop with custom glass scrollbars
+- **⚡ Smooth Animations**: Framer Motion powered scroll, hover, and page transitions
 - **🤖 AI Chat Assistant**: Intelligent chat widget powered by Google Gemini to answer portfolio questions
 - **📬 Contact Form**: EmailJS integration for seamless message delivery
 - **📝 Medium Blog Integration**: Flowing blog posts display from Medium RSS feed
 - **🐱 Oneko Pixel Pet**: Interactive pixel companion that follows your cursor
-  - 5 different variants (Classic, Dog, Tora, Maia, Vaporwave)
-  - Click to change variants
-  - Drag to play
-  - Right-click for dark mode
-  - Double-click to sleep
 - **🎯 Interactive Elements**: 
-  - Ink highlighting effects
-  - Sticky note skills section
-  - Polaroid-style photo frames
-  - Notebook page layouts
-  - Time-of-day emoji indicator
-  - Animated visitor counter with gradient effects and live status
+  - Spotlight hover cards
+  - Glassmorphism UI components
+  - Animated background blobs
+  - Custom "Space" terminology (Mission Brief, Tech Stack, Transmission)
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18 + TypeScript
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS (Glassmorphism & Animations)
 - **Animations**: Framer Motion
 - **Icons**: Lucide React & React Icons
 - **Build Tool**: Vite
@@ -43,8 +38,7 @@ A beautiful, responsive single-page portfolio website designed to look like a di
   - Firebase Realtime Database (Visitor Counter)
   - EmailJS (Contact Form)
   - Google Gemini AI (Chat Assistant)
-- **Fonts**: Google Fonts (Kalam, Shadows Into Light, Inter)
-- **Extras**: Oneko Pixel Pet (Multiple variants)
+- **Fonts**: Google Fonts (Poppins, Quicksand, Inter)
 
 ## 🚀 Getting Started
 
@@ -131,6 +125,7 @@ Notebook/
 │   │   ├── ChatWidget.tsx
 │   │   ├── ContactForm.tsx
 │   │   ├── FlowingBlogRiver.tsx
+│   │   ├── SpotlightCard.tsx # New: Hover effect card
 │   │   ├── QuotesSection.tsx
 │   │   └── VisitorCounter.tsx
 │   ├── services/             # Backend integrations
@@ -140,17 +135,11 @@ Notebook/
 │   ├── assets/               # Static assets
 │   ├── App.tsx               # Main app component
 │   ├── main.tsx              # Entry point
-│   └── index.css             # Global styles
+│   └── index.css             # Global styles & Tailwind
 │
 ├── public/                   # Public assets
 │   ├── images/               # Image files
 │   └── oneko/                # Oneko pixel pet files
-│       ├── oneko.js
-│       ├── oneko-classic.gif
-│       ├── oneko-dog.gif
-│       ├── oneko-tora.gif
-│       ├── oneko-maia.gif
-│       └── oneko-vaporwave.gif
 │
 ├── api/                      # API routes (Vercel)
 │   ├── chat.js               # Chat API
@@ -179,24 +168,21 @@ Notebook/
 
 ## 🎨 Design Features
 
-### Sections
-1. **Cover Page** - Animated notebook opening with name and tagline
-2. **Quotes Section** - Rotating inspirational quotes
-3. **About Me** - Personal introduction with Polaroid-style photo
-4. **Skills** - Interactive grid with tech stack icons
-5. **Projects** - Enhanced cards with hover effects and live demos
-6. **Contact** - Contact form with EmailJS integration
-7. **Blog River** - Flowing Medium blog posts
-8. **Footer** - Live visitor counter with animated display
+### Sections (Space Terminology)
+1. **Home** - "Explore My Universe" with animated background orbs
+2. **Mission Brief** (About) - Personal introduction with glassmorphism cards
+3. **Tech Stack** (Skills) - Interactive grid with tech stack icons
+4. **Projects** - Spotlight cards with hover glow effects
+5. **Transmission** (Contact) - Contact form with EmailJS integration
+6. **Blog River** - Flowing Medium blog posts
+7. **Footer** - Live visitor counter with animated display
 
 ### Styling Elements
-- Paper texture backgrounds
-- Ruled line patterns
-- Red margin lines (like notebook paper)
-- Handwriting fonts for decorative elements
-- Smooth color transitions for theme switching
-- Gradient effects and glass morphism
-- Animated counter badges
+- **Glassmorphism**: `backdrop-blur`, semi-transparent backgrounds, and subtle borders
+- **Spotlight Effects**: Cards that track mouse movement for a flashlight effect
+- **Animated Backgrounds**: Floating blobs (`BackgroundOrbs`) for depth
+- **Custom Scrollbar**: Slim, transparent scrollbar matching the glass theme
+- **Typography**: Poppins (Headings), Quicksand (Accents), Inter (Body)
 
 ## 🌈 Time-Based Theme System
 
@@ -255,14 +241,14 @@ The color scheme automatically changes based on the time of day (see `src/index.
 - Smooth 1-second transitions between themes
 
 ### Fonts
-- **Headings**: Kalam (notebook-style)
-- **Handwriting**: Shadows Into Light
-- **Body**: Inter (clean sans-serif)
+- **Headings**: Poppins (Modern Sans-Serif)
+- **Accents**: Quicksand (Rounded Sans-Serif)
+- **Body**: Inter (Clean Sans-Serif)
 
 ### Animations
 Powered by Framer Motion with custom keyframes:
-- `notebook-open`: 3D notebook opening effect
-- `ink-highlight`: Hover highlighting simulation
+- `animate-blob`: Floating background orbs
+- `spotlight`: Mouse-tracking glow effect
 - `fade-in` & `slide-up`: Section reveal animations
 - Theme transitions with 1000ms duration for smooth color changes
 - Visitor counter digit animations
@@ -344,7 +330,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ## 🙏 Acknowledgments
 
-- Design inspiration from physical notebooks and journals
+- Design inspiration from modern glassmorphism trends
 - Color palette inspired by natural daylight cycles
 - Icons from Lucide React and React Icons
 - Animations powered by Framer Motion
