@@ -146,15 +146,15 @@ const QuotesSection = () => {
               </div>
             </motion.div>
 
-            {/* Notebook spiral holes decoration */}
-            <div className="absolute left-8 top-0 bottom-0 flex flex-col justify-evenly opacity-20">
+            {/* Notebook spiral holes decoration - Removed for Glassmorphism */}
+            {/* <div className="absolute left-8 top-0 bottom-0 flex flex-col justify-evenly opacity-20">
               {[...Array(8)].map((_, i) => (
                 <div
                   key={i}
                   className="w-4 h-4 rounded-full border-2 border-gray-400 dark:border-gray-600"
                 />
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Decorative elements */}
@@ -163,7 +163,7 @@ const QuotesSection = () => {
             whileInView={{ opacity: 1, rotate: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
             viewport={{ once: true }}
-            className="absolute -top-2 -right-2 bg-yellow-200 dark:bg-yellow-600 p-3 rounded-lg shadow-lg transform rotate-3 hidden md:block"
+            className="absolute -top-2 -right-2 bg-white/30 dark:bg-white/10 backdrop-blur-md border border-white/40 p-3 rounded-xl shadow-lg transform rotate-3 hidden md:block"
           >
             <p className="font-handwriting text-sm text-gray-800 dark:text-gray-900">
               Daily dose of inspiration! 💡

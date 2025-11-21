@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Shadows+Into+Light&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-paper-100 text-ink-light font-body;
+    @apply bg-paper-100 text-ink-light font-body font-normal;
     @apply transition-colors duration-1000 ease-in-out;
   }
 
@@ -79,28 +79,19 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-notebook;
+    @apply font-notebook font-semibold;
   }
 }
 
 @layer components {
   .notebook-page {
-    @apply bg-paper-50 dark:bg-gray-900 border border-paper-300 dark:border-gray-700;
-    @apply shadow-notebook rounded-lg p-4 sm:p-6 mb-6 sm:mb-8;
+    @apply bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-white/10;
+    @apply shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] rounded-2xl p-6 sm:p-8 mb-6 sm:mb-8;
     @apply relative overflow-hidden;
-    background-image: 
-      repeating-linear-gradient(
-        transparent,
-        transparent 24px,
-        rgba(156, 163, 175, 0.2) 24px,
-        rgba(156, 163, 175, 0.2) 25px
-      );
   }
 
   .notebook-page::before {
-    content: '';
-    @apply absolute left-0 top-0 bottom-0 w-6 sm:w-8 md:w-12 bg-red-200 dark:bg-red-900/20;
-    @apply border-r-2 border-red-300 dark:border-red-700;
+    content: none;
   }
 
   /* Ensure proper spacing for content within notebook pages */
@@ -109,15 +100,16 @@
   }
 
   .sticky-note {
-    @apply bg-yellow-200 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700;
-    @apply shadow-sticky-note rounded-sm p-3 sm:p-4 transform rotate-1;
-    @apply transition-transform duration-200 hover:rotate-0 hover:scale-105;
+    @apply bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10;
+    @apply shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] rounded-xl p-3 sm:p-4;
+    @apply transition-transform duration-200 hover:scale-105;
   }
 
   .polaroid {
-    @apply bg-white dark:bg-gray-800 p-3 sm:p-4 pb-6 sm:pb-8 shadow-polaroid;
-    @apply transform rotate-2 transition-transform duration-300;
-    @apply hover:rotate-0 hover:scale-105;
+    @apply bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10;
+    @apply p-3 sm:p-4 pb-6 sm:pb-8 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] rounded-xl;
+    @apply transition-transform duration-300;
+    @apply hover:scale-105;
   }
 
   .ink-highlight {
@@ -136,13 +128,12 @@
   }
 
   .notebook-divider {
-    @apply border-b-2 border-dashed border-gray-300 dark:border-gray-600;
+    @apply border-b border-white/20 dark:border-white/10;
     @apply my-8 relative;
   }
 
   .notebook-divider::before {
-    content: '✂️';
-    @apply absolute -top-3 right-4 bg-paper-100 dark:bg-black px-2;
+    content: none;
   }
 
   .chat-bubble-bot {
@@ -166,14 +157,24 @@
   }
   
   .notebook-lines {
-    background-image: 
-      repeating-linear-gradient(
-        transparent,
-        transparent 24px,
-        rgba(156, 163, 175, 0.2) 24px,
-        rgba(156, 163, 175, 0.2) 25px
-      );
-    background-position: 0 10px;
+    background: none;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/20 dark:bg-white/10 rounded-full backdrop-blur-md border border-white/10;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-white/30 dark:bg-white/20;
   }
 }
 
