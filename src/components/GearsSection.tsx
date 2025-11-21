@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { Laptop, Monitor, Keyboard, Mouse, Headphones, Smartphone, Settings, X, ArrowLeft } from 'lucide-react'
+import { Laptop, Keyboard, Mouse, Headphones, Smartphone, Settings, X, ArrowLeft } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 const GearsSection = () => {
