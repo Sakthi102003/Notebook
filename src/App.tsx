@@ -401,7 +401,7 @@ function App() {
               </motion.button>
 
               <motion.a
-                href="https://drive.google.com/file/d/1M1-y8bF_pbcY6cPtLd8Qiqn9DrK-yOlr/view?usp=sharing"
+                href="https://drive.google.com/file/d/1XP0eR-HanWD3CqGtO9ZeTe6enXxylaSk/view?usp=sharing"
                 download="Sakthi_Murugan_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
