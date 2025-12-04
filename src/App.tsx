@@ -155,16 +155,16 @@ function App() {
 
   // Map sections to their corresponding titles
   const sectionTitles = {
-    home: "Sakthi | Home",
-    about: "Sakthi | Mission Brief",
-    skills: "Sakthi | Tech Stack",
-    projects: "Sakthi | Projects",
-    contact: "Sakthi | Transmission"
+    home: "Sakthi's Digital Space",
+    about: "Mission Brief | Sakthi's Digital Space",
+    skills: "Tech Stack | Sakthi's Digital Space",
+    projects: "Projects | Sakthi's Digital Space",
+    contact: "Transmission | Sakthi's Digital Space"
   }
 
   useEffect(() => {
     // Update document title when active section changes
-    document.title = sectionTitles[activeSection as keyof typeof sectionTitles] || "Sakthi's Portfolio"
+    document.title = sectionTitles[activeSection as keyof typeof sectionTitles] || "Sakthi's Digital Space"
 
     // Create observer for sections
     const observer = new IntersectionObserver(

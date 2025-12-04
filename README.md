@@ -1,4 +1,4 @@
-# 🌌 Sakthi's Space - Digital Portfolio
+# 🌌 Sakthi's Digital Space - Digital Portfolio
 
 A beautiful, responsive single-page portfolio website featuring a modern "Glassmorphism" aesthetic with a space-themed narrative.
 
