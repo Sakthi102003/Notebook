@@ -57,37 +57,37 @@ export default function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-6" aria-describedby="contact-form-status">
       <div>
-        <label htmlFor="name" className="block font-notebook font-medium mb-2">Name</label>
+        <label htmlFor="name" className="block font-notebook font-bold mb-2">Name</label>
         <input
           id="name"
           name="name"
           type="text"
           required
-          className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:border-highlight-blue dark:focus:border-highlight-cyan focus:outline-none transition-colors"
+          className="w-full p-3 border-2 border-black dark:border-white bg-white dark:bg-gray-900 focus:outline-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none transition-all"
           placeholder="Your awesome name"
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="block font-notebook font-medium mb-2">Email</label>
+        <label htmlFor="email" className="block font-notebook font-bold mb-2">Email</label>
         <input
           id="email"
           name="email"
           type="email"
           required
-          className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:border-highlight-blue dark:focus:border-highlight-cyan focus:outline-none transition-colors"
+          className="w-full p-3 border-2 border-black dark:border-white bg-white dark:bg-gray-900 focus:outline-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none transition-all"
           placeholder="your.email@domain.com"
         />
       </div>
 
       <div>
-        <label htmlFor="message" className="block font-notebook font-medium mb-2">Message</label>
+        <label htmlFor="message" className="block font-notebook font-bold mb-2">Message</label>
         <textarea
           id="message"
           name="message"
           rows={4}
           required
-          className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:border-highlight-blue dark:focus:border-highlight-cyan focus:outline-none transition-colors resize-none"
+          className="w-full p-3 border-2 border-black dark:border-white bg-white dark:bg-gray-900 focus:outline-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none transition-all resize-none"
           placeholder="Tell me about your awesome project idea..."
         />
       </div>

@@ -8,9 +8,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'notebook': ['Poppins', 'sans-serif'],
-        'handwriting': ['Quicksand', 'sans-serif'],
-        'body': ['Inter', 'sans-serif'],
+        'notebook': ['"Lexend Mega"', 'sans-serif'],
+        'handwriting': ['"JetBrains Mono"', 'monospace'],
+        'body': ['"Space Grotesk"', 'sans-serif'],
       },
       colors: {
         paper: {

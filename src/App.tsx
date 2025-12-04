@@ -44,6 +44,7 @@ import QuotesSection from './components/QuotesSection'
 import VisitorCounter from './components/VisitorCounter'
 import LoadingScreen from './components/LoadingScreen'
 import SpotlightCard from './components/SpotlightCard'
+import NeoBrutalistCard from './components/NeoBrutalistCard'
 
 const projects = [
   {
@@ -204,9 +205,9 @@ function App() {
   }
 
   useEffect(() => {
-    // Close mobile menu on viewport >= md
+    // Close mobile menu on viewport >= lg
     const onResize = () => {
-      if (window.innerWidth >= 768) setMobileOpen(false)
+      if (window.innerWidth >= 1024) setMobileOpen(false)
     }
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
@@ -214,7 +215,6 @@ function App() {
 
   return (
     <>
-      <BackgroundOrbs />
       {/* Loading Screen */}
       <AnimatePresence>
         {isLoading && (
@@ -231,11 +231,11 @@ function App() {
           className="min-h-screen transition-colors duration-1000"
         >
           {/* Navigation */}
-          <nav className="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/20 backdrop-blur-lg border-b border-white/20 dark:border-white/10 transition-all duration-1000 shadow-lg">
+          <nav className="fixed top-0 w-full z-50 bg-white dark:bg-gray-900 border-b-2 border-black dark:border-white transition-all duration-1000">
         <div className="max-w-6xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           {/* Logo - Left Side */}
           <motion.div 
-            className="font-notebook text-lg sm:text-xl md:text-2xl font-bold text-highlight-blue dark:text-highlight-cyan inline-flex items-center gap-2 cursor-pointer flex-shrink-0"
+            className="font-notebook font-bold text-highlight-blue dark:text-highlight-cyan flex items-center gap-3 cursor-pointer flex-shrink-0 lg:w-60"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -251,12 +251,15 @@ function App() {
             aria-label="Go to Home"
             title="Go to Home"
           >
-            <img src="/images/blue avatar.png" alt="Logo" className="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover flex-shrink-0" />
-            <span className="whitespace-nowrap">Sakthi's Space</span>
+            <img src="/images/blue avatar.png" alt="Logo" className="w-10 h-10 rounded-full object-cover flex-shrink-0 border-2 border-black dark:border-white" />
+            <div className="flex flex-col leading-none">
+              <span className="text-lg sm:text-xl">Sakthi's</span>
+              <span className="text-lg sm:text-xl">Space</span>
+            </div>
           </motion.div>
           
           {/* Navigation Menu - Center */}
-          <div className="hidden md:flex space-x-8 flex-1 justify-center">
+          <div className="hidden lg:flex space-x-8 flex-1 justify-center">
             {[
               { id: 'home', label: 'Home', icon: BookOpen },
               { id: 'about', label: 'Mission Brief', icon: User },
@@ -267,10 +270,10 @@ function App() {
               <button
                 key={id}
                 onClick={() => scrollToSection(id)}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ink-highlight ${
+                className={`flex items-center space-x-2 px-3 py-2 border-2 transition-all duration-200 ${
                   activeSection === id 
-                    ? 'text-highlight-blue dark:text-highlight-cyan' 
-                    : 'text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan'
+                    ? 'border-black dark:border-white bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]' 
+                    : 'border-transparent hover:border-black dark:hover:border-white text-gray-600 dark:text-gray-300 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
                 }`}
               >
                 <Icon size={18} />
@@ -280,10 +283,10 @@ function App() {
           </div>
 
           {/* Right Side - Time of Day Indicator and Menu */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 lg:w-60 lg:justify-end">
             {/* Time of Day Indicator */}
             <div
-              className="p-2 rounded-lg bg-white/20 backdrop-blur-sm text-gray-600 transition-colors duration-200 flex items-center gap-2 flex-shrink-0"
+              className="p-2 border-2 border-black dark:border-white bg-white dark:bg-gray-800 text-black dark:text-white transition-colors duration-200 flex items-center gap-2 flex-shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
               title={timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)}
             >
               {timeOfDay === 'dawn' && <span className="text-lg">🌅</span>}
@@ -294,7 +297,7 @@ function App() {
             </div>
 
             <button
-              className="p-2 rounded-lg bg-white/20 dark:bg-gray-800/50 backdrop-blur-sm text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors duration-200 md:hidden flex-shrink-0"
+              className="p-2 border-2 border-black dark:border-white bg-white dark:bg-gray-800 text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200 lg:hidden flex-shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Toggle navigation menu"
               aria-expanded={mobileOpen}
@@ -309,7 +312,7 @@ function App() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden border-t border-white/20 bg-white/30 dark:bg-black/40 backdrop-blur-xl"
+            className="lg:hidden border-t border-white/20 bg-white/30 dark:bg-black/40 backdrop-blur-xl"
           >
             <div className="max-w-6xl mx-auto px-2 py-2 grid gap-1.5">
               {[
@@ -347,12 +350,12 @@ function App() {
             className="notebook-page animate-notebook-open p-4 sm:p-6 md:p-8 lg:p-12"
           >
             <motion.h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-notebook font-bold mb-4 md:mb-6 text-shadow leading-tight whitespace-nowrap"
+              className="text-lg sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-notebook font-bold mb-4 md:mb-6 text-shadow leading-tight whitespace-nowrap uppercase tracking-tighter"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
-              <span className="text-highlight-blue dark:text-highlight-cyan">Sakthimurugan</span> <span className="text-gray-700 dark:text-gray-200">S</span>
+              <span className="text-highlight-blue dark:text-highlight-cyan">SAKTHIMURUGAN</span> <span className="text-gray-700 dark:text-gray-200">S</span>
             </motion.h1>
             
             <motion.div
@@ -394,7 +397,7 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.6 }}
-                className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-gray-900 px-6 sm:px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
+                className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black border-2 border-black dark:border-white px-6 sm:px-8 py-3 font-body font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
               >
                 <span>Explore My Universe</span>
                 <BookOpen size={18} className="sm:w-5 sm:h-5" />
@@ -408,7 +411,7 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.7, duration: 0.6 }}
-                className="bg-white dark:bg-gray-800 text-highlight-blue dark:text-highlight-cyan border-2 border-highlight-blue dark:border-highlight-cyan px-6 sm:px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
+                className="bg-white dark:bg-gray-800 text-black dark:text-white border-2 border-black dark:border-white px-6 sm:px-8 py-3 font-body font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
               >
                 <span>Download Resume</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -531,85 +534,85 @@ function App() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 font-handwriting text-base sm:text-lg">
                 {/* Languages */}
-                <div className="flex items-center gap-3 p-3 text-[#3776AB] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#3776AB] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiPython className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Python</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#E34F26] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#E34F26] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiHtml5 className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">HTML</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#1572B6] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#1572B6] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiCss3 className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">CSS</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#F7DF1E] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#F7DF1E] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiJavascript className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">JavaScript</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#3178C6] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#3178C6] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiTypescript className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">TypeScript</span>
                 </div>
 
                 {/* Frontend & Frameworks */}
-                <div className="flex items-center gap-3 p-3 text-[#61DAFB] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#61DAFB] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiReact className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">React.js</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#06B6D4] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#06B6D4] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiTailwindcss className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Tailwind CSS</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#FF6384] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#FF6384] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiChartdotjs className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Chart.js</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#000000] dark:text-[#FFFFFF] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#000000] dark:text-[#FFFFFF] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiFlask className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Flask</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#092E20] dark:text-[#0C4B33] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#092E20] dark:text-[#0C4B33] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiDjango className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Django</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#4DABCF] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#4DABCF] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiNumpy className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">NumPy</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#3b82f6] dark:text-[#fbbf24] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#3b82f6] dark:text-[#fbbf24] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <Database className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">SQL</span>
                 </div>
 
                 {/* Tools & Platforms */}
-                <div className="flex items-center gap-3 p-3 text-[#F05032] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#F05032] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiGit className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Git</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#181717] dark:text-[#FFFFFF] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#181717] dark:text-[#FFFFFF] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiGithub className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">GitHub</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#FFCA28] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#FFCA28] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiFirebase className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Firebase</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#007ACC] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#007ACC] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <Code className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">VS Code</span>
                 </div>
 
                 {/* Operating Systems */}
-                <div className="flex items-center gap-3 p-3 text-[#E95420] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#E95420] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiUbuntu className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Ubuntu</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#557C94] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#557C94] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiKalilinux className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">Kali Linux</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 text-[#932279] hover:scale-105 transition-transform min-w-0 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <div className="flex items-center gap-3 p-3 text-[#932279] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
                   <SiCentos className="text-xl sm:text-2xl flex-shrink-0" />
                   <span className="truncate">CentOS</span>
                 </div>
@@ -645,7 +648,7 @@ function App() {
                   className="group relative"
                 >
                   {/* Enhanced Project Card */}
-                  <SpotlightCard className="relative p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:border-highlight-blue dark:hover:border-highlight-cyan">
+                  <NeoBrutalistCard className="p-6 h-full flex flex-col">
                     {/* Header with Title and Links */}
                     <div className="flex justify-between items-start mb-4 relative z-20">
                       <div className="flex-1">
@@ -653,12 +656,12 @@ function App() {
                           {project.title}
                         </h3>
                         <div className="flex items-center gap-2 mb-3">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold pointer-events-none ${
+                          <span className={`px-3 py-1 border-2 border-black dark:border-white text-xs font-bold pointer-events-none ${
                             project.status === 'Completed' 
-                              ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-700'
-                              : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700'
+                              ? 'bg-green-200 text-black'
+                              : 'bg-yellow-200 text-black'
                           }`}>
-                            ✓ {project.status}
+                            {project.status.toUpperCase()}
                           </span>
                         </div>
                       </div>
@@ -669,7 +672,7 @@ function App() {
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-block p-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-highlight-blue dark:hover:bg-highlight-cyan hover:text-white transition-all duration-200 hover:scale-110 cursor-pointer pointer-events-auto"
+                          className="inline-block p-2.5 border-2 border-black dark:border-white bg-white dark:bg-gray-800 text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
                           title="View Source Code"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -680,7 +683,7 @@ function App() {
                             href={project.demoLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block p-2.5 rounded-lg bg-highlight-blue dark:bg-highlight-cyan text-white hover:bg-blue-600 dark:hover:bg-cyan-600 transition-all duration-200 hover:scale-110 cursor-pointer shadow-md hover:shadow-lg pointer-events-auto"
+                            className="inline-block p-2.5 border-2 border-black dark:border-white bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black hover:bg-blue-600 dark:hover:bg-cyan-600 transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
                             title="View Live Demo"
                             onClick={(e) => e.stopPropagation()}
                           >
@@ -691,19 +694,19 @@ function App() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-5 pointer-events-none relative z-20">
+                    <p className="text-gray-800 dark:text-gray-200 text-base leading-relaxed mb-5 pointer-events-none relative z-20 flex-grow">
                       {project.description}
                     </p>
 
                     {/* Highlights/Features */}
                     <div className="mb-5 pointer-events-none relative z-20">
-                      <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
+                      <h4 className="text-sm font-bold text-black dark:text-white uppercase tracking-wide mb-3 border-b-2 border-black dark:border-white inline-block">
                         Key Features
                       </h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {project.highlights.map((highlight, i) => (
-                          <div key={i} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <Star size={14} className="text-yellow-500 fill-yellow-500 flex-shrink-0" />
+                          <div key={i} className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
+                            <Star size={14} className="text-black dark:text-white fill-current flex-shrink-0" />
                             <span>{highlight}</span>
                           </div>
                         ))}
@@ -711,25 +714,22 @@ function App() {
                     </div>
 
                     {/* Tech Stack */}
-                    <div className="pointer-events-none relative z-20">
-                      <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
+                    <div className="pointer-events-none relative z-20 mt-auto">
+                      <h4 className="text-sm font-bold text-black dark:text-white uppercase tracking-wide mb-3 border-b-2 border-black dark:border-white inline-block">
                         Tech Stack
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {project.tech.map((tech) => (
                           <span 
                             key={tech} 
-                            className="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-700 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 hover:scale-105 transition-transform"
+                            className="px-3 py-1.5 bg-white dark:bg-gray-800 border-2 border-black dark:border-white text-xs font-bold text-black dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
                           >
                             {tech}
                           </span>
                         ))}
                       </div>
                     </div>
-
-                    {/* Decorative corner */}
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-highlight-blue/10 to-transparent dark:from-highlight-cyan/10 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </SpotlightCard>
+                  </NeoBrutalistCard>
                 </motion.div>
               ))}
             </div>
@@ -737,7 +737,7 @@ function App() {
             <div className="flex justify-center mt-8 sm:mt-10">
               <button
                 onClick={() => setShowAllProjects(!showAllProjects)}
-                className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-gray-900 px-6 sm:px-8 py-3 rounded-full font-body font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-2"
+                className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black border-2 border-black dark:border-white px-6 sm:px-8 py-3 font-body font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 flex items-center gap-2"
               >
                 {showAllProjects ? (
                   <>
