@@ -48,6 +48,20 @@ import GithubHeatmap from './components/GithubHeatmap'
 
 const projects = [
   {
+    title: 'Trackify',
+    description: 'A local-first productivity tool that tracks PC activity and provides insights into application usage patterns. Observes active applications and windows, tracks usage sessions with detailed metadata, and stores all data locally in SQLite — ensuring complete privacy as your data never leaves your machine.',
+    tech: ['Python', 'SQLite', 'FastAPI', 'React', 'TypeScript'],
+    status: 'Completed',
+    link: 'https://github.com/Sakthi102003/Trackify',
+    highlights: [
+      'Local-First Architecture',
+      'Real-time Activity Tracking',
+      'SQLite Database Storage',
+      'Backend API for Analytics',
+      'Upcoming Web Dashboard'
+    ]
+  },
+  {
     title: 'Reposocope',
     description: 'Developed a comprehensive React-based analytics tool that provides deep insights into GitHub user activity. The application analyzes repositories, technology stacks, contribution patterns, and generates detailed reports with comparison features between users.',
     tech: ['React', 'GitHub API', 'Chart.js', 'Framer Motion', 'TypeScript'],
