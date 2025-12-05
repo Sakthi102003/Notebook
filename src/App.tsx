@@ -44,6 +44,7 @@ import QuotesSection from './components/QuotesSection'
 import VisitorCounter from './components/VisitorCounter'
 import LoadingScreen from './components/LoadingScreen'
 import NeoBrutalistCard from './components/NeoBrutalistCard'
+import GithubHeatmap from './components/GithubHeatmap'
 
 const projects = [
   {
@@ -614,6 +615,9 @@ function App() {
         </div>
       </section>
 
+      {/* Github Heatmap Section */}
+      <GithubHeatmap />
+
       {/* Projects Section */}
       <section id="projects" className="py-20 md:py-28">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -640,10 +644,10 @@ function App() {
                   className="group relative"
                 >
                   {/* Enhanced Project Card */}
-                  <NeoBrutalistCard className="p-6 h-full flex flex-col">
+                  <NeoBrutalistCard className="p-4 sm:p-6 h-full flex flex-col">
                     {/* Header with Title and Links */}
-                    <div className="flex justify-between items-start mb-4 relative z-20">
-                      <div className="flex-1">
+                    <div className="flex flex-col sm:flex-row justify-between items-start mb-4 relative z-20 gap-4 sm:gap-0">
+                      <div className="flex-1 w-full sm:w-auto">
                         <h3 className="font-notebook font-bold text-2xl sm:text-3xl text-highlight-blue dark:text-highlight-cyan mb-2 group-hover:scale-105 transition-transform pointer-events-none">
                           {project.title}
                         </h3>
