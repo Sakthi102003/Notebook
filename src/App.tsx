@@ -45,6 +45,7 @@ import VisitorCounter from './components/VisitorCounter'
 import LoadingScreen from './components/LoadingScreen'
 import NeoBrutalistCard from './components/NeoBrutalistCard'
 import GithubHeatmap from './components/GithubHeatmap'
+import CustomCursor from './components/CustomCursor'
 
 const projects = [
   {
@@ -222,6 +223,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       {/* Loading Screen */}
       <AnimatePresence>
         {isLoading && (
