@@ -1,5 +1,20 @@
 export const projects = [
   {
+    title: 'Gitwrap',
+    description: 'An AI-powered, retro-terminal themed web application that generates your personalized GitHub Wrapped with a Spotify Wrapped-style narrative experience. Features a CRT monitor aesthetic, generates a 7-slide story about your coding year, and assigns RPG-style developer titles based on your activity.',
+    tech: ['FastAPI', 'OpenAI GPT-4', 'GitHub API', 'Python', 'Pydantic'],
+    status: 'Completed',
+    link: 'https://github.com/Sakthi102003/Gitwrap',
+    demoLink: 'https://gitwrap.app/',
+    highlights: [
+      'AI-Powered Narrative',
+      'Spotify Wrapped-Style Story',
+      'Retro Terminal UI',
+      'No Authentication Required',
+      'Real-time Data Analysis'
+    ]
+  },
+  {
     title: 'Trackify',
     description: 'A local-first productivity tool that tracks PC activity and provides insights into application usage patterns. Observes active applications and windows, tracks usage sessions with detailed metadata, and stores all data locally in SQLite  ensuring complete privacy as your data never leaves your machine.',
     tech: ['Python', 'SQLite', 'FastAPI', 'React', 'TypeScript'],
