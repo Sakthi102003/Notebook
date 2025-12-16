@@ -47,13 +47,6 @@ const bgColors = [
   'bg-slate-700',
 ];
 
-const textColors = [
-  'text-white',
-  'text-black',
-  'text-yellow-300',
-  'text-red-100',
-];
-
 const rotations = [
   '-rotate-2',
   '-rotate-1',
