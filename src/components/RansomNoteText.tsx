@@ -82,7 +82,7 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
   const shuffledFonts = getShuffledArray(fonts);
 
   return (
-    <div className={`flex flex-nowrap justify-center items-center gap-2 overflow-x-auto pb-4 scrollbar-hide ${className}`} aria-label={text}>
+    <div className={`flex flex-nowrap justify-center items-center gap-[0.5vw] sm:gap-1 md:gap-1.5 overflow-x-auto pb-2 scrollbar-hide ${className}`} aria-label={text}>
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
@@ -94,7 +94,7 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
       `}</style>
       {text.split('').map((char, index) => {
         if (char === ' ') {
-          return <span key={index} className="w-6"></span>;
+          return <span key={index} className="w-[2.5vw] sm:w-4 md:w-6 shrink-0"></span>;
         }
 
         const seed = index * char.charCodeAt(0);
@@ -116,7 +116,7 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
             key={index}
             className={`
               inline-flex items-center justify-center
-              w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20
+              w-[5vw] h-[5vw] sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-11 lg:h-11
               ${font} 
               ${bg} 
               ${color} 
@@ -124,9 +124,10 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
               rounded-sm
               shadow-md
               no-underline
-              text-3xl sm:text-4xl md:text-5xl font-bold uppercase
+              text-[3vw] sm:text-lg md:text-xl lg:text-2xl font-bold uppercase
               hover:scale-110 hover:z-10 hover:-rotate-2 transition-transform duration-300
               cursor-default
+              shrink-0
             `}
             initial={{ opacity: 0, y: 50, rotate: Math.random() * 10 - 5 }}
             animate={{ opacity: 1, y: 0, rotate: parseInt(rotation.replace('rotate-', '')) || 0 }}
