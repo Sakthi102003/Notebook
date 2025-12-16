@@ -13,6 +13,14 @@ const fonts = [
   'font-notebook',
   'font-handwriting',
   'font-body',
+  'font-ransom-hand',
+  'font-ransom-marker',
+  'font-ransom-typewriter',
+  'font-ransom-comic',
+  'font-ransom-display',
+  'font-ransom-scifi',
+  'font-ransom-serif',
+  'font-ransom-shadow',
 ];
 
 const bgColors = [
@@ -66,9 +74,9 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
   };
 
   // Deterministically shuffle colors based on the text content
-  const getShuffledColors = () => {
+  const getShuffledArray = (arr: string[]) => {
     const seed = text.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const shuffled = [...bgColors];
+    const shuffled = [...arr];
     // Fisher-Yates shuffle with seeded random
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(pseudoRandom(seed + i) * (i + 1));
@@ -77,7 +85,8 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
     return shuffled;
   };
 
-  const shuffledBgColors = getShuffledColors();
+  const shuffledBgColors = getShuffledArray(bgColors);
+  const shuffledFonts = getShuffledArray(fonts);
 
   return (
     <div className={`flex flex-nowrap justify-center items-center gap-2 overflow-x-auto pb-4 scrollbar-hide ${className}`} aria-label={text}>
@@ -96,11 +105,12 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
         }
 
         const seed = index * char.charCodeAt(0);
-        const font = getRandomItem(fonts, seed);
         
-        // Use the shuffled colors sequentially to avoid repeats
-        // We skip spaces in the index calculation for colors to keep the sequence tight
+        // Use the shuffled arrays sequentially to avoid repeats
+        // We skip spaces in the index calculation to keep the sequence tight
         const charIndex = text.substring(0, index).replace(/ /g, '').length;
+        
+        const font = shuffledFonts[charIndex % shuffledFonts.length];
         const bg = shuffledBgColors[charIndex % shuffledBgColors.length];
         
         const isLightBg = ['bg-white', 'bg-yellow-400', 'bg-lime-500', 'bg-amber-500', 'bg-cyan-500', 'bg-sky-500'].includes(bg);

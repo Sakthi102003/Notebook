@@ -11,6 +11,14 @@ export default {
         'notebook': ['"Lexend Mega"', 'sans-serif'],
         'handwriting': ['"JetBrains Mono"', 'monospace'],
         'body': ['"Space Grotesk"', 'sans-serif'],
+        'ransom-hand': ['"Indie Flower"', 'cursive'],
+        'ransom-marker': ['"Permanent Marker"', 'cursive'],
+        'ransom-typewriter': ['"Courier Prime"', 'monospace'],
+        'ransom-comic': ['"Bangers"', 'system-ui'],
+        'ransom-display': ['"Righteous"', 'sans-serif'],
+        'ransom-scifi': ['"Orbitron"', 'sans-serif'],
+        'ransom-serif': ['"Abril Fatface"', 'serif'],
+        'ransom-shadow': ['"Shadows Into Light"', 'cursive'],
       },
       colors: {
         paper: {
