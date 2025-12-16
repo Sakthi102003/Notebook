@@ -44,6 +44,7 @@ import QuotesSection from '../components/QuotesSection'
 import VisitorCounter from '../components/VisitorCounter'
 import NeoBrutalistCard from '../components/NeoBrutalistCard'
 import GithubHeatmap from '../components/GithubHeatmap'
+import RansomNoteText from '../components/RansomNoteText'
 import { projects } from '../data/projects'
 import { Link } from 'react-router-dom'
 
@@ -261,14 +262,9 @@ function Home() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="notebook-page animate-notebook-open p-4 sm:p-6 md:p-8 lg:p-12"
           >
-            <motion.h1 
-              className="text-lg sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-notebook font-bold mb-4 md:mb-6 text-shadow leading-tight whitespace-nowrap uppercase tracking-tighter"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-            >
-              <span className="text-highlight-blue dark:text-highlight-cyan">SAKTHIMURUGAN</span> <span className="text-gray-700 dark:text-gray-200">S</span>
-            </motion.h1>
+            <h1 className="mb-8 md:mb-10 flex justify-center">
+              <RansomNoteText text="SAKTHIMURUGAN S" />
+            </h1>
             
             <motion.div
               initial={{ opacity: 0, y: 30 }}
