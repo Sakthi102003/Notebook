@@ -1,5 +1,20 @@
 export const projects = [
   {
+    title: 'Cybersecurity Deep Trench',
+    description: 'A deep dive into cybersecurity concepts, visualized as an ocean trench exploration. This project organizes security topics by complexity and depth, from fundamental principles at the surface to theoretical and advanced cryptographic concepts in the abyss.',
+    tech: ['React 19', 'Vite', 'CSS Modules', 'Custom Animations'],
+    status: 'Completed',
+    link: 'https://github.com/Sakthi102003/CyberTrench',
+    demoLink: 'https://cyber-trench.vercel.app/',
+    highlights: [
+      'Interactive Ocean Visualization',
+      '8 Depth Zones',
+      '60+ Security Concepts',
+      'Educational Deep Dive',
+      'Advanced Animations'
+    ]
+  },
+  {
     title: 'Gitwrap',
     description: 'An AI-powered, retro-terminal themed web application that generates your personalized GitHub Wrapped with a Spotify Wrapped-style narrative experience. Features a CRT monitor aesthetic, generates a 7-slide story about your coding year, and assigns RPG-style developer titles based on your activity.',
     tech: ['FastAPI', 'OpenAI GPT-4', 'GitHub API', 'Python', 'Pydantic'],
