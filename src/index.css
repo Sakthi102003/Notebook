@@ -107,6 +107,27 @@
     @apply relative z-10;
   }
 
+  .cyber-scanner {
+    @apply absolute inset-0 pointer-events-none overflow-hidden opacity-0 transition-opacity duration-300;
+  }
+
+  .notebook-page:hover .cyber-scanner {
+    @apply opacity-100;
+  }
+
+  .cyber-scanner::after {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-[1px];
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    box-shadow: 0 0 10px var(--color-primary);
+    animation: scan 3s linear infinite;
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
   .sticky-note {
     @apply bg-white dark:bg-gray-800 border-2 border-black dark:border-white;
     @apply shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] rounded-none p-3 sm:p-4;
@@ -415,7 +436,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  body, a, button, [role="button"], input, textarea, select, .cursor-pointer, .oneko-variant-button, #oneko {
+  * {
     cursor: none !important;
   }
 }
