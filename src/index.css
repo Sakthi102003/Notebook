@@ -1,197 +1,78 @@
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bangers&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Indie+Flower&family=JetBrains+Mono:wght@100..800&family=Lexend+Mega:wght@100..900&family=Orbitron:wght@400..900&family=Permanent+Marker&family=Righteous&family=Shadows+Into+Light&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --accent-color: 0 229 255; /* Electric Blue Default */
+  }
+
   body {
-    @apply font-body font-normal;
-    @apply transition-colors duration-1000 ease-in-out;
-    background-color: var(--bg-color);
-    background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  /* Dawn theme (5-8 AM) - Solid Pink/Lavender */
-  html.dawn body {
-    --bg-color: #fff0f5;
-    --dot-color: #db2777; /* Pink-600 */
-    color: #1e293b;
-  }
-
-  html.dawn {
-    --color-primary: #e91e63;
-    --color-secondary: #9c27b0;
-    --color-bg-primary: #fff0f5;
-    --color-bg-secondary: #fce7f3;
-  }
-
-  /* Morning theme (8-12 PM) - Solid Light Blue */
-  html.morning body {
-    --bg-color: #f0f9ff;
-    --dot-color: #2563eb; /* Blue-600 */
-    color: #0f172a;
-  }
-
-  html.morning {
-    --color-primary: #3b82f6;
-    --color-secondary: #0ea5e9;
-    --color-bg-primary: #f0f9ff;
-    --color-bg-secondary: #e0f2fe;
-  }
-
-  /* Afternoon theme (12-5 PM) - Solid Light Yellow */
-  html.afternoon body {
-    --bg-color: #fffbeb;
-    --dot-color: #d97706; /* Amber-600 */
-    color: #1e293b;
-  }
-
-  html.afternoon {
-    --color-primary: #f59e0b;
-    --color-secondary: #f97316;
-    --color-bg-primary: #fffbeb;
-    --color-bg-secondary: #fef3c7;
-  }
-
-  /* Evening theme (5-8 PM) - Solid Light Orange */
-  html.evening body {
-    --bg-color: #fff7ed;
-    --dot-color: #ea580c; /* Orange-600 */
-    color: #18181b;
-  }
-
-  html.evening {
-    --color-primary: #ea580c;
-    --color-secondary: #dc2626;
-    --color-bg-primary: #fff7ed;
-    --color-bg-secondary: #ffedd5;
-  }
-
-  /* Night theme (8 PM-5 AM) - Solid Dark Blue */
-  html.night body {
-    --bg-color: #0f172a;
-    --dot-color: #334155; /* Slate-700 */
-    color: #f8fafc;
-  }
-
-  html.night {
-    --color-primary: #06b6d4;
-    --color-secondary: #8b5cf6;
-    --color-bg-primary: #0f172a;
-    --color-bg-secondary: #1e1b4b;
-  }
-
-  html {
-    scroll-behavior: smooth;
+    @apply bg-stealth-900 text-gray-400 font-stealth selection:bg-electric-blue/30 selection:text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    cursor: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-notebook font-semibold;
+    @apply font-stealth font-bold tracking-tight text-white;
+  }
+
+  ::selection {
+    @apply bg-electric-blue/30 text-white;
+  }
+
+  a, button, input, textarea, [role="button"], .cursor-pointer {
+    cursor: none !important;
   }
 }
 
 @layer components {
-  .notebook-page {
-    @apply bg-white dark:bg-gray-900 border-2 border-black dark:border-white;
-    @apply shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] rounded-none p-6 sm:p-8 mb-6 sm:mb-8;
-    @apply relative overflow-hidden;
+  /* Stealth Glass Effect */
+  .stealth-glass {
+    @apply bg-stealth-800/40 backdrop-blur-xl border border-white/5 shadow-2xl;
   }
 
-  .notebook-page::before {
-    content: none;
+  /* IDE Sidebar / File Tree Layout */
+  .ide-sidebar {
+    @apply w-64 bg-stealth-900 border-r border-white/5 hidden md:flex flex-col h-full;
   }
 
-  /* Ensure proper spacing for content within notebook pages */
-  .notebook-page > * {
-    @apply relative z-10;
+  .ide-main {
+    @apply flex-1 overflow-y-auto bg-stealth-800/20;
   }
 
-  .cyber-scanner {
-    @apply absolute inset-0 pointer-events-none overflow-hidden opacity-0 transition-opacity duration-300;
+  /* Razor-sharp glowing accents */
+  .stealth-card {
+    @apply bg-stealth-800/30 border border-white/5 transition-all duration-300 relative overflow-hidden;
   }
 
-  .notebook-page:hover .cyber-scanner {
-    @apply opacity-100;
-  }
-
-  .cyber-scanner::after {
+  .stealth-card::after {
     content: '';
-    @apply absolute top-0 left-0 w-full h-[1px];
-    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
-    box-shadow: 0 0 10px var(--color-primary);
-    animation: scan 3s linear infinite;
+    @apply absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-electric-blue/50 to-transparent scale-x-0 transition-transform duration-500 origin-left;
   }
 
-  @keyframes scan {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
+  .stealth-card:hover::after {
+    @apply scale-x-100;
   }
 
-  .sticky-note {
-    @apply bg-white dark:bg-gray-800 border-2 border-black dark:border-white;
-    @apply shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] rounded-none p-3 sm:p-4;
-    @apply transition-all duration-200 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none;
+  /* Terminal/Code styled blocks */
+  .code-block {
+    @apply font-mono bg-stealth-900/80 p-6 border border-white/5 relative;
   }
 
-  .polaroid {
-    @apply bg-white dark:bg-gray-800 border-2 border-black dark:border-white;
-    @apply p-3 sm:p-4 pb-6 sm:pb-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] rounded-none;
-    @apply transition-transform duration-300;
-    @apply hover:rotate-2;
+  .code-block::before {
+    content: 'Terminal';
+    @apply absolute top-0 right-0 bg-white/5 px-2 py-0.5 text-[10px] uppercase font-mono tracking-widest text-white/30;
   }
 
-  .ink-highlight {
-    @apply relative;
-  }
-
-  .ink-highlight::after {
-    content: '';
-    @apply absolute inset-0 bg-highlight-blue/20 dark:bg-highlight-cyan/20;
-    @apply opacity-0 transition-opacity duration-300;
-    @apply -skew-x-12 -mx-1;
-  }
-
-  .ink-highlight:hover::after {
-    @apply opacity-100;
-  }
-
-  .notebook-divider {
-    @apply border-b border-white/20 dark:border-white/10;
-    @apply my-8 relative;
-  }
-
-  .notebook-divider::before {
-    content: none;
-  }
-
-  .chat-bubble-bot {
-    @apply relative;
-  }
-  
-  .chat-bubble-bot::before {
-    content: '';
-    @apply absolute -left-2 top-2 border-8 border-transparent;
-    @apply border-r-white dark:border-r-gray-800;
-  }
-  
-  .chat-bubble-user {
-    @apply relative;
-  }
-  
-  .chat-bubble-user::before {
-    content: '';
-    @apply absolute -right-2 top-2 border-8 border-transparent;
-    @apply border-l-highlight-blue dark:border-l-highlight-cyan;
-  }
-  
-  .notebook-lines {
-    background: none;
-  }
-
-  /* Custom Scrollbar */
+  /* Scrollbar - Minimal IDE style */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 4px;
+    height: 4px;
   }
 
   ::-webkit-scrollbar-track {
@@ -199,271 +80,45 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-white/20 dark:bg-white/10 rounded-full backdrop-blur-md border border-white/10;
+    @apply bg-white/5 hover:bg-white/10 transition-colors;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-white/30 dark:bg-white/20;
+  /* Glowing lines utility */
+  .glow-line-blue {
+    @apply h-[1px] w-full bg-gradient-to-r from-transparent via-electric-blue/40 to-transparent;
+  }
+
+  .glow-line-crimson {
+    @apply h-[1px] w-full bg-gradient-to-r from-transparent via-crimson/40 to-transparent;
   }
 }
 
 @layer utilities {
-  .text-shadow {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  .text-glow-blue {
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
   }
   
-  .writing-animation {
-    @apply animate-ink-flow;
+  .text-glow-crimson {
+    text-shadow: 0 0 10px rgba(255, 0, 60, 0.4);
+  }
+
+  .animate-slow-glow {
+    animation: slow-glow 4s ease-in-out infinite;
   }
 
   .animate-flow {
     animation: flow 40s linear infinite;
-    width: calc(200% + 2rem);
+    display: flex;
+    width: max-content;
   }
 
-  /* Mobile-specific fixes */
-  @media (max-width: 640px) {
-    .notebook-page {
-      margin-left: 0;
-      margin-right: 0;
-    }
-    
-    .notebook-page::before {
-      width: 1.5rem; /* 6 in Tailwind = 1.5rem */
-    }
+  @keyframes slow-glow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
   }
 
   @keyframes flow {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
-  /* Time-based theme support: treat night as dark mode */
-  html.night .dark\:bg-black { background-color: #000 !important; }
-  html.night .dark\:bg-gray-900 { background-color: rgb(17 24 39) !important; }
-  html.night .dark\:bg-gray-800 { background-color: rgb(31 41 55) !important; }
-  html.night .dark\:bg-gray-700 { background-color: rgb(55 65 81) !important; }
-  html.night .dark\:text-gray-200 { color: rgb(229 231 235) !important; }
-  html.night .dark\:text-gray-300 { color: rgb(209 213 219) !important; }
-  html.night .dark\:text-gray-400 { color: rgb(156 163 175) !important; }
-  html.night .dark\:text-highlight-cyan { color: #06b6d4 !important; }
-  html.night .dark\:text-ink-dark { color: #f8fafc !important; }
-  html.night .dark\:border-gray-700 { border-color: rgb(55 65 81) !important; }
-  html.night .dark\:border-gray-600 { border-color: rgb(75 85 99) !important; }
-  html.night .dark\:hover\:bg-gray-800:hover { background-color: rgb(31 41 55) !important; }
-  html.night .dark\:hover\:bg-gray-800\/60:hover { background-color: rgb(31 41 55 / 0.6) !important; }
-  html.night .dark\:hover\:text-highlight-cyan:hover { color: #06b6d4 !important; }
-  html.night .dark\:hover\:text-gray-200:hover { color: rgb(229 231 235) !important; }
-  html.night .dark\:from-blue-900 { --tw-gradient-from: rgb(30 58 138) !important; }
-  html.night .dark\:to-purple-900 { --tw-gradient-to: rgb(88 28 135) !important; }
-  html.night .dark\:bg-red-900\/20 { background-color: rgb(127 29 29 / 0.2) !important; }
-  html.night .dark\:border-red-700 { border-color: rgb(185 28 28) !important; }
-  html.night .dark\:bg-yellow-900\/30 { background-color: rgb(113 63 18 / 0.3) !important; }
-  html.night .dark\:border-yellow-700 { border-color: rgb(161 98 7) !important; }
-  html.night .dark\:bg-highlight-cyan { background-color: #06b6d4 !important; }
-  html.night .dark\:text-gray-900 { color: rgb(17 24 39) !important; }
-  html.night .dark\:border-highlight-cyan { border-color: #06b6d4 !important; }
-  html.night .dark\:bg-black\/80 { background-color: rgb(0 0 0 / 0.8) !important; }
-  html.night .dark\:bg-black\/95 { background-color: rgb(0 0 0 / 0.95) !important; }
-  html.night .dark\:bg-gray-800\/70 { background-color: rgb(31 41 55 / 0.7) !important; }
-  html.night .dark\:border-l-highlight-cyan { border-left-color: #06b6d4 !important; }
-  html.night .dark\:border-r-white { border-right-color: #fff !important; }
-  html.night .dark\:bg-gray-800\/50 { background-color: rgb(31 41 55 / 0.5) !important; }
-  html.night .dark\:from-blue-900\/20 { --tw-gradient-from: rgb(30 58 138 / 0.2) !important; }
-  html.night .dark\:to-purple-900\/20 { --tw-gradient-to: rgb(88 28 135 / 0.2) !important; }
-  html.night .dark\:border-blue-700 { border-color: rgb(29 78 216) !important; }
-  
-  /* Night theme: Override default text colors for better visibility */
-  html.night .text-gray-700 { color: rgb(229 231 235) !important; }
-  html.night .text-gray-600 { color: rgb(209 213 219) !important; }
-  html.night .text-gray-500 { color: rgb(156 163 175) !important; }
-  html.night .text-gray-800 { color: rgb(243 244 246) !important; }
-  html.night .text-gray-900 { color: rgb(249 250 251) !important; }
-  html.night .text-ink-light { color: #f8fafc !important; }
-  html.night h1, html.night h2, html.night h3, html.night h4, html.night h5, html.night h6 { color: #f8fafc !important; }
-  html.night .text-highlight-blue { color: #06b6d4 !important; }
-  
-  /* Night theme: Group hover text colors */
-  html.night .group-hover\:text-highlight-blue { color: rgb(209 213 219) !important; }
-  html.night .group:hover .group-hover\:text-highlight-blue { color: #06b6d4 !important; }
-  html.night .group-hover\:text-blue-700 { color: rgb(209 213 219) !important; }
-  html.night .group:hover .group-hover\:text-blue-700 { color: #22d3ee !important; }
-  
-  /* Night theme: Ensure background elements are dark */
-  html.night .bg-white { background-color: rgb(31 41 55) !important; }
-  html.night .bg-white\/50 { background-color: rgb(31 41 55 / 0.5) !important; }
-  html.night .bg-white\/80 { background-color: rgb(31 41 55 / 0.8) !important; }
-  html.night .bg-gray-100 { background-color: rgb(55 65 81) !important; }
-  html.night .bg-gray-50 { background-color: rgb(17 24 39) !important; }
-  html.night .bg-paper-50 { background-color: rgb(17 24 39) !important; }
-  
-  /* Night theme: Border colors */
-  html.night .border-gray-200 { border-color: rgb(55 65 81) !important; }
-  html.night .border-gray-300 { border-color: rgb(75 85 99) !important; }
-  html.night .border-paper-300 { border-color: rgb(55 65 81) !important; }
-  html.night .border-gray-200\/50 { border-color: rgb(55 65 81 / 0.5) !important; }
-  
-  /* Night theme: Hover states */
-  html.night .hover\:text-highlight-blue:hover { color: #06b6d4 !important; }
-  html.night .hover\:bg-gray-50:hover { background-color: rgb(55 65 81) !important; }
-  html.night .hover\:bg-highlight-blue:hover { background-color: #06b6d4 !important; }
-  
-  /* Night theme: Sticky note specific overrides */
-  html.night .sticky-note .text-gray-700 { color: rgb(17 24 39) !important; }
-  html.night .sticky-note .text-gray-800 { color: rgb(17 24 39) !important; }
-  html.night .sticky-note .text-gray-600 { color: rgb(31 41 55) !important; }
-  
-  /* Night theme: Blog card text overrides */
-  html.night .bg-yellow-200 { background-color: rgb(113 63 18) !important; }
-  html.night .border-yellow-300 { border-color: rgb(161 98 7) !important; }
-  html.night .bg-yellow-100 { background-color: rgb(113 63 18 / 0.5) !important; }
-  
-  /* Night theme: Gradient backgrounds */
-  html.night .bg-gradient-to-r.from-paper-50 { 
-    background-image: linear-gradient(to right, rgb(17 24 39), rgb(30 27 75), rgb(17 24 39)) !important; 
-  }
-  html.night .bg-gradient-to-br.from-paper-50 { 
-    background-image: linear-gradient(to bottom right, rgb(17 24 39), rgb(30 27 75)) !important; 
-  }
-  html.night .from-blue-50 { --tw-gradient-from: rgb(30 58 138) !important; }
-  html.night .to-blue-50 { --tw-gradient-to: rgb(30 58 138) !important; }
-  html.night .via-blue-50 { --tw-gradient-via: rgb(30 58 138) !important; }
-  html.night .dark\:from-blue-950 { --tw-gradient-from: rgb(23 37 84) !important; }
-  html.night .dark\:to-blue-950 { --tw-gradient-to: rgb(23 37 84) !important; }
-  html.night .dark\:via-blue-950 { --tw-gradient-via: rgb(23 37 84) !important; }
-
-  /* Navigation adaptive styles */
-  html.dawn nav { 
-    background-color: rgba(254, 245, 231, 0.8) !important; 
-    border-bottom-color: rgba(233, 30, 99, 0.2) !important;
-  }
-  
-  html.morning nav { 
-    background-color: rgba(255, 254, 249, 0.8) !important; 
-    border-bottom-color: rgba(59, 130, 246, 0.2) !important;
-  }
-  
-  html.afternoon nav { 
-    background-color: rgba(255, 251, 240, 0.8) !important; 
-    border-bottom-color: rgba(245, 158, 11, 0.2) !important;
-  }
-  
-  html.evening nav { 
-    background-color: rgba(255, 247, 237, 0.8) !important; 
-    border-bottom-color: rgba(234, 88, 12, 0.2) !important;
-  }
-  
-  html.night nav { 
-    background-color: rgba(15, 23, 42, 0.8) !important; 
-    border-bottom-color: rgba(55, 65, 81, 0.5) !important;
-  }
-  
-  /* Night theme: Navigation text colors */
-  html.night nav .text-gray-600 { color: rgb(209 213 219) !important; }
-  html.night nav .text-gray-700 { color: rgb(229 231 235) !important; }
-
-  /* Mobile menu adaptive styles */
-  html.dawn .md\:hidden.bg-white\/95 { 
-    background-color: rgba(254, 245, 231, 0.95) !important; 
-  }
-  
-  html.morning .md\:hidden.bg-white\/95 { 
-    background-color: rgba(255, 254, 249, 0.95) !important; 
-  }
-  
-  html.afternoon .md\:hidden.bg-white\/95 { 
-    background-color: rgba(255, 251, 240, 0.95) !important; 
-  }
-  
-  html.evening .md\:hidden.bg-white\/95 { 
-    background-color: rgba(255, 247, 237, 0.95) !important; 
-  }
-  
-  html.night .md\:hidden.bg-white\/95 { 
-    background-color: rgba(15, 23, 42, 0.95) !important; 
-  }
-
-  /* Date/Time display adaptive styles */
-  html.dawn .bg-paper-200\/50 { 
-    background-color: rgba(254, 245, 231, 0.5) !important; 
-    color: #831843 !important;
-  }
-  
-  html.morning .bg-paper-200\/50 { 
-    background-color: rgba(255, 254, 249, 0.5) !important; 
-    color: #1e40af !important;
-  }
-  
-  html.afternoon .bg-paper-200\/50 { 
-    background-color: rgba(255, 251, 240, 0.5) !important; 
-    color: #b45309 !important;
-  }
-  
-  html.evening .bg-paper-200\/50 { 
-    background-color: rgba(255, 247, 237, 0.5) !important; 
-    color: #b91c1c !important;
-  }
-  
-  html.night .bg-paper-200\/50 { 
-    background-color: rgba(30, 41, 59, 0.5) !important; 
-    color: #22d3ee !important;
-  }
-
-  /* Time emoji indicator adaptive styles */
-  html.dawn .bg-paper-200:not(.bg-paper-200\/50) { 
-    background-color: rgba(254, 245, 231, 0.8) !important; 
-  }
-  
-  html.morning .bg-paper-200:not(.bg-paper-200\/50) { 
-    background-color: rgba(255, 254, 249, 0.8) !important; 
-  }
-  
-  html.afternoon .bg-paper-200:not(.bg-paper-200\/50) { 
-    background-color: rgba(255, 251, 240, 0.8) !important; 
-  }
-  
-  html.evening .bg-paper-200:not(.bg-paper-200\/50) { 
-    background-color: rgba(255, 247, 237, 0.8) !important; 
-  }
-  
-  html.night .bg-paper-200:not(.bg-paper-200\/50) { 
-    background-color: rgba(30, 41, 59, 0.8) !important; 
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 }
-
-@media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-secondary);
-  border-radius: 20px;
-  border: 4px solid transparent;
-  background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-primary);
-}
-
-/* Selection */
-::selection {
-  background-color: var(--color-primary);
-  color: white;
-}
-

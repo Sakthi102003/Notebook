@@ -1,40 +1,45 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
-  BookOpen,
-  Code,
-  Database,
-  ExternalLink,
-  FolderOpen,
   Github,
-  Heart,
-  Instagram,
   Linkedin,
   Mail,
-  Menu,
-  Star,
+  Folder,
+  FileCode,
+  FileText,
+  ChevronRight,
+  ChevronDown,
+  Monitor,
   User,
-  X
+  Activity,
+  Zap,
+  Settings,
+  Database,
+  Instagram,
+  Terminal as TerminalIcon,
+  X,
+  Menu,
+  MessageSquare
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { FaMedium, FaWhatsapp } from 'react-icons/fa'
+import { useEffect, useState, useRef } from 'react'
 import {
-  SiCentos,
-  SiChartdotjs,
-  SiCss3,
-  SiDjango,
-  SiFirebase,
-  SiFlask,
-  SiGit,
-  SiGithub,
-  SiHtml5,
-  SiJavascript,
-  SiKalilinux,
-  SiNumpy,
   SiPython,
+  SiJavascript,
+  SiTypescript,
   SiReact,
   SiTailwindcss,
-  SiTypescript,
-  SiUbuntu
+  SiFlask,
+  SiDjango,
+  SiGit,
+  SiGithub,
+  SiFirebase,
+  SiUbuntu,
+  SiKalilinux,
+  SiHtml5,
+  SiCss3,
+  SiChartdotjs,
+  SiNumpy,
+  SiCentos,
+  SiMedium
 } from 'react-icons/si'
 import ChatWidget from '../components/ChatWidget'
 import ContactForm from '../components/ContactForm'
@@ -42,731 +47,632 @@ import FlowingBlogRiver from '../components/FlowingBlogRiver'
 import GearsSection from '../components/GearsSection'
 import QuotesSection from '../components/QuotesSection'
 import VisitorCounter from '../components/VisitorCounter'
-import NeoBrutalistCard from '../components/NeoBrutalistCard'
 import GithubHeatmap from '../components/GithubHeatmap'
 import RansomNoteText from '../components/RansomNoteText'
 import ScrambleText from '../components/ScrambleText'
+import ProjectLogViewer from '../components/ProjectLogViewer'
 import { projects } from '../data/projects'
 import { Link } from 'react-router-dom'
 
-// BackgroundOrbs removed — replaced by Neo-Brutalist background in CSS
+const FILE_TREE = [
+  { id: 'home', label: 'index.tsx', icon: FileCode, category: 'src' },
+  { id: 'about', label: 'bio.md', icon: FileText, category: 'src/identity' },
+  { id: 'quotes', label: 'quotes.log', icon: MessageSquare, category: 'src/data' },
+  { id: 'skills', label: 'stack.json', icon: Settings, category: 'src/capability' },
+  { id: 'projects', label: 'ops/', icon: Folder, category: 'src/deployments', isFolder: true },
+  { id: 'gears', label: 'gears.cfg', icon: Monitor, category: 'src/sys' },
+  { id: 'contact', label: 'relay.log', icon: TerminalIcon, category: 'src/comm' },
+]
 
 function Home() {
-  const [timeOfDay, setTimeOfDay] = useState<'dawn' | 'morning' | 'afternoon' | 'evening' | 'night'>('morning')
-  const [activeSection, setActiveSection] = useState('home')
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [activeFile, setActiveFile] = useState('home')
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [selectedProject, setSelectedProject] = useState<any>(null)
+  const mainContentRef = useRef<HTMLDivElement>(null)
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const sidebarRef = useRef<HTMLDivElement>(null)
 
-  // Function to determine time of day
-  const getTimeOfDay = () => {
-    const hour = new Date().getHours()
-
-    if (hour >= 5 && hour < 8) return 'dawn'
-    if (hour >= 8 && hour < 12) return 'morning'
-    if (hour >= 12 && hour < 17) return 'afternoon'
-    if (hour >= 17 && hour < 20) return 'evening'
-    return 'night'
-  }
-
-  // Update time of day
   useEffect(() => {
-    const updateTimeOfDay = () => {
-      const newTimeOfDay = getTimeOfDay()
-      setTimeOfDay(newTimeOfDay)
-      document.documentElement.className = newTimeOfDay
+    const handleScroll = () => {
+      if (mainContentRef.current) {
+        setIsScrolled(mainContentRef.current.scrollTop > 20)
+      }
     }
 
-    updateTimeOfDay()
+    const observerOptions = {
+      root: mainContentRef.current,
+      rootMargin: '-20% 0px -70% 0px', // Adjust to trigger when section is near the top
+      threshold: 0
+    }
 
-    // Update every minute to check for time changes
-    const interval = setInterval(updateTimeOfDay, 60000)
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveFile(entry.target.id)
+        }
+      })
+    }
 
-    return () => clearInterval(interval)
-  }, [])
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
 
-  // Map sections to their corresponding titles
-  const sectionTitles = {
-    home: "Sakthi's Digital Space",
-    about: "Mission Brief | Sakthi's Digital Space",
-    skills: "Tech Stack | Sakthi's Digital Space",
-    projects: "Projects | Sakthi's Digital Space",
-    contact: "Transmission | Sakthi's Digital Space"
-  }
+    // Track all sections in the file tree
+    FILE_TREE.forEach((file) => {
+      const el = document.getElementById(file.id)
+      if (el) observer.observe(el)
+    })
 
-  useEffect(() => {
-    // Update document title when active section changes
-    document.title = sectionTitles[activeSection as keyof typeof sectionTitles] || "Sakthi's Digital Space"
-
-    // Create observer for sections
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
-          }
-        })
-      },
-      {
-        rootMargin: '-50% 0px', // Consider section in view when it reaches middle of viewport
-        threshold: 0
-      }
-    )
-
-    // Observe all sections
-    const sections = document.querySelectorAll('section[id]')
-    sections.forEach((section) => observer.observe(section))
+    const contentArea = mainContentRef.current
+    contentArea?.addEventListener('scroll', handleScroll)
 
     return () => {
-      sections.forEach((section) => observer.unobserve(section))
+      contentArea?.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
     }
-  }, [activeSection])
+  }, [])
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    element?.scrollIntoView({ behavior: 'smooth' })
-    setActiveSection(sectionId)
+  const scrollToSection = (id: string) => {
+    setActiveFile(id)
+    const element = document.getElementById(id)
+    if (element && mainContentRef.current) {
+      const offset = element.offsetTop - 100
+      mainContentRef.current.scrollTo({ top: offset, behavior: 'smooth' })
+    }
   }
 
   useEffect(() => {
-    // Close mobile menu on viewport >= lg
-    const onResize = () => {
-      if (window.innerWidth >= 1024) setMobileOpen(false)
+    // Scroll active tab into view
+    if (tabsRef.current) {
+      const activeTab = tabsRef.current.querySelector('[data-active="true"]')
+      if (activeTab) {
+        activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+      }
     }
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
+    // Scroll active sidebar item into view
+    if (sidebarRef.current) {
+      const activeItem = sidebarRef.current.querySelector('[data-active="true"]')
+      if (activeItem) {
+        activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }
+    }
+  }, [activeFile])
 
   return (
-    <>
-      {/* Main App Content */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="min-h-screen transition-colors duration-1000"
-      >
-        {/* Navigation */}
-        <nav className="fixed top-0 w-full z-50 bg-white dark:bg-gray-900 border-b-2 border-black dark:border-white transition-all duration-1000">
-          <div className="max-w-6xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-            {/* Logo - Left Side */}
-            <motion.div
-              className="font-notebook font-bold text-highlight-blue dark:text-highlight-cyan flex items-center gap-3 cursor-pointer flex-shrink-0 lg:w-60"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              onClick={() => scrollToSection('home')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  scrollToSection('home');
-                }
-              }}
-              aria-label="Go to Home"
-              title="Go to Home"
-            >
-              <img src="/images/blue avatar.png" alt="Logo" className="w-10 h-10 rounded-full object-cover flex-shrink-0 border-2 border-black dark:border-white" />
-              <div className="flex flex-col leading-none">
-                <span className="text-lg sm:text-xl">Sakthi's</span>
-                <span className="text-lg sm:text-xl">Space</span>
-              </div>
-            </motion.div>
+    <div className="flex h-screen bg-stealth-900 text-gray-400 font-stealth overflow-hidden selection:bg-electric-blue/30 selection:text-white">
+      {/* Visual Accents - Glowing Vertical Lines */}
+      <div className="fixed left-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-electric-blue/10 to-transparent pointer-events-none" />
+      <div className="fixed right-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-crimson/10 to-transparent pointer-events-none" />
 
-            {/* Navigation Menu - Center */}
-            <div className="hidden lg:flex space-x-8 flex-1 justify-center">
-              {[
-                { id: 'home', label: 'Home', icon: BookOpen },
-                { id: 'about', label: 'Mission Brief', icon: User },
-                { id: 'skills', label: 'Tech Stack', icon: Code },
-                { id: 'projects', label: 'Projects', icon: FolderOpen },
-                { id: 'contact', label: 'Transmission', icon: Mail }
-              ].map(({ id, label, icon: Icon }) => (
-                <button
-                  key={id}
-                  onClick={() => scrollToSection(id)}
-                  className={`flex items-center space-x-2 px-3 py-2 border-2 transition-all duration-200 ${activeSection === id
-                    ? 'border-black dark:border-white bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
-                    : 'border-transparent hover:border-black dark:hover:border-white text-gray-600 dark:text-gray-300 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
-                    }`}
-                >
-                  <Icon size={18} />
-                  <span className="font-body">{label}</span>
-                </button>
-              ))}
+      {/* IDE Sidebar (File Tree) */}
+      <aside
+        className={`${sidebarOpen ? 'w-64' : 'w-0'
+          } transition-all duration-300 border-r border-white/5 bg-stealth-800/20 backdrop-blur-md hidden md:flex flex-col h-full overflow-hidden`}
+      >
+        <div className="p-4 border-b border-white/5 flex items-center justify-between">
+          <span className="text-[10px] font-mono tracking-[0.3em] text-white/40 uppercase">Explorer</span>
+          <TerminalIcon size={14} className="text-white/20" />
+        </div>
+
+        <div ref={sidebarRef} className="flex-1 overflow-y-auto p-2 space-y-1">
+          <div className="flex items-center gap-2 px-2 py-1 text-[10px] font-mono text-white/30 uppercase tracking-widest mb-2">
+            <ChevronDown size={12} /> Root
+          </div>
+
+          {FILE_TREE.map((file) => (
+            <button
+              key={file.id}
+              onClick={() => scrollToSection(file.id)}
+              data-active={activeFile === file.id}
+              className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-all group ${activeFile === file.id
+                ? 'bg-electric-blue/10 text-electric-blue'
+                : 'hover:bg-white/5 text-gray-500 hover:text-white'
+                }`}
+            >
+              <file.icon size={16} className={activeFile === file.id ? 'text-electric-blue' : 'text-gray-600 group-hover:text-gray-400'} />
+              <span className="truncate">{file.label}</span>
+              {activeFile === file.id && (
+                <motion.div layoutId="file-active" className="ml-auto w-1 h-4 bg-electric-blue shadow-[0_0_8px_#00E5FF]" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        <div className="p-4 border-t border-white/5 bg-stealth-900/50">
+          <div className="flex items-center gap-3 mb-4">
+            <img src="/images/blue avatar.png" alt="Profile" className="w-8 h-8 rounded-none border border-electric-blue/50" />
+            <div className="flex flex-col">
+              <span className="text-[10px] text-white font-bold leading-none">SAKTHI_MURUGAN</span>
+              <span className="text-[8px] text-gray-500 uppercase tracking-tighter">Stealth Dev v2.0</span>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <a href="https://github.com/Sakthi102003" className="text-gray-600 hover:text-electric-blue transition-colors"><Github size={14} /></a>
+            <a href="https://www.linkedin.com/in/sakthimurugan-s/" className="text-gray-600 hover:text-electric-blue transition-colors"><Linkedin size={14} /></a>
+            <a href="mailto:sakthimurugan102003@gmail.com" className="text-gray-600 hover:text-electric-blue transition-colors"><Mail size={14} /></a>
+            <a href="https://www.instagram.com/sakthiii_techh/" className="text-gray-600 hover:text-electric-blue transition-colors"><Instagram size={14} /></a>
+            <a href="https://medium.com/@sakthimurugan102003" className="text-gray-600 hover:text-electric-blue transition-colors"><SiMedium size={14} /></a>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col relative h-full overflow-hidden">
+        {/* IDE Header / Breadcrumbs */}
+        <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-stealth-900/80 backdrop-blur-md border-b border-white/5' : 'bg-transparent'}`}>
+          <div className="flex items-center justify-between px-4 h-12">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-1 hover:bg-white/5 text-gray-500 hidden md:block"
+              >
+                <Menu size={18} />
+              </button>
+              <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest">
+                <span className="text-gray-600">STEALTH</span>
+                <ChevronRight size={10} className="text-gray-700" />
+                <span className="text-gray-600">WORKSPACE</span>
+                <ChevronRight size={10} className="text-gray-700" />
+                <span className="text-electric-blue">{FILE_TREE.find(f => f.id === activeFile)?.category}/{FILE_TREE.find(f => f.id === activeFile)?.label}</span>
+              </div>
             </div>
 
-            {/* Right Side - Time of Day Indicator and Menu */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 lg:w-60 lg:justify-end">
-              {/* Time of Day Indicator */}
-              <div
-                className="p-2 border-2 border-black dark:border-white bg-white dark:bg-gray-800 text-black dark:text-white transition-colors duration-200 flex items-center gap-2 flex-shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
-                title={timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)}
-              >
-                {timeOfDay === 'dawn' && <span className="text-lg">🌅</span>}
-                {timeOfDay === 'morning' && <span className="text-lg">☀️</span>}
-                {timeOfDay === 'afternoon' && <span className="text-lg">🌤️</span>}
-                {timeOfDay === 'evening' && <span className="text-lg">🌆</span>}
-                {timeOfDay === 'night' && <span className="text-lg">🌙</span>}
-              </div>
+            {/* Mobile Menu Trigger */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-white"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
 
-              <button
-                className="p-2 border-2 border-black dark:border-white bg-white dark:bg-gray-800 text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200 lg:hidden flex-shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
-                onClick={() => setMobileOpen((v) => !v)}
-                aria-label="Toggle navigation menu"
-                aria-expanded={mobileOpen}
-              >
-                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
+            <div className="hidden md:flex items-center gap-6">
+              <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase font-mono">
+                <Activity size={12} className="text-electric-blue animate-pulse" />
+                Latency: 14ms
+              </div>
+              <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase font-mono">
+                <Zap size={12} className="text-crimson" />
+                Uptime: 99.9%
+              </div>
+            </div>
+
+            {/* Accent Theme Switcher */}
+            <div className="hidden lg:flex items-center gap-1 border border-white/5 bg-black/20 p-1">
+              {[
+                { id: 'blue', color: 'bg-electric-blue' },
+                { id: 'crimson', color: 'bg-crimson' },
+                { id: 'green', color: 'bg-green-500' },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => {
+                    document.documentElement.style.setProperty('--accent-color', t.id === 'blue' ? '0 229 255' : t.id === 'crimson' ? '255 0 60' : '34 197 94');
+                  }}
+                  className={`w-3 h-3 ${t.color} opacity-40 hover:opacity-100 transition-opacity`}
+                  title={`Switch to ${t.id} mode`}
+                />
+              ))}
+              <div className="px-2 text-[8px] font-mono text-white/30 uppercase tracking-widest">Theme</div>
             </div>
           </div>
 
-          {mobileOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="lg:hidden border-t border-white/20 bg-white/30 dark:bg-black/40 backdrop-blur-xl"
-            >
-              <div className="max-w-6xl mx-auto px-2 py-2 grid gap-1.5">
-                {[
-                  { id: 'home', label: 'Home', icon: BookOpen },
-                  { id: 'about', label: 'Mission Brief', icon: User },
-                  { id: 'skills', label: 'Tech Stack', icon: Code },
-                  { id: 'projects', label: 'Projects', icon: FolderOpen },
-                  { id: 'contact', label: 'Transmission', icon: Mail }
-                ].map(({ id, label, icon: Icon }) => (
-                  <button
-                    key={id}
-                    onClick={() => { scrollToSection(id); setMobileOpen(false); }}
-                    className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-left transition-colors duration-200 min-w-0 ${activeSection === id
-                      ? 'bg-paper-200/70 dark:bg-gray-800/70 text-highlight-blue dark:text-highlight-cyan'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-paper-200/60 dark:hover:bg-gray-800/60'
-                      }`}
-                  >
-                    <Icon size={18} className="flex-shrink-0" />
-                    <span className="font-body truncate">{label}</span>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </nav>
-
-        {/* Cover Page */}
-        <section id="home" className="min-h-screen flex items-center justify-center pt-40 pb-20 md:pt-48 md:pb-32">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="notebook-page animate-notebook-open p-4 sm:p-6 md:p-8 lg:p-12"
-            >
-              <div className="cyber-scanner" />
-
-              {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-
-              <h1 className="mb-8 md:mb-10 flex justify-center">
-                <RansomNoteText text="SAKTHIMURUGAN S" />
-              </h1>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                className="font-handwriting font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 min-h-[1.5em]"
+          {/* Tabs Bar */}
+          <div ref={tabsRef} className="flex h-10 border-b border-white/5 bg-stealth-800/10 px-2 overflow-x-auto no-scrollbar">
+            {FILE_TREE.map((file) => (
+              <button
+                key={`tab-${file.id}`}
+                onClick={() => scrollToSection(file.id)}
+                data-active={activeFile === file.id}
+                className={`flex items-center gap-2 px-4 h-full border-r border-white/5 min-w-fit transition-all relative ${activeFile === file.id
+                  ? 'bg-stealth-800/40 text-white'
+                  : 'text-gray-600 hover:text-gray-400'
+                  }`}
               >
-                <ScrambleText text="Developer & Cybersecurity Enthusiast" delay={1} />
-              </motion.div>
+                <file.icon size={12} className={activeFile === file.id ? 'text-electric-blue' : 'text-gray-700'} />
+                <span className="text-[11px] font-mono">{file.label}</span>
+                {activeFile === file.id && (
+                  <div className="absolute top-0 left-0 w-full h-[2px] bg-electric-blue shadow-[0_0_8px_#00E5FF]" />
+                )}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        {/* Scrollable Content */}
+        <div
+          ref={mainContentRef}
+          className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-12 space-y-32 no-scrollbar"
+        >
+          {/* Section: Home (index.tsx) */}
+          <section id="home" className="min-h-[80vh] flex flex-col justify-center max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+              <div className="inline-block px-3 py-1 bg-electric-blue/5 border border-electric-blue/20 text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">
+                System Initialization // Online
+              </div>
+
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none text-white">
+                <RansomNoteText text="SAKTHIMURUGAN S" className="justify-start gap-2 mb-2" />
+                <span className="block text-2xl md:text-4xl text-gray-500 mt-4 font-mono font-light tracking-widest uppercase">
+                  <ScrambleText text="Dev & Security Enthusiast" delay={1.5} />
+                </span>
+              </h1>
 
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.2, duration: 0.6 }}
-                className="flex justify-center items-center flex-wrap gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 px-4"
+                transition={{ delay: 2 }}
+                className="flex gap-6 mt-6"
               >
                 {[
-                  { icon: Github, href: 'https://github.com/Sakthi102003', color: 'hover:text-gray-800 dark:hover:text-gray-200' },
-                  { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', color: 'hover:text-blue-600' },
-                  { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', color: 'hover:text-green-600' },
-                  { icon: FaWhatsapp, href: 'tel:+919791747058', color: 'hover:text-green-600' },
-                  { icon: FaMedium, href: 'https://medium.com/@sakthimurugan102003', color: 'hover:text-black-600' },
-                  { icon: Instagram, href: 'https://www.instagram.com/sakthiii_techh/', color: 'hover:text-pink-600' }
-                ].map(({ icon: Icon, href, color }) => (
+                  { icon: Github, href: 'https://github.com/Sakthi102003', label: 'GITHUB' },
+                  { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN' },
+                  { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL' },
+                  { icon: Instagram, href: 'https://www.instagram.com/sakthiii_techh/', label: 'INSTAGRAM' },
+                  { icon: SiMedium, href: 'https://medium.com/@sakthimurugan102003', label: 'MEDIUM' }
+                ].map((social) => (
                   <a
-                    key={href}
-                    href={href}
-                    className={`text-gray-500 dark:text-gray-400 ${color} transition-all duration-200 transform hover:scale-110 p-2 flex-shrink-0`}
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative p-2"
+                    title={social.label}
                   >
-                    <Icon size={28} className="sm:w-8 sm:h-8" />
+                    <social.icon size={20} className="text-gray-500 group-hover:text-electric-blue transition-colors duration-300" />
+                    <motion.div
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-electric-blue group-hover:w-full transition-all duration-300"
+                      layoutId={`social-hover-${social.label}`}
+                    />
                   </a>
                 ))}
               </motion.div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-                <motion.button
-                  onClick={() => scrollToSection('about')}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.5, duration: 0.6 }}
-                  className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black border-2 border-black dark:border-white px-6 sm:px-8 py-3 font-body font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
-                >
-                  <span>Explore My Universe</span>
-                  <BookOpen size={18} className="sm:w-5 sm:h-5" />
-                </motion.button>
+              <div className="glow-line-blue opacity-50 max-w-md" />
 
-                <motion.a
+              <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
+                Specializing in razor-sharp web experiences, security research, and high-performance development.
+                Based in the digital shadows, building the future of the web.
+              </p>
+
+              <div className="flex flex-wrap gap-4 pt-4">
+                <button
+                  onClick={() => scrollToSection('about')}
+                  className="px-8 py-4 bg-electric-blue text-stealth-900 font-bold hover:shadow-[0_0_30px_#00E5FF] transition-all flex items-center gap-2 group uppercase tracking-widest text-xs"
+                >
+                  INITIALIZE_RECON <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+                <a
                   href="https://drive.google.com/file/d/1XP0eR-HanWD3CqGtO9ZeTe6enXxylaSk/view?usp=sharing"
-                  download="Sakthi_Murugan_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.7, duration: 0.6 }}
-                  className="bg-white dark:bg-gray-800 text-black dark:text-white border-2 border-black dark:border-white px-6 sm:px-8 py-3 font-body font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
+                  className="px-8 py-4 border border-white/10 text-white font-bold hover:bg-white/5 transition-all flex items-center gap-2 uppercase tracking-widest text-xs"
                 >
-                  <span>Download Resume</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                </motion.a>
+                  EXTRACT_IDENT.PDF <Monitor size={16} />
+                </a>
               </div>
             </motion.div>
-          </div>
-        </section>
+          </section>
 
-        {/* Quotes Section */}
-        <QuotesSection />
+          {/* Section: About (bio.md) */}
+          <section id="about" className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 mb-12">
+              <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4">
+                <span className="text-crimson font-mono opacity-50">01.</span> MISSION_PARAMS
+              </h2>
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
+            </div>
 
-        {/* About Section */}
-        <section id="about" className="py-20 md:py-28">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="notebook-page p-4 sm:p-6 md:p-8 lg:p-12"
-            >
-              <div className="cyber-scanner" />
-              {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-
-              <div className="flex items-center mb-6 sm:mb-8">
-                <User className="text-highlight-blue dark:text-highlight-cyan mr-2 sm:mr-3 flex-shrink-0" size={28} />
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Mission Brief</h2>
+            <div className="grid md:grid-cols-5 gap-12 items-start">
+              <div className="md:col-span-2 relative group">
+                <div className="relative z-10 p-1 bg-stealth-800 border border-white/5 grayscale group-hover:grayscale-0 transition-all duration-700">
+                  <img src="/images/profile.jpg" alt="Profile" className="w-full h-auto opacity-70 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 border border-electric-blue/0 group-hover:border-electric-blue/40 transition-all" />
+                </div>
+                {/* Visual Accents */}
+                <div className="absolute -top-4 -left-4 w-12 h-12 border-t border-l border-crimson/40 -z-0" />
+                <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b border-r border-electric-blue/40 -z-0" />
               </div>
 
-              <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-center">
-                <div className="order-2 lg:order-1">
-                  <div className="polaroid max-w-[300px] sm:max-w-[350px] md:max-w-[400px] w-full mx-auto">
-                    <div className="aspect-[4/5] bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg overflow-hidden">
-                      <img
-                        src="/images/profile.jpg"
-                        alt="Sakthi Murugan"
-                        className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <p className="text-center font-handwriting text-base sm:text-lg mt-2 flex items-center justify-center gap-1">
-                      <span>That's me!</span>
-                      <span>📸</span>
+              <div className="md:col-span-3 space-y-8">
+                <div className="code-block text-sm leading-loose text-gray-300">
+                  <p className="mb-2"><span className="text-crimson"># Objective:</span> Turning complex problems into elegant, secure codebases.</p>
+                  <p className="mb-2"><span className="text-electric-blue"># Background:</span> Cybersecurity researcher with a passion for modern web engineering.</p>
+                  <p><span className="text-white/40"># Current status:</span> Investigating Machine Learning integration & Security outsmarting.</p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <User className="text-electric-blue shrink-0 mt-1" size={20} />
+                    <p className="text-gray-400">
+                      Developing real-world projects powered by Python, ML, and React. Turning messy ideas into tactical tools that behave under pressure.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <Zap className="text-crimson shrink-0 mt-1" size={20} />
+                    <p className="text-gray-400">
+                      Staying ahead isn't just work—it's a favorite cure for boredom. Keeping this workspace full of experiments and breakthroughs.
                     </p>
                   </div>
                 </div>
-
-                <div className="space-y-6 sm:space-y-8 order-1 lg:order-2">
-                  <div className="font-handwriting space-y-4 sm:space-y-6">
-                    <div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3 flex items-start gap-2">
-                        <span className="flex-shrink-0">🛡️</span>
-                        <span>Who am I?</span>
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl leading-relaxed">
-                        A cybersecurity enthusiast and developer scribbling down ways to outsmart the bad guys (and occasionally… my own code 🤦‍♂️).
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3 flex items-start gap-2">
-                        <span className="flex-shrink-0">⚡</span>
-                        <span>What I do:</span>
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl leading-relaxed">
-                        Build real-world projects powered by Python, Machine Learning 🤖, and modern web tech 🌐—basically turning messy ideas into tools that (mostly) behave.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-notebook text-highlight-blue dark:text-highlight-cyan mb-2 sm:mb-3 flex items-start gap-2">
-                        <span className="flex-shrink-0">🚀</span>
-                        <span>Why I'm here:</span>
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl leading-relaxed">
-                        Because staying ahead in tech isn't just work—it's my favorite cure for boredom and my way of keeping this notebook full of experiments, doodles, and maybe a few breakthroughs.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 sm:space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6 sm:pt-8">
-                    <div className="flex items-center space-x-3">
-                      <Star className="text-yellow-500 flex-shrink-0" size={20} />
-                      <span className="text-base sm:text-lg">Python & Frontend Enthusiast</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Heart className="text-red-500 flex-shrink-0" size={20} />
-                      <span className="text-base sm:text-lg">Cybersecurity Passionate</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <BookOpen className="text-blue-500 flex-shrink-0" size={20} />
-                      <span className="text-base sm:text-lg">Always Learning, Always Building</span>
-                    </div>
-                  </div>
-                </div>
               </div>
-            </motion.div>
-          </div>
-        </section>
+            </div>
+          </section>
 
-        {/* Skills Section */}
-        <section id="skills" className="py-20">
-          <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <div className="flex items-center mb-6 sm:mb-8">
-                <Code className="text-highlight-blue dark:text-highlight-cyan mr-2 sm:mr-3 flex-shrink-0" size={28} />
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Tech Stack</h2>
-              </div>
+          {/* Section: Quotes (quotes.log) */}
+          <section id="quotes">
+            <QuotesSection />
+          </section>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="notebook-page p-4 sm:p-6 md:p-8 lg:p-12"
-              >
-                <div className="cyber-scanner" />
-                {/* Corner Accents */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
+          {/* Section: Skills (stack.json) */}
+          <section id="skills" className="max-w-6xl mx-auto">
+            <div className="flex items-center gap-4 mb-12">
+              <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4">
+                <span className="text-crimson font-mono opacity-50">02.</span> TECH_CAPABILITY
+              </h2>
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 font-handwriting text-base sm:text-lg">
-                  {/* Languages */}
-                  <div className="flex items-center gap-3 p-3 text-[#3776AB] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiPython className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Python</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#E34F26] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiHtml5 className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">HTML</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#1572B6] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiCss3 className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">CSS</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#F7DF1E] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiJavascript className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">JavaScript</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#3178C6] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiTypescript className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">TypeScript</span>
-                  </div>
-
-                  {/* Frontend & Frameworks */}
-                  <div className="flex items-center gap-3 p-3 text-[#61DAFB] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiReact className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">React.js</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#06B6D4] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiTailwindcss className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Tailwind CSS</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#FF6384] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiChartdotjs className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Chart.js</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#000000] dark:text-[#FFFFFF] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiFlask className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Flask</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#092E20] dark:text-[#0C4B33] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiDjango className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Django</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#4DABCF] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiNumpy className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">NumPy</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#3b82f6] dark:text-[#fbbf24] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <Database className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">SQL</span>
-                  </div>
-
-                  {/* Tools & Platforms */}
-                  <div className="flex items-center gap-3 p-3 text-[#F05032] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiGit className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Git</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#181717] dark:text-[#FFFFFF] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiGithub className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">GitHub</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#FFCA28] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiFirebase className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Firebase</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#007ACC] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <Code className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">VS Code</span>
-                  </div>
-
-                  {/* Operating Systems */}
-                  <div className="flex items-center gap-3 p-3 text-[#E95420] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiUbuntu className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Ubuntu</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#557C94] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiKalilinux className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">Kali Linux</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 text-[#932279] transition-transform min-w-0 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-gray-800">
-                    <SiCentos className="text-xl sm:text-2xl flex-shrink-0" />
-                    <span className="truncate">CentOS</span>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Github Heatmap Section */}
-        <GithubHeatmap />
-
-        {/* Projects Section */}
-        <section id="projects" className="py-20 md:py-28">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="notebook-page p-4 sm:p-6 md:p-10 lg:p-14 pl-8 sm:pl-12 md:pl-16 lg:pl-20"
-            >
-              <div className="cyber-scanner" />
-              {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-
-              <div className="flex items-center mb-8 sm:mb-10">
-                <FolderOpen className="text-highlight-blue dark:text-highlight-cyan mr-3 sm:mr-4 flex-shrink-0" size={28} />
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Projects</h2>
-              </div>
-
-              <div className="space-y-8 sm:space-y-10">
-                {projects.slice(0, 3).map((project, index) => (
-                  <motion.div
-                    key={project.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.15, duration: 0.6 }}
-                    viewport={{ once: true }}
-                    className="group relative"
-                  >
-                    {/* Enhanced Project Card */}
-                    <NeoBrutalistCard className="p-4 sm:p-6 h-full flex flex-col">
-                      {/* Header with Title and Links */}
-                      <div className="flex flex-col sm:flex-row justify-between items-start mb-4 relative z-20 gap-4 sm:gap-0">
-                        <div className="flex-1 w-full sm:w-auto">
-                          <h3 className="font-notebook font-bold text-2xl sm:text-3xl text-highlight-blue dark:text-highlight-cyan mb-2 group-hover:scale-105 transition-transform pointer-events-none">
-                            {project.title}
-                          </h3>
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className={`px-3 py-1 border-2 border-black dark:border-white text-xs font-bold pointer-events-none ${project.status === 'Completed'
-                              ? 'bg-green-200 text-black'
-                              : 'bg-yellow-200 text-black'
-                              }`}>
-                              {project.status.toUpperCase()}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex gap-2 flex-shrink-0 z-10 relative">
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block p-2.5 border-2 border-black dark:border-white bg-white dark:bg-gray-800 text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
-                            title="View Source Code"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Github size={20} />
-                          </a>
-                          {project.demoLink && (
-                            <a
-                              href={project.demoLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-block p-2.5 border-2 border-black dark:border-white bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black hover:bg-blue-600 dark:hover:bg-cyan-600 transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
-                              title="View Live Demo"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <ExternalLink size={20} />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-gray-800 dark:text-gray-200 text-base leading-relaxed mb-5 pointer-events-none relative z-20 flex-grow">
-                        {project.description}
-                      </p>
-
-                      {/* Highlights/Features */}
-                      <div className="mb-5 pointer-events-none relative z-20">
-                        <h4 className="text-sm font-bold text-black dark:text-white uppercase tracking-wide mb-3 border-b-2 border-black dark:border-white inline-block">
-                          Key Features
-                        </h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {project.highlights.map((highlight, i) => (
-                            <div key={i} className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
-                              <Star size={14} className="text-black dark:text-white fill-current flex-shrink-0" />
-                              <span>{highlight}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Tech Stack */}
-                      <div className="pointer-events-none relative z-20 mt-auto">
-                        <h4 className="text-sm font-bold text-black dark:text-white uppercase tracking-wide mb-3 border-b-2 border-black dark:border-white inline-block">
-                          Tech Stack
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {project.tech.map((tech) => (
-                            <span
-                              key={tech}
-                              className="px-3 py-1.5 bg-white dark:bg-gray-800 border-2 border-black dark:border-white text-xs font-bold text-black dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </NeoBrutalistCard>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="flex justify-center mt-8 sm:mt-10">
-                <Link
-                  to="/projects"
-                  className="bg-highlight-blue dark:bg-highlight-cyan text-white dark:text-black border-2 border-black dark:border-white px-6 sm:px-8 py-3 font-body font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 flex items-center gap-2"
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              {[
+                { icon: SiPython, name: "Python" },
+                { icon: SiHtml5, name: "HTML" },
+                { icon: SiCss3, name: "CSS" },
+                { icon: SiJavascript, name: "JavaScript" },
+                { icon: SiTypescript, name: "TypeScript" },
+                { icon: SiReact, name: "React.js" },
+                { icon: SiTailwindcss, name: "Tailwind CSS" },
+                { icon: SiChartdotjs, name: "Chart.js" },
+                { icon: SiFlask, name: "Flask" },
+                { icon: SiDjango, name: "Django" },
+                { icon: SiNumpy, name: "NumPy" },
+                { icon: Database, name: "SQL" },
+                { icon: SiGit, name: "Git" },
+                { icon: SiGithub, name: "GitHub" },
+                { icon: SiFirebase, name: "Firebase" },
+                { icon: FileCode, name: "VS Code" },
+                { icon: SiUbuntu, name: "Ubuntu" },
+                { icon: SiKalilinux, name: "Kali Linux" },
+                { icon: SiCentos, name: "Centos" }
+              ].map((skill) => (
+                <motion.div
+                  key={skill.name}
+                  whileHover={{ y: -5 }}
+                  className="stealth-card p-6 flex flex-col items-center justify-center gap-4 aspect-square group"
                 >
-                  <span>See More Projects</span>
-                  <FolderOpen size={18} />
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+                  <skill.icon size={36} className="text-gray-500 group-hover:text-electric-blue transition-all duration-300" />
+                  <div className="text-center">
+                    <span className="block text-xs font-bold text-white uppercase tracking-widest">{skill.name}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-        {/* Gears Section */}
-        <GearsSection />
+            <div className="mt-16">
+              <GithubHeatmap />
+            </div>
+          </section>
 
-        {/* Contact Section */}
-        <section id="contact" className="py-20 md:py-28">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="notebook-page p-4 sm:p-6 md:p-8 lg:p-12 pl-6 sm:pl-12 md:pl-16 lg:pl-20"
-            >
-              <div className="cyber-scanner" />
-              {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-highlight-blue dark:border-highlight-cyan z-20" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-highlight-blue dark:border-highlight-cyan z-20" />
+          {/* Section: Projects (ops/) */}
+          <section id="projects" className="max-w-6xl mx-auto">
+            <div className="flex items-center gap-4 mb-12">
+              <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4">
+                <span className="text-crimson font-mono opacity-50">03.</span> DEPLOYED_ASSETS
+              </h2>
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
+            </div>
 
-              <div className="flex items-center justify-center mb-6 sm:mb-8">
-                <Mail className="text-highlight-blue dark:text-highlight-cyan mr-2 sm:mr-3 flex-shrink-0" size={28} />
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-notebook font-bold">Transmission</h2>
-              </div>
+            <div className="grid lg:grid-cols-2 gap-8">
+              {projects.slice(0, 4).map((project, idx) => (
+                <motion.div
+                  key={project.title}
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="stealth-card p-8 group flex flex-col h-full cursor-pointer hover:border-electric-blue/30 transition-all"
+                  onClick={() => setSelectedProject(project)}
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="p-3 bg-electric-blue/5 border border-white/5 text-electric-blue">
+                      <Folder size={24} />
+                    </div>
+                    {/* Icons removed here to create cleaner look, they are inside the log viewer now */}
+                  </div>
 
-              <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
-                <div>
-                  <h3 className="font-notebook text-xl sm:text-2xl mb-3 sm:mb-4">Send me a message</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
-                    I'd love to hear from you! Whether it's a project collaboration,
-                    job opportunity, or just a friendly hello, feel free to reach out.
+                  <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide group-hover:text-electric-blue transition-colors">
+                    {project.title}
+                  </h3>
+
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-1.5 h-1.5 rounded-full bg-electric-blue shadow-[0_0_5px_#00E5FF]" />
+                    <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{project.status}</span>
+                  </div>
+
+                  <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-mono uppercase tracking-tighter">
+                    {project.description}
                   </p>
 
-                  <div className="space-y-3 sm:space-y-4">
-                    {/* Email */}
-                    <div className="flex items-center space-x-3">
-                      <Mail className="text-highlight-blue dark:text-highlight-cyan flex-shrink-0" size={18} />
-                      <a href="mailto:sakthimurugan102003@gmail.com" className="hover:underline hover:text-highlight-blue dark:hover:text-highlight-cyan transition text-sm sm:text-base break-all" >
-                        sakthimurugan102003@gmail.com
-                      </a>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Github className="text-highlight-blue dark:text-highlight-cyan flex-shrink-0" size={18} />
-                      <a href="https://github.com/Sakthi102003" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors text-sm sm:text-base break-all">github.com/Sakthi102003</a>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Linkedin className="text-highlight-blue dark:text-highlight-cyan flex-shrink-0" size={18} />
-                      <a href="https://www.linkedin.com/in/sakthimurugan-s/" className="hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors text-sm sm:text-base break-all">linkedin.com/in/sakthimurugan-s</a>
-                    </div>
+                  <div className="flex flex-wrap gap-2 mt-auto pt-6 border-t border-white/5">
+                    {project.tech.map((t) => (
+                      <span key={t} className="text-[9px] font-mono text-white/30 px-2 py-0.5 border border-white/5 bg-white/5 uppercase">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 pt-2 text-[10px] font-mono text-electric-blue/50 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <TerminalIcon size={12} />
+                    CLICK_TO_VIEW_LOGS
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="flex justify-center mt-12">
+              <Link
+                to="/projects"
+                className="group flex items-center gap-3 px-8 py-4 border border-white/10 hover:border-electric-blue text-white transition-all uppercase tracking-[0.3em] text-xs"
+              >
+                View_Project_Archives <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </section>
+
+          <ProjectLogViewer project={selectedProject} onClose={() => setSelectedProject(null)} />
+
+
+
+          {/* Section: Gears (gears.cfg) */}
+          <section id="gears">
+            <GearsSection />
+          </section>
+
+          {/* Section: Contact (relay.log) */}
+          <section id="contact" className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 mb-12">
+              <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4">
+                <span className="text-crimson font-mono opacity-50">04.</span> SIGNAL_TRANSMISSION
+              </h2>
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
+            </div>
+
+            <div className="stealth-card p-12 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                <Monitor size={120} />
+              </div>
+
+              <div className="grid lg:grid-cols-2 gap-16 relative z-10">
+                <div className="space-y-12">
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-white uppercase tracking-widest">Command Center</h3>
+                    <div className="glow-line-blue w-20" />
+                    <p className="text-gray-400 font-mono text-sm leading-relaxed uppercase tracking-tighter">
+                      Encrypted channel open for reconnaissance and collaboration.
+                      Initiating mission briefing for potential partners.
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    {[
+                      { icon: Mail, label: 'RELAY', value: 'sakthimurugan102003@gmail.com', href: 'mailto:sakthimurugan102003@gmail.com' },
+                      { icon: Github, label: 'SIGNAL', value: 'github.com/Sakthi102003', href: 'https://github.com/Sakthi102003' },
+                      { icon: Linkedin, label: 'NETWORK', value: 'linkedin.com/in/sakthimurugan-s', href: 'https://www.linkedin.com/in/sakthimurugan-s/' },
+                      { icon: Instagram, label: 'VISUAL', value: 'instagram.com/sakthiii_techh', href: 'https://www.instagram.com/sakthiii_techh/' },
+                      { icon: SiMedium, label: 'LOGS', value: 'medium.com/@sakthimurugan102003', href: 'https://medium.com/@sakthimurugan102003' }
+                    ].map((item) => (
+                      <div key={item.label} className="flex items-center gap-6 group">
+                        <div className="p-3 bg-white/5 border border-white/10 group-hover:border-electric-blue group-hover:shadow-[0_0_10px_rgba(0,229,255,0.2)] transition-all">
+                          <item.icon size={20} className="text-gray-600 group-hover:text-electric-blue transition-colors" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[8px] font-mono text-gray-600 tracking-widest uppercase mb-1">{item.label}</span>
+                          <a href={item.href} className="text-sm text-gray-300 hover:text-white font-mono uppercase tracking-tighter transition-colors">
+                            {item.value}
+                          </a>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg border-l-4 border-highlight-blue dark:border-highlight-cyan">
+                <div className="bg-stealth-900/50 p-8 border border-white/5">
                   <ContactForm />
                 </div>
               </div>
-            </motion.div>
+            </div>
+          </section>
+
+          {/* Flowing Blog Feed */}
+          <section className="pt-20">
+            <FlowingBlogRiver />
+          </section>
+
+          {/* Status Metrics (Footer-ish) */}
+          <footer className="border-t border-white/5 py-12 text-center space-y-8">
+            <div className="flex justify-center gap-8 text-[10px] font-mono text-white/20 uppercase tracking-[0.4em]">
+              <span>Version 2.0.4-STABLE</span>
+              <span>Environment: Production</span>
+              <span>Region: DEPLOY_GLOBAL</span>
+            </div>
+
+            <div className="flex justify-center">
+              <VisitorCounter />
+            </div>
+
+            <p className="text-xs text-gray-600 uppercase tracking-widest font-mono">
+              &copy; {new Date().getFullYear()} SAKTHI_MURUGAN // STEALTH_PROTOCOL // ALL_SYSTEMS_GO
+            </p>
+          </footer>
+        </div>
+
+        {/* IDE Footer / Status Bar */}
+        <footer className="h-6 bg-electric-blue flex items-center justify-between px-3 text-stealth-900 text-[10px] font-mono font-bold z-50">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Activity size={10} />
+              <span>MAIN*</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Zap size={10} />
+              <span>0 ERRORS</span>
+            </div>
           </div>
-        </section>
 
-        {/* Flowing Blog River */}
-        <FlowingBlogRiver />
-
-        {/* Footer */}
-        <footer className="py-8 text-center text-gray-500 dark:text-gray-400">
-          <div className="notebook-divider mb-6"></div>
-
-          {/* Visitor Counter */}
-          <div className="flex justify-center mb-6">
-            <VisitorCounter />
+          <div className="flex items-center gap-4">
+            <span>UTF-8</span>
+            <span>TypeScript JSX</span>
+            <span>SakthiLabs_v2.0</span>
           </div>
-
-          <p className="font-handwriting text-lg">
-            Made with ❤️ and lots of ☕ by Sakthimurugan
-          </p>
-          <p className="text-sm mt-2">© 2025 - All Rights reserved.</p>
         </footer>
 
-        {/* Chat Widget */}
+        {/* Mobile Sidebar Overlay */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileMenuOpen(false)}
+                className="fixed inset-0 bg-stealth-900/80 backdrop-blur-sm z-[90] md:hidden"
+              />
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                className="fixed inset-y-0 left-0 w-64 bg-stealth-800 border-r border-white/10 z-[100] md:hidden flex flex-col"
+              >
+                <div className="p-6 border-b border-white/10">
+                  <h2 className="text-xl font-bold text-white uppercase tracking-widest">Navigation</h2>
+                </div>
+                <div className="flex-1 p-4 space-y-2">
+                  {FILE_TREE.map(file => (
+                    <button
+                      key={`mob-${file.id}`}
+                      onClick={() => { scrollToSection(file.id); setMobileMenuOpen(false); }}
+                      className={`w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all ${activeFile === file.id ? 'bg-electric-blue/10 text-electric-blue border-l-2 border-electric-blue' : 'text-gray-400'
+                        }`}
+                    >
+                      <file.icon size={18} />
+                      {file.label}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
         <ChatWidget />
-      </motion.div >
-    </>
+      </main>
+
+      {/* Gears Popup Overlay Support is in GearsSection.tsx - will check it matches styles */}
+      {/* Bio, Skills etc Sections are all using razor-sharp styles now */}
+    </div>
   )
 }
 

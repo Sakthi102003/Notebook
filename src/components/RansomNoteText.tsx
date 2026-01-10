@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface RansomNoteTextProps {
@@ -6,142 +6,95 @@ interface RansomNoteTextProps {
   className?: string;
 }
 
-const fonts = [
-  'font-sans',
-  'font-serif',
-  'font-mono',
-  'font-notebook',
-  'font-handwriting',
-  'font-body',
-  'font-ransom-hand',
-  'font-ransom-marker',
-  'font-ransom-typewriter',
-  'font-ransom-comic',
-  'font-ransom-display',
-  'font-ransom-scifi',
-  'font-ransom-serif',
-  'font-ransom-shadow',
-];
-
-const bgColors = [
-  'bg-red-500',
-  'bg-blue-500',
-  'bg-green-500',
-  'bg-yellow-400',
-  'bg-purple-500',
-  'bg-pink-500',
-  'bg-orange-500',
-  'bg-white',
-  'bg-black',
-  'bg-gray-800',
-  'bg-cyan-500',
-  'bg-indigo-500',
-  'bg-lime-500',
-  'bg-teal-500',
-  'bg-rose-500',
-  'bg-violet-500',
-  'bg-amber-500',
-  'bg-emerald-500',
-  'bg-sky-500',
-  'bg-fuchsia-500',
-  'bg-slate-700',
-];
-
-const rotations = [
-  '-rotate-2',
-  '-rotate-1',
-  'rotate-0',
-  'rotate-1',
-  'rotate-2',
-];
+const CHAR_MAP = 'ABCDEFGHJKLMNOPQRSTUVWXYZ0123456789@#$%&*+?';
 
 const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' }) => {
-  // Seeded random function to keep styles consistent for the same text
-  const pseudoRandom = (seed: number) => {
-    const x = Math.sin(seed) * 10000;
-    return x - Math.floor(x);
-  };
+  const [isDecrypted, setIsDecrypted] = useState(false);
+  const [displayText, setDisplayText] = useState<string[]>([]);
 
-  const getRandomItem = (arr: string[], seed: number) => {
-    return arr[Math.floor(pseudoRandom(seed) * arr.length)];
-  };
+  useEffect(() => {
+    const initialSymbols = text.split('').map((char) =>
+      char === ' ' ? ' ' : CHAR_MAP[Math.floor(Math.random() * CHAR_MAP.length)]
+    );
+    setDisplayText(initialSymbols);
 
-  // Deterministically shuffle colors based on the text content
-  const getShuffledArray = (arr: string[]) => {
-    const seed = text.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const shuffled = [...arr];
-    // Fisher-Yates shuffle with seeded random
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(pseudoRandom(seed + i) * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  };
+    const timeout = setTimeout(() => {
+      decrypt();
+    }, 800);
 
-  const shuffledBgColors = getShuffledArray(bgColors);
-  const shuffledFonts = getShuffledArray(fonts);
+    return () => clearTimeout(timeout);
+  }, [text]);
+
+  const decrypt = () => {
+    const originalChars = text.split('');
+    let iteration = 0;
+
+    const interval = setInterval(() => {
+      setDisplayText((prev) =>
+        prev.map((_, i) => {
+          if (i < iteration) return originalChars[i];
+          if (originalChars[i] === ' ') return ' ';
+          return CHAR_MAP[Math.floor(Math.random() * CHAR_MAP.length)];
+        })
+      );
+
+      if (iteration >= text.length) {
+        clearInterval(interval);
+        setIsDecrypted(true);
+      }
+
+      iteration += 1 / 4; // Faster decryption for clean text
+    }, 25);
+  };
 
   return (
-    <div className={`flex flex-nowrap justify-center items-center gap-[0.5vw] sm:gap-1 md:gap-1.5 overflow-x-auto pb-2 scrollbar-hide ${className}`} aria-label={text}>
-      <style>{`
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-      `}</style>
-      {text.split('').map((char, index) => {
-        if (char === ' ') {
-          return <span key={index} className="w-[2.5vw] sm:w-4 md:w-6 shrink-0"></span>;
-        }
+    <div
+      className={`flex flex-nowrap items-center relative py-2 overflow-x-auto no-scrollbar whitespace-nowrap ${className}`}
+      aria-label={text}
+    >
+      <div className="flex items-baseline">
+        {displayText.map((char, index) => {
+          const isActualChar = char === text[index];
+          const isSpace = text[index] === ' ';
 
-        const seed = index * char.charCodeAt(0);
-        
-        // Use the shuffled arrays sequentially to avoid repeats
-        // We skip spaces in the index calculation to keep the sequence tight
-        const charIndex = text.substring(0, index).replace(/ /g, '').length;
-        
-        const font = shuffledFonts[charIndex % shuffledFonts.length];
-        const bg = shuffledBgColors[charIndex % shuffledBgColors.length];
-        
-        const isLightBg = ['bg-white', 'bg-yellow-400', 'bg-lime-500', 'bg-amber-500', 'bg-cyan-500', 'bg-sky-500'].includes(bg);
-        const color = isLightBg ? 'text-black' : 'text-white';
-        
-        const rotation = getRandomItem(rotations, seed + 2);
-        
-        return (
-          <motion.span
-            key={index}
-            className={`
-              inline-flex items-center justify-center
-              w-[5vw] h-[5vw] sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-11 lg:h-11
-              ${font} 
-              ${bg} 
-              ${color} 
-              ${rotation} 
-              rounded-sm
-              shadow-md
-              no-underline
-              text-[3vw] sm:text-lg md:text-xl lg:text-2xl font-bold uppercase
-              hover:scale-110 hover:z-10 hover:-rotate-2 transition-transform duration-300
-              cursor-default
-              shrink-0
-            `}
-            initial={{ opacity: 0, y: 50, rotate: Math.random() * 10 - 5 }}
-            animate={{ opacity: 1, y: 0, rotate: parseInt(rotation.replace('rotate-', '')) || 0 }}
-            transition={{ 
-              delay: index * 0.05, 
-              type: 'spring', 
-              stiffness: 200,
-              damping: 15
-            }}
-          >
-            {char}
-          </motion.span>
-        );
-      })}
+          if (isSpace) {
+            return <span key={index} className="w-4 sm:w-6"></span>;
+          }
+
+          return (
+            <motion.span
+              key={index}
+              className={`
+                inline-block font-mono font-bold
+                ${isActualChar
+                  ? 'text-white'
+                  : 'text-electric-blue drop-shadow-[0_0_8px_#00E5FF] opacity-80'
+                }
+                text-3xl sm:text-5xl md:text-7xl leading-none
+                transition-colors duration-100
+              `}
+              animate={!isActualChar ? {
+                opacity: [0.5, 1, 0.5],
+                scale: [1, 1.05, 1],
+              } : {
+                opacity: 1,
+                scale: 1,
+              }}
+              transition={{ duration: 0.1, repeat: !isActualChar ? Infinity : 0 }}
+            >
+              {char}
+            </motion.span>
+          );
+        })}
+      </div>
+
+      {/* Invisible status indicator for layout but helpful for aesthetic */}
+      <div className="ml-6 flex items-center gap-2 opacity-30 select-none">
+        <div className={`w-1 h-1 rounded-full ${isDecrypted ? 'bg-green-500' : 'bg-crimson animate-pulse'}`} />
+        <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-white">
+          {isDecrypted ? 'ID_LOGGED' : 'AUTH_IN_PROGRESS'}
+        </span>
+      </div>
     </div>
   );
 };

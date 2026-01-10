@@ -29,7 +29,13 @@ export const incrementVisitorCount = async (): Promise<number> => {
       return (currentValue || 0) + 1
     })
     return result.snapshot.val()
-  } catch (error) {
+  } catch (error: any) {
+    // If permission denied, likely running in dev/preview without write access
+    // Fallback to just reading the value
+    if (error?.message?.includes('permission_denied') || error?.code === 'PERMISSION_DENIED') {
+      console.warn('Visitor count write permission denied. Switching to read-only.');
+      return getVisitorCount();
+    }
     console.error('Error incrementing visitor count:', error)
     return 0
   }

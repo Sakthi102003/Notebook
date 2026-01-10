@@ -15,8 +15,8 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({
     text,
     className = '',
     delay = 0,
-    scrambleSpeed = 30, // ms between character scrambles
-    revealSpeed = 50    // ms between revealing next character
+    scrambleSpeed = 30,
+    revealSpeed = 50
 }) => {
     const [displayText, setDisplayText] = useState('');
     const [isStarted, setIsStarted] = useState(false);
@@ -53,7 +53,6 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({
                 setDisplayText(scrambled);
             };
 
-            // Continuous scramble for characters not yet revealed
             if (!scrambleInterval) {
                 scrambleInterval = setInterval(updateText, scrambleSpeed);
             }
@@ -75,12 +74,12 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({
     return (
         <span className={`${className} inline-flex items-center`}>
             <span className="relative">
-                {displayText || (isStarted ? '' : '')}
+                {displayText}
                 {isStarted && (
                     <motion.span
-                        animate={{ opacity: [1, 0, 1] }}
+                        animate={{ opacity: [1, 0] }}
                         transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                        className="inline-block w-[2px] h-[1.2em] bg-highlight-blue dark:bg-highlight-cyan ml-1 align-middle"
+                        className="inline-block w-[2px] h-[1.1em] bg-electric-blue ml-1 align-middle shadow-[0_0_8px_#00E5FF]"
                     />
                 )}
             </span>

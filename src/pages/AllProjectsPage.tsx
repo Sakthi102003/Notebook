@@ -1,29 +1,43 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink, FolderOpen, Star, Github } from 'lucide-react';
+import { ArrowLeft, ExternalLink, FolderOpen, Github, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import NeoBrutalistCard from '../components/NeoBrutalistCard';
+import StealthCard from '../components/StealthCard';
 import { projects } from '../data/projects';
 
 const AllProjectsPage = () => {
   return (
-    <div className="min-h-screen bg-[#f0f0f0] dark:bg-gray-900 transition-colors duration-1000 p-4 sm:p-8">
+    <div className="min-h-screen bg-stealth-900 text-gray-400 p-6 sm:p-12 font-stealth selection:bg-electric-blue/30 selection:text-white">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
-          <Link 
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-20 gap-8">
+          <Link
             to="/"
-            className="flex items-center gap-2 text-black dark:text-white font-bold hover:text-highlight-blue dark:hover:text-highlight-cyan transition-colors"
+            className="flex items-center gap-2 text-white font-bold hover:text-electric-blue transition-all uppercase tracking-[0.2em] text-[10px] border border-white/10 px-4 py-2 bg-white/5"
           >
-            <ArrowLeft size={24} />
-            <span>Back to Home</span>
+            <ArrowLeft size={14} />
+            <span>RETURN_TO_BASE</span>
           </Link>
-          
-          <div className="flex items-center gap-3">
-            <FolderOpen className="text-highlight-blue dark:text-highlight-cyan" size={32} />
-            <h1 className="text-3xl sm:text-4xl font-notebook font-bold text-black dark:text-white">
-              All Projects
-            </h1>
+
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-electric-blue/5 border border-white/5 text-electric-blue">
+              <FolderOpen size={32} />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-3xl sm:text-5xl font-bold text-white uppercase tracking-[0.2em]">
+                Project_Archives
+              </h1>
+              <div className="glow-line-blue w-full opacity-50" />
+            </div>
           </div>
+        </div>
+
+        {/* Status Bar */}
+        <div className="mb-12 flex items-center justify-between border-b border-white/5 pb-4 text-[10px] font-mono text-white/30 tracking-widest uppercase">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-2"><Terminal size={12} /> STATUS: ACTIVE</span>
+            <span>COUNT: {projects.length} RECORDS</span>
+          </div>
+          <div className="hidden sm:block">ENCRYPTION: AES_256_STABLE</div>
         </div>
 
         {/* Projects Grid */}
@@ -31,92 +45,58 @@ const AllProjectsPage = () => {
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.05 }}
               className="h-full"
             >
-              <NeoBrutalistCard className="p-6 h-full flex flex-col">
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-4 sm:gap-0">
+              <StealthCard className="p-8 h-full flex flex-col group">
+                <div className="flex justify-between items-start mb-6">
                   <div>
-                    <h3 className="font-notebook font-bold text-2xl text-highlight-blue dark:text-highlight-cyan mb-2">
+                    <h3 className="font-bold text-2xl text-white mb-2 uppercase tracking-wider group-hover:text-electric-blue transition-colors">
                       {project.title}
                     </h3>
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className={`px-3 py-1 border-2 border-black dark:border-white text-xs font-bold ${
-                        project.status === 'Completed' 
-                          ? 'bg-green-200 text-black'
-                          : 'bg-yellow-200 text-black'
-                      }`}>
-                        {project.status.toUpperCase()}
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${project.status === 'Completed' ? 'bg-electric-blue shadow-[0_0_8px_#00E5FF]' : 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]'}`} />
+                      <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">{project.status}</span>
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
-                    {project.link && (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 bg-white dark:bg-gray-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                        title="View Code"
-                      >
-                        <Github size={20} className="text-black dark:text-white" />
-                      </a>
-                    )}
+                  <div className="flex gap-3">
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 border border-white/10 text-gray-600 hover:text-white transition-all">
+                      <Github size={18} />
+                    </a>
                     {project.demoLink && (
-                      <a
-                        href={project.demoLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 bg-highlight-blue dark:bg-highlight-cyan border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                        title="View Live Demo"
-                      >
-                        <ExternalLink size={20} className="text-white dark:text-black" />
+                      <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="p-2 bg-electric-blue/10 border border-electric-blue/20 text-electric-blue hover:bg-electric-blue hover:text-stealth-900 transition-all">
+                        <ExternalLink size={18} />
                       </a>
                     )}
                   </div>
                 </div>
 
-                {/* Description */}
-                <p className="text-gray-800 dark:text-gray-200 text-base leading-relaxed mb-5 flex-grow">
+                <p className="text-gray-400 text-sm leading-relaxed mb-8 font-mono uppercase tracking-tighter flex-grow">
                   {project.description}
                 </p>
 
-                {/* Highlights */}
-                <div className="mb-5">
-                  <h4 className="text-sm font-bold text-black dark:text-white uppercase tracking-wide mb-3 border-b-2 border-black dark:border-white inline-block">
-                    Key Features
-                  </h4>
+                <div className="space-y-6">
                   <div className="grid grid-cols-1 gap-2">
-                    {project.highlights.map((highlight, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
-                        <Star size={14} className="text-black dark:text-white fill-current flex-shrink-0" />
-                        <span>{highlight}</span>
+                    {project.highlights.slice(0, 3).map((h, i) => (
+                      <div key={i} className="flex items-center gap-3 text-[10px] text-gray-500 tracking-wider font-mono">
+                        <span className="text-electric-blue/50 opacity-50">&gt;</span>
+                        <span className="uppercase">{h}</span>
                       </div>
                     ))}
                   </div>
-                </div>
 
-                {/* Tech Stack */}
-                <div className="mt-auto">
-                  <h4 className="text-sm font-bold text-black dark:text-white uppercase tracking-wide mb-3 border-b-2 border-black dark:border-white inline-block">
-                    Tech Stack
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span 
-                        key={tech} 
-                        className="px-3 py-1.5 bg-white dark:bg-gray-800 border-2 border-black dark:border-white text-xs font-bold text-black dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
-                      >
-                        {tech}
+                  <div className="flex flex-wrap gap-2 pt-6 border-t border-white/5">
+                    {project.tech.map(t => (
+                      <span key={t} className="text-[9px] font-mono text-white/20 px-2 py-0.5 border border-white/5 bg-white/5 uppercase">
+                        {t}
                       </span>
                     ))}
                   </div>
                 </div>
-              </NeoBrutalistCard>
+              </StealthCard>
             </motion.div>
           ))}
         </div>
