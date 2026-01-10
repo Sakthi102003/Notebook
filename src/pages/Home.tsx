@@ -41,7 +41,7 @@ import {
   SiCentos,
   SiMedium
 } from 'react-icons/si'
-import ChatWidget from '../components/ChatWidget'
+// import ChatWidget from '../components/ChatWidget'
 import ContactForm from '../components/ContactForm'
 import FlowingBlogRiver from '../components/FlowingBlogRiver'
 import GearsSection from '../components/GearsSection'
@@ -667,7 +667,7 @@ function Home() {
           )}
         </AnimatePresence>
 
-        <ChatWidget />
+        {/* <ChatWidget /> */}
       </main>
 
       {/* Gears Popup Overlay Support is in GearsSection.tsx - will check it matches styles */}
