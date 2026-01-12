@@ -62,26 +62,28 @@ const GithubHeatmap = () => {
           <div className="flex-1 h-[1px] bg-white/5" />
         </div>
 
-        <StealthCard className="p-6 sm:p-10 flex justify-center overflow-x-auto no-scrollbar">
-          <div className="min-w-[700px] opacity-80 hover:opacity-100 transition-opacity">
-            <GitHubCalendar
-              username="Sakthi102003"
-              year={new Date().getFullYear()}
-              colorScheme="dark"
-              blockSize={12}
-              blockMargin={5}
-              fontSize={14}
-              theme={{
-                dark: currentTheme,
-              }}
-              renderBlock={(block: any, activity: any) =>
-                React.cloneElement(block, {
-                  'data-tooltip-id': 'github-tooltip',
-                  'data-tooltip-content': `${activity.count} transmissions on ${activity.date}`,
-                })
-              }
-            />
-            <Tooltip id="github-tooltip" className="!bg-stealth-900 !border !border-white/10 !text-white !font-mono !text-[10px]" />
+        <StealthCard className="p-4 sm:p-10">
+          <div className="w-full overflow-x-auto no-scrollbar pb-2">
+            <div className="min-w-[800px] flex justify-center">
+              <GitHubCalendar
+                username="Sakthi102003"
+                year={new Date().getFullYear()}
+                colorScheme="dark"
+                blockSize={10}
+                blockMargin={4}
+                fontSize={12}
+                theme={{
+                  dark: currentTheme,
+                }}
+                renderBlock={(block: any, activity: any) =>
+                  React.cloneElement(block, {
+                    'data-tooltip-id': 'github-tooltip',
+                    'data-tooltip-content': `${activity.count} transmissions on ${activity.date}`,
+                  })
+                }
+              />
+              <Tooltip id="github-tooltip" className="!bg-stealth-900 !border !border-white/10 !text-white !font-mono !text-[10px]" />
+            </div>
           </div>
         </StealthCard>
       </motion.div>
