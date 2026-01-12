@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import AllProjectsPage from './pages/AllProjectsPage';
 import CustomCursor from './components/CustomCursor';
 import LoadingScreen from './components/LoadingScreen';
+import CommandPalette from './components/CommandPalette';
+import AudioProvider from './components/AudioProvider';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,12 +19,16 @@ function App() {
           <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
         )}
       </AnimatePresence>
-      
+
       {!isLoading && (
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/projects' element={<AllProjectsPage />} />
-        </Routes>
+        <>
+          <CommandPalette />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/projects' element={<AllProjectsPage />} />
+          </Routes>
+          <AudioProvider />
+        </>
       )}
     </>
   );

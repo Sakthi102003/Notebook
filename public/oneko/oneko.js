@@ -109,50 +109,36 @@
       return;
     }
 
-    // If Full App Display is on, sleep on its progress bar instead
-    const fullAppDisplay = document.getElementById("fad-progress");
-    if (fullAppDisplay) {
-      mousePosX = fullAppDisplay.getBoundingClientRect().right - 16;
-      mousePosY = fullAppDisplay.getBoundingClientRect().top - 12;
+    // Try to find the Visitor Counter to sleep on
+    // Use a class selector or look for the element ID if we add one.
+    // Based on VisitorCounter.tsx, it has a specific structure. 
+    // We'll search for the text "Live_Views" container or similar.
+
+    // As a fallback/primary target, we'll look for the "VisitorCounter" module if accessible,
+    // otherwise we might sleep effectively at the bottom right where such counters usually are.
+    // Or we can find specific text elements.
+
+    const visitorCounter = document.querySelector(".font-mono.text-electric-blue")?.closest(".group");
+
+    if (visitorCounter) {
+      const rect = visitorCounter.getBoundingClientRect();
+      mousePosX = rect.right - 16;
+      mousePosY = rect.top - 8;
       return;
     }
 
-    // Get the far right and top of the progress bar
-    const progressBar = document.querySelector(".main-nowPlayingBar-center .playback-progressbar");
-    const progressBarRight = progressBar.getBoundingClientRect().right;
-    const progressBarTop = progressBar.getBoundingClientRect().top;
-    const progressBarBottom = progressBar.getBoundingClientRect().bottom;
-
-    // Make the cat sleep on the progress bar
-    mousePosX = progressBarRight - 16;
-    mousePosY = progressBarTop - 8;
-
-    // Get the position of the remaining time
-    const remainingTime = document.querySelector(".main-playbackBarRemainingTime-container");
-    const remainingTimeLeft = remainingTime.getBoundingClientRect().left;
-    const remainingTimeBottom = remainingTime.getBoundingClientRect().bottom;
-    const remainingTimeTop = remainingTime.getBoundingClientRect().top;
-
-    // Get the position of elapsed time
-    const elapsedTime = document.querySelector(".playback-bar__progress-time-elapsed");
-    const elapsedTimeRight = elapsedTime.getBoundingClientRect().right;
-    const elapsedTimeLeft = elapsedTime.getBoundingClientRect().left;
-
-    // If the remaining time is on top right of the progress bar, make the cat sleep to the a little bit to the left of the remaining time
-    // Theme compatibility
-    if (remainingTimeLeft < progressBarRight && remainingTimeTop < progressBarBottom && progressBarTop - remainingTimeBottom < 32) {
-      mousePosX = remainingTimeLeft - 16;
-
-      // Comfy special case
-      if (Spicetify.Config.current_theme === "Comfy") {
-        mousePosY = progressBarTop - 14;
-      }
-
-      // Move the cat to the left of elapsed time if it is too close to the remaining time (Nord theme)
-      if (remainingTimeLeft - elapsedTimeRight < 32) {
-        mousePosX = elapsedTimeLeft - 16;
-      }
+    // Fallback: Sleep on the bottom status bar if it exists (e.g. in AllProjectsPage)
+    const statusBar = document.querySelector(".border-b.border-white\\/5");
+    if (statusBar) {
+      const rect = statusBar.getBoundingClientRect();
+      mousePosX = rect.right - 32;
+      mousePosY = rect.top - 16;
+      return;
     }
+
+    // Default: Sleep at bottom right corner
+    mousePosX = window.innerWidth - 32;
+    mousePosY = window.innerHeight - 32;
   }
 
   function create() {
@@ -173,9 +159,8 @@
     nekoEl.style.imageRendering = "pixelated";
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
-    nekoEl.style.filter = kuroNeko ? "invert(100%)" : "none";
-    // Render Oneko below Spicetify's Popup Modal
-    nekoEl.style.zIndex = "99";
+    nekoEl.style.filter = kuroNeko ? "invert(100%) drop-shadow(0 0 4px #00E5FF)" : "none";
+    nekoEl.style.zIndex = "9999";
 
     document.body.appendChild(nekoEl);
 
@@ -251,7 +236,8 @@
       e.preventDefault();
       kuroNeko = !kuroNeko;
       localStorage.setItem("oneko:kuroneko", kuroNeko);
-      nekoEl.style.filter = kuroNeko ? "invert(100%)" : "none";
+      // Cyber-Glow Effect for Kuroneko
+      nekoEl.style.filter = kuroNeko ? "invert(100%) drop-shadow(0 0 4px #00E5FF)" : "none";
     });
 
     nekoEl.addEventListener("dblclick", sleep);
@@ -430,35 +416,63 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(10, 10, 11, 0.8);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 10000;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
     `;
 
     // Create modal container
     const modal = document.createElement("div");
     modal.style.cssText = `
-      background: white;
-      border-radius: 16px;
+      background: rgba(15, 15, 17, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 32px;
       max-width: 500px;
       width: 90%;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 229, 255, 0.1);
       position: relative;
+      font-family: "Space Grotesk", "Inter", sans-serif;
     `;
+
+    // Create Cyber Accents (Corner brackets)
+    const accentStyle = `
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-color: #00E5FF;
+      border-style: solid;
+      pointer-events: none;
+    `;
+
+    const tl = document.createElement('div');
+    tl.style.cssText = `${accentStyle} top: -1px; left: -1px; border-width: 2px 0 0 2px;`;
+    const tr = document.createElement('div');
+    tr.style.cssText = `${accentStyle} top: -1px; right: -1px; border-width: 2px 2px 0 0;`;
+    const bl = document.createElement('div');
+    bl.style.cssText = `${accentStyle} bottom: -1px; left: -1px; border-width: 0 0 2px 2px;`;
+    const br = document.createElement('div');
+    br.style.cssText = `${accentStyle} bottom: -1px; right: -1px; border-width: 0 2px 2px 0;`;
+
+    modal.appendChild(tl);
+    modal.appendChild(tr);
+    modal.appendChild(bl);
+    modal.appendChild(br);
 
     // Create title
     const title = document.createElement("h2");
-    title.textContent = "Choose your neko";
+    title.textContent = "SYSTEM_PET // SELECT_VARIANT";
     title.style.cssText = `
-      margin: 0 0 20px 0;
-      font-size: 24px;
-      font-weight: bold;
+      margin: 0 0 24px 0;
+      font-size: 20px;
+      font-weight: 700;
       text-align: center;
-      color: #333;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
     `;
 
     // Create close button
@@ -470,14 +484,17 @@
       right: 16px;
       background: none;
       border: none;
-      font-size: 32px;
+      font-size: 24px;
       cursor: pointer;
-      color: #666;
+      color: rgba(255, 255, 255, 0.5);
       line-height: 1;
       padding: 0;
       width: 32px;
       height: 32px;
+      transition: color 0.2s;
     `;
+    closeBtn.onmouseenter = () => closeBtn.style.color = "#00E5FF";
+    closeBtn.onmouseleave = () => closeBtn.style.color = "rgba(255, 255, 255, 0.5)";
     closeBtn.onclick = () => document.body.removeChild(overlay);
 
     // Create variant container
@@ -497,53 +514,109 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
       `;
 
       const div = document.createElement("div");
       div.className = "oneko-variant-button";
       div.id = variantEnum[0];
       div.style.cssText = `
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
         cursor: pointer;
         background-image: url('/oneko/oneko-${variantEnum[0]}.gif');
         background-size: 800%;
+        background-position: ${idle[0] * 32}px ${idle[1] * 32}px; /* Adjusted scaling */
+        background-repeat: no-repeat;
+        /* Correction for scaling pixel art in css background is tricky, 
+           so we use the sprite logic but scale the element. 
+           The original code used 64px div with 32px sprite scaled?
+           Original was: background-size: 800%; pos: ...*64
+        */
+        background-size: 800%; 
+        background-position: ${idle[0] * 100}% ${idle[1] * 33.33}%; /* Approximate % for sprites? No, let's stick to pixel math */
+        
+        /* 
+           Original: 
+           div size: 64px
+           image: 256x128 
+           bg-size: 800% -> this means the bg image is treated as 8 * 64px wide? 
+           Let's replicate exactly what worked but with new styles.
+        */
         background-position: ${idle[0] * 64}px ${idle[1] * 64}px;
-        border-radius: 12px;
+
+        background-color: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.2s ease-in-out;
         image-rendering: pixelated;
-        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
       `;
+
+      /* Re-evaluating background sizing:
+         The sprites have 32x32 frames. 
+         Original div was 64x64.
+         To show a 32x32 frame purely scaled 2x in a 64x64 box:
+         background-size: (256 * 2)px (128 * 2)px = 512px 256px
+         512 / 64 = 8 => 800% width. This is correct.
+      */
 
       const label = document.createElement("div");
       label.textContent = variantEnum[1];
       label.style.cssText = `
-        font-size: 12px;
+        font-size: 10px;
         text-align: center;
-        color: #666;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: "JetBrains Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
       `;
 
       div.onmouseenter = () => {
         div.style.backgroundPosition = `${active[0] * 64}px ${active[1] * 64}px`;
-        div.style.transform = "scale(1.1)";
+        div.style.borderColor = "#00E5FF";
+        div.style.boxShadow = "0 0 15px rgba(0, 229, 255, 0.2)";
+        div.style.backgroundColor = "rgba(0, 229, 255, 0.05)";
+        label.style.color = "#00E5FF";
       };
 
       div.onmouseleave = () => {
         div.style.backgroundPosition = `${idle[0] * 64}px ${idle[1] * 64}px`;
-        div.style.transform = "scale(1)";
+        if (variantEnum[0] !== variant) {
+          div.style.borderColor = "rgba(255, 255, 255, 0.1)";
+          div.style.boxShadow = "none";
+          div.style.backgroundColor = "rgba(255, 255, 255, 0.03)";
+          label.style.color = "rgba(255, 255, 255, 0.6)";
+        } else {
+          div.style.borderColor = "#00E5FF";
+          div.style.boxShadow = "0 0 10px rgba(0, 229, 255, 0.1)";
+          label.style.color = "#fff";
+        }
       };
 
       div.onclick = () => {
         setVariant(variantEnum);
+        // Update all buttons styling
         const allButtons = container.querySelectorAll(".oneko-variant-button");
-        allButtons.forEach(btn => btn.style.border = "2px solid transparent");
-        div.style.border = "2px solid #3b82f6";
+        allButtons.forEach(btn => {
+          btn.style.borderColor = "rgba(255, 255, 255, 0.1)";
+          btn.style.boxShadow = "none";
+          btn.style.backgroundColor = "rgba(255, 255, 255, 0.03)";
+          btn.nextElementSibling.style.color = "rgba(255, 255, 255, 0.6)";
+        });
+
+        div.style.borderColor = "#00E5FF";
+        div.style.boxShadow = "0 0 10px rgba(0, 229, 255, 0.1)";
+        div.style.backgroundColor = "rgba(0, 229, 255, 0.05)";
+        label.style.color = "#fff";
+
         setTimeout(() => document.body.removeChild(overlay), 300);
       };
 
       if (variantEnum[0] === variant) {
-        div.style.border = "2px solid #3b82f6";
+        div.style.borderColor = "#00E5FF";
+        div.style.boxShadow = "0 0 10px rgba(0, 229, 255, 0.1)";
+        label.style.color = "#fff";
       }
 
       wrapper.appendChild(div);

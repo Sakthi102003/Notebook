@@ -355,6 +355,23 @@ function Home() {
                   EXTRACT_IDENT.PDF <Monitor size={16} />
                 </a>
               </div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="pt-8 flex items-center gap-3 text-[10px] text-gray-500 font-mono uppercase tracking-widest"
+              >
+                <div className="flex items-center gap-1.5 opacity-70">
+                  <kbd className="px-2 py-1 border border-white/10 rounded bg-white/5 font-sans font-bold text-gray-400">CTRL</kbd>
+                  <span className="text-electric-blue">+</span>
+                  <kbd className="px-2 py-1 border border-white/10 rounded bg-white/5 font-sans font-bold text-gray-400">K</kbd>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-electric-blue animate-pulse" />
+                  <span>Command_Palette_Ready</span>
+                </div>
+              </motion.div>
             </motion.div>
           </section>
 
@@ -667,11 +684,8 @@ function Home() {
           )}
         </AnimatePresence>
 
-        {/* <ChatWidget /> */}
+        {/* <ChatWidget /> - Moved to Global App.tsx */}
       </main>
-
-      {/* Gears Popup Overlay Support is in GearsSection.tsx - will check it matches styles */}
-      {/* Bio, Skills etc Sections are all using razor-sharp styles now */}
     </div>
   )
 }

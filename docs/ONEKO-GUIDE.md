@@ -35,9 +35,10 @@ You have 5 different oneko variants in your `/public/oneko/` folder:
 - It will scratch in the direction you drag
 - Release to let it continue following your cursor
 
-#### 3. **Right-Click for Dark Mode** 🌙
-- **Right-click** on the pet to toggle "Kuroneko" (inverted colors)
-- Creates a dark/negative version of any variant
+#### 3. **Right-Click for Cyber Mode** 🌙
+- **Right-click** on the pet to toggle "Kuroneko" (inverted colors + cyber glow)
+- Creates a holographic/negative version of any variant with an electric blue aura
+- Perfect for the dark stealth aesthetic
 - Your preference is saved
 
 #### 4. **Double-Click to Sleep** 💤
