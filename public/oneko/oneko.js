@@ -142,7 +142,9 @@
   }
 
   function create() {
-    variant = parseLocalStorage("variant", "classic");
+    // Select a random variant on each reload
+    variant = variants[Math.floor(Math.random() * variants.length)][0];
+
     kuroNeko = parseLocalStorage("kuroneko", false);
 
     if (!variants.some((v) => v[0] === variant)) {
