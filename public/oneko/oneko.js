@@ -142,8 +142,17 @@
   }
 
   function create() {
-    // Select a random variant on each reload
-    variant = variants[Math.floor(Math.random() * variants.length)][0];
+    // Select a random variant on each reload, distinct from the last one
+    const lastVariant = localStorage.getItem("oneko:last_variant");
+    let availableVariants = variants;
+    if (lastVariant) {
+      availableVariants = variants.filter(v => v[0] !== lastVariant);
+    }
+    // Safety check
+    if (availableVariants.length === 0) availableVariants = variants;
+
+    variant = availableVariants[Math.floor(Math.random() * availableVariants.length)][0];
+    localStorage.setItem("oneko:last_variant", variant);
 
     kuroNeko = parseLocalStorage("kuroneko", false);
 
@@ -244,12 +253,7 @@
 
     nekoEl.addEventListener("dblclick", sleep);
 
-    // Click on neko to open variant picker modal
-    nekoEl.addEventListener("click", (e) => {
-      if (!grabbing) {
-        showPickerModal();
-      }
-    });
+
 
     window.onekoInterval = setInterval(frame, 100);
   }
@@ -331,6 +335,8 @@
 
   function frame() {
     frameCount += 1;
+
+
 
     if (grabbing) {
       grabStop && setSprite("alert", 0);

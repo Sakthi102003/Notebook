@@ -11,7 +11,7 @@ const THEMES = {
   green: ['#1C1C1E', '#063816', '#0E6025', '#168935', '#22C55E']
 };
 
-const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/26442efa-409f-47d6-98a9-6254b1f911ab.json";
+const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/bb59c90a-832d-461d-a383-e5722a3fba24.json";
 
 const GithubHeatmap = () => {
   const [currentTheme, setCurrentTheme] = useState(THEMES.blue);
@@ -73,6 +73,11 @@ const GithubHeatmap = () => {
             setWakaLabel('System Status');
             setWakaStats('No Data Available');
           }
+        } else {
+          // Real data not ready yet
+          console.warn("Wakatime: Link empty (sync pending).");
+          setWakaLabel('WakaTime Status');
+          setWakaStats('Data Pending...');
         }
       })
       .catch((error) => {
@@ -119,7 +124,7 @@ const GithubHeatmap = () => {
           </div>
 
           <div className="w-full overflow-hidden p-6 md:p-8 bg-stealth-900/20">
-            <div className="w-full overflow-x-auto no-scrollbar flex justify-center">
+            <div className="w-full overflow-x-auto no-scrollbar flex justify-start md:justify-center">
               <div className="min-w-[700px] lg:min-w-full flex justify-center">
                 <GitHubCalendar
                   username="Sakthi102003"
