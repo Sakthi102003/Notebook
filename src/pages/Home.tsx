@@ -48,6 +48,7 @@ import GearsSection from '../components/GearsSection'
 import QuotesSection from '../components/QuotesSection'
 import VisitorCounter from '../components/VisitorCounter'
 import GithubHeatmap from '../components/GithubHeatmap'
+
 import RansomNoteText from '../components/RansomNoteText'
 import ScrambleText from '../components/ScrambleText'
 import ProjectLogViewer from '../components/ProjectLogViewer'
