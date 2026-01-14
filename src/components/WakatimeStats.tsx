@@ -175,6 +175,30 @@ const WakatimeStats = () => {
                         </div>
                     )}
                 </div>
+
+                {/* Editor Breakdown */}
+                {dataType === 'editors' && stats?.data && (
+                    <div className="mt-6 pt-4 border-t border-white/5">
+                        <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-3">
+                            Environment Breakdown
+                        </span>
+                        <div className="space-y-3">
+                            {stats.data.slice(0, 3).map((editor: any) => (
+                                <div key={editor.name} className="flex items-center justify-between group/editor">
+                                    <div className="flex items-center gap-2">
+                                        <div className={`w-1.5 h-1.5 rounded-full ${editor.name.toLowerCase().includes('antigravity') ? 'bg-crimson' : 'bg-electric-blue'}`} />
+                                        <span className="text-xs text-gray-300 font-mono group-hover/editor:text-white transition-colors">
+                                            {editor.name}
+                                        </span>
+                                    </div>
+                                    <span className="text-[10px] text-gray-500 font-mono">
+                                        {editor.text} ({editor.percent}%)
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </motion.div>
     );

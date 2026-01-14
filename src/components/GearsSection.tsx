@@ -21,7 +21,7 @@ const GearsSection = () => {
     {
       category: "Devices",
       items: [
-        { name: 'HP Laptop 15s"', spec: 'Ryzen 3 5300 Series, 16GB RAM', icon: Laptop },
+        { name: 'HP Laptop 15s"', spec: 'Ryzen 3 5300 Series, 8GB RAM', icon: Laptop },
         { name: 'Logitech Keyboard', spec: 'Wireless Multi-Device', icon: Keyboard },
         { name: 'Logitech MX Anywhere 3', spec: 'Precision Wireless Mouse', icon: Mouse },
         { name: 'Airdopes 131', spec: 'Tactical Audio Relay', icon: Headphones },

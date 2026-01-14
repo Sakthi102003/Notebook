@@ -18,7 +18,8 @@ import {
   Terminal as TerminalIcon,
   X,
   Menu,
-  MessageSquare
+  MessageSquare,
+  Box
 } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
 import {
@@ -292,6 +293,14 @@ function Home() {
               transition={{ duration: 0.8 }}
               className="space-y-8"
             >
+              {/* Avatar Feature from New Design */}
+              <div className="relative w-24 h-24 mb-6">
+                <img src="/images/blue avatar.png" alt="Sakthi" className="w-full h-full rounded-full border-2 border-white/10 shadow-2xl transition-all duration-500" />
+                <div className="absolute -bottom-1 -right-1 bg-stealth-900 rounded-xl p-1.5 border border-white/10 shadow-lg group">
+                  <Box size={16} className="text-electric-blue animate-pulse" />
+                </div>
+              </div>
+
               <div className="inline-block px-3 py-1 bg-electric-blue/5 border border-electric-blue/20 text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">
                 System Initialization // Online
               </div>
@@ -335,10 +344,25 @@ function Home() {
 
               <div className="glow-line-blue opacity-50 max-w-md" />
 
-              <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
-                Specializing in razor-sharp web experiences, security research, and high-performance development.
-                Based in the digital shadows, building the future of the web.
-              </p>
+              <div className="text-lg text-gray-400 max-w-2xl leading-relaxed font-sans">
+                <span className="inline">Specializing in razor-sharp web experiences using </span>
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-electric-blue hover:border-electric-blue/50 transition-colors cursor-default whitespace-nowrap">
+                  <SiTypescript size={12} /> TypeScript
+                </span>
+                <span className="inline">, </span>
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-cyan-400 hover:border-cyan-400/50 transition-colors cursor-default whitespace-nowrap">
+                  <SiReact size={12} /> React
+                </span>
+                <span className="inline"> and </span>
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-teal-400 hover:border-teal-400/50 transition-colors cursor-default whitespace-nowrap">
+                  <SiTailwindcss size={12} /> Tailwind
+                </span>
+                <span className="inline">. Focused on security research with </span>
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-yellow-400 hover:border-yellow-400/50 transition-colors cursor-default whitespace-nowrap">
+                  <SiPython size={12} /> Python
+                </span>
+                <span className="inline">, and high-performance development. Based in the digital shadows, building the future of the web.</span>
+              </div>
 
               <div className="flex flex-wrap gap-4 pt-4">
                 <button
@@ -385,18 +409,8 @@ function Home() {
               <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
             </div>
 
-            <div className="grid md:grid-cols-5 gap-12 items-start">
-              <div className="md:col-span-2 relative group">
-                <div className="relative z-10 p-1 bg-stealth-800 border border-white/5 grayscale group-hover:grayscale-0 transition-all duration-700">
-                  <img src="/images/profile.jpg" alt="Profile" className="w-full h-auto opacity-70 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute inset-0 border border-electric-blue/0 group-hover:border-electric-blue/40 transition-all" />
-                </div>
-                {/* Visual Accents */}
-                <div className="absolute -top-4 -left-4 w-12 h-12 border-t border-l border-crimson/40 -z-0" />
-                <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b border-r border-electric-blue/40 -z-0" />
-              </div>
-
-              <div className="md:col-span-3 space-y-8">
+            <div className="flex flex-col gap-12 items-start">
+              <div className="w-full space-y-8">
                 <div className="code-block text-sm leading-loose text-gray-300">
                   <p className="mb-2"><span className="text-crimson"># Objective:</span> Turning complex problems into elegant, secure codebases.</p>
                   <p className="mb-2"><span className="text-electric-blue"># Background:</span> Cybersecurity researcher with a passion for modern web engineering.</p>
@@ -417,6 +431,8 @@ function Home() {
                     </p>
                   </div>
                 </div>
+
+
               </div>
             </div>
           </section>
