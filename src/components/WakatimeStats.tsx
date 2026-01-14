@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Code, Clock, AlertTriangle } from 'lucide-react';
 
-const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/26442efa-409f-47d6-98a9-6254b1f911ab.json";
+const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/e3ca4b3b-a873-49bd-b770-c39a3f13638e.json";
 
 const WakatimeStats = () => {
     const [stats, setStats] = useState<any>(null);
@@ -20,10 +20,10 @@ const WakatimeStats = () => {
 
                 // Determine Data Type
                 if (Array.isArray(data.data) && data.data.length > 0) {
-                    if (data.data[0].name) {
-                        setDataType('editors');
-                    } else if (data.data[0].range) {
+                    if (data.data[0].grand_total || data.data[0].range) {
                         setDataType('activity');
+                    } else if (data.data[0].name) {
+                        setDataType('editors');
                     }
                 }
             } catch (err) {
@@ -37,9 +37,34 @@ const WakatimeStats = () => {
         fetchStats();
     }, []);
 
-    const getVsCodeStats = () => {
+    const getTotalEditorStats = () => {
         if (dataType !== 'editors' || !stats?.data) return null;
-        return stats.data.find((e: any) => e.name === 'VS Code');
+        const totalSeconds = stats.data.reduce((acc: number, curr: any) => acc + (curr.total_seconds || 0), 0);
+
+        if (totalSeconds === 0 && stats.data.length > 0) {
+            // Fallback for percentage-only data
+            const topEditor = stats.data[0];
+            return {
+                text: `${topEditor.percent}%`,
+                name: topEditor.name,
+                hours: 0,
+                minutes: 0,
+                total_seconds: 0,
+                percent: topEditor.percent,
+                isPercentageOnly: true
+            };
+        }
+
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        return {
+            text: `${hours} hrs ${minutes} mins`,
+            hours,
+            minutes,
+            total_seconds: totalSeconds,
+            percent: 100,
+            isPercentageOnly: false
+        };
     };
 
     const getActivityStats = () => {
@@ -76,7 +101,7 @@ const WakatimeStats = () => {
         );
     }
 
-    const vsCodeStats = getVsCodeStats();
+    const editorStats = getTotalEditorStats();
     const activityStats = getActivityStats();
 
     return (
@@ -98,22 +123,22 @@ const WakatimeStats = () => {
                             <Clock size={16} className="text-electric-blue" />
                         </div>
                         <h3 className="text-sm font-bold text-white uppercase tracking-widest">
-                            {dataType === 'editors' ? "VS Code Duration" : "Coding Activity"}
+                            {dataType === 'editors' ? "7-Day Activity" : "Coding Activity"}
                         </h3>
                     </div>
 
                     <div className="flex items-baseline gap-2">
-                        {dataType === 'editors' && vsCodeStats ? (
+                        {dataType === 'editors' && editorStats ? (
                             <>
                                 <span className="text-4xl font-bold text-white hover:text-electric-blue transition-colors font-mono">
-                                    {vsCodeStats.text}
+                                    {editorStats.text}
                                 </span>
                                 <span className="text-xs text-gray-500 font-mono uppercase">
-                                    / Total
+                                    {editorStats.isPercentageOnly ? ` / ${editorStats.name}` : '/ Total'}
                                 </span>
                             </>
                         ) : dataType === 'editors' ? (
-                            <span className="text-xl text-gray-500 font-mono">VS Code not found</span>
+                            <span className="text-xl text-gray-500 font-mono">No Data</span>
                         ) : dataType === 'activity' && activityStats ? (
                             <div className="flex flex-col">
                                 <span className="text-4xl font-bold text-white hover:text-electric-blue transition-colors font-mono">
@@ -128,11 +153,11 @@ const WakatimeStats = () => {
                         )}
                     </div>
 
-                    {dataType === 'editors' && vsCodeStats && (
+                    {dataType === 'editors' && editorStats && (
                         <div className="mt-4 w-full bg-white/5 h-1 rounded-full overflow-hidden">
                             <motion.div
                                 initial={{ width: 0 }}
-                                whileInView={{ width: `${vsCodeStats.percent}%` }}
+                                whileInView={{ width: `100%` }}
                                 transition={{ duration: 1, ease: "easeOut" }}
                                 className="h-full bg-electric-blue shadow-[0_0_10px_#00E5FF]"
                             />
@@ -141,8 +166,8 @@ const WakatimeStats = () => {
                 </div>
 
                 <div className="mt-4 text-[10px] text-gray-600 font-mono uppercase tracking-widest flex justify-between items-center">
-                    <span>{dataType === 'editors' ? "Editor Usage" : "Wakatime Stats"}</span>
-                    {dataType === 'editors' && vsCodeStats && <span>{vsCodeStats.percent}%</span>}
+                    <span>{dataType === 'editors' ? "Total Usage" : "7-Day Activity"}</span>
+                    {dataType === 'editors' && editorStats && <span>{editorStats.text}</span>}
                     {dataType === 'activity' && (
                         <div className="flex items-center gap-1 text-yellow-500/80">
                             <AlertTriangle size={10} />

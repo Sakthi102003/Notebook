@@ -11,7 +11,7 @@ const THEMES = {
   green: ['#1C1C1E', '#063816', '#0E6025', '#168935', '#22C55E']
 };
 
-const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/bb59c90a-832d-461d-a383-e5722a3fba24.json";
+const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/e3ca4b3b-a873-49bd-b770-c39a3f13638e.json";
 
 const GithubHeatmap = () => {
   const [currentTheme, setCurrentTheme] = useState(THEMES.blue);
@@ -48,36 +48,52 @@ const GithubHeatmap = () => {
       .then(data => {
         console.log("Wakatime API Response:", data);
 
+        const formatTime = (totalSeconds: number) => {
+          const hours = Math.floor(totalSeconds / 3600);
+          const minutes = Math.floor((totalSeconds % 3600) / 60);
+          return `${hours} hrs ${minutes} mins`;
+        };
+
         // Logic to extract meaningful text
-        // Handle "Editors" (Circular Chart) JSON
-        if (data.data && Array.isArray(data.data) && data.data[0]?.name) {
-          const vsCode = data.data.find((e: any) => e.name === 'VS Code');
-          if (vsCode) {
-            setWakaLabel('VS Code Usage');
-            setWakaStats(vsCode.text);
-          } else {
-            setWakaLabel('Total Editor Usage');
-            setWakaStats(data.data[0].text); // Top editor
+        if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+          const firstItem = data.data[0];
+
+          // Handle "Editors" type (has name & percent)
+          if (firstItem.name && firstItem.percent !== undefined) {
+            const totalSeconds = data.data.reduce((acc: number, curr: any) => acc + (curr.total_seconds || 0), 0);
+            if (totalSeconds > 0) {
+              setWakaLabel('Weekly Activity');
+              setWakaStats(formatTime(totalSeconds));
+            } else {
+              // Fallback to top percentage
+              setWakaLabel('Top Editor');
+              setWakaStats(`${firstItem.name}: ${firstItem.percent}%`);
+            }
           }
-        }
-        // Handle "Activity" (Bar Chart) JSON
-        else if (data.data && Array.isArray(data.data) && data.data[0]?.range) {
-          // Usually last item is most recent day or similar. 
-          // Wakatime activity arrays are typically chronological.
-          const lastDay = data.data[data.data.length - 1];
-          if (lastDay && lastDay.grand_total) {
-            setWakaLabel(`Worked ${new Date(lastDay.range.date).toLocaleDateString('en-US', { weekday: 'short' })}`);
-            setWakaStats(lastDay.grand_total.text);
+          // Handle "Activity" type (has range or grand_total)
+          else if (firstItem.range || firstItem.grand_total) {
+            // Sum up total seconds for all days in the chart
+            let totalSeconds = 0;
+            data.data.forEach((day: any) => {
+              if (day.grand_total) {
+                totalSeconds += day.grand_total.total_seconds;
+              }
+            });
+
+            if (totalSeconds > 0) {
+              setWakaLabel('7-Day Activity');
+              setWakaStats(formatTime(totalSeconds));
+            } else {
+              setWakaLabel('Activity Status');
+              setWakaStats('No Recent Activity');
+            }
           } else {
-            console.warn("Wakatime: No matching data format found or empty data");
             setWakaLabel('System Status');
-            setWakaStats('No Data Available');
+            setWakaStats('Unknown Data Format');
           }
         } else {
-          // Real data not ready yet
-          console.warn("Wakatime: Link empty (sync pending).");
           setWakaLabel('WakaTime Status');
-          setWakaStats('Data Pending...');
+          setWakaStats('No Data Available');
         }
       })
       .catch((error) => {
