@@ -11,7 +11,7 @@ const THEMES = {
   green: ['#1C1C1E', '#063816', '#0E6025', '#168935', '#22C55E']
 };
 
-const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/e3ca4b3b-a873-49bd-b770-c39a3f13638e.json";
+const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/4e314795-4465-47a7-a931-aa60be4cd4db.json";
 
 const GithubHeatmap = () => {
   const [currentTheme, setCurrentTheme] = useState(THEMES.blue);
