@@ -7,6 +7,7 @@ import CustomCursor from './components/CustomCursor';
 import LoadingScreen from './components/LoadingScreen';
 import CommandPalette from './components/CommandPalette';
 import AudioProvider from './components/AudioProvider';
+import IdCardOverlay from './components/IdCardOverlay';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +23,7 @@ function App() {
 
       {!isLoading && (
         <>
+          <IdCardOverlay />
           <CommandPalette />
           <Routes>
             <Route path='/' element={<Home />} />
