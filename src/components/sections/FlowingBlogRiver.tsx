@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FaMedium } from 'react-icons/fa'
 import { Activity, Radio } from 'lucide-react'
-import StealthCard from './StealthCard'
+import StealthCard from '../ui/StealthCard'
 
 interface BlogPost {
   title: string

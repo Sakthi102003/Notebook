@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Eye, Activity } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { incrementVisitorCount, subscribeToVisitorCount } from '../services/firebase'
+import { incrementVisitorCount, subscribeToVisitorCount } from '../../services/firebase'
 
 const VisitorCounter = () => {
   const [viewCount, setViewCount] = useState<number>(0)

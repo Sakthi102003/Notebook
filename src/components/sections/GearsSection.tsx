@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Laptop, Keyboard, Mouse, Headphones, Smartphone, X, ArrowLeft, Cpu } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import StealthCard from './StealthCard'
+import StealthCard from '../ui/StealthCard'
 
 const GearsSection = () => {
   const [isOpen, setIsOpen] = useState(false)

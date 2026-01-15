@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Quote, Terminal } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import StealthCard from './StealthCard'
+import StealthCard from '../ui/StealthCard'
 
 const QuotesSection = () => {
   const [currentQuote, setCurrentQuote] = useState({ text: '', author: '' })

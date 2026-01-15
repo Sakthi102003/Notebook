@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
-import { audioEngine } from '../utils/audioEngine';
+import { audioEngine } from '../../utils/audioEngine';
 
 const AudioProvider: React.FC = () => {
     const [isMuted, setIsMuted] = useState(false);

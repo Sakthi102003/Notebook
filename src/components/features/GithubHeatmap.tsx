@@ -3,7 +3,7 @@ import { GitHubCalendar } from 'react-github-calendar';
 import { Tooltip } from 'react-tooltip';
 import { motion } from 'framer-motion';
 import { Activity, Box } from 'lucide-react';
-import StealthCard from './StealthCard';
+import StealthCard from '../ui/StealthCard';
 
 const THEMES = {
   blue: ['#1C1C1E', '#00424D', '#007080', '#00A8BF', '#00E5FF'],

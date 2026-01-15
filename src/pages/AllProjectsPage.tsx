@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, ExternalLink, FolderOpen, Github, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import StealthCard from '../components/StealthCard';
+import StealthCard from '../components/ui/StealthCard';
 import { projects } from '../data/projects';
 
 const AllProjectsPage = () => {

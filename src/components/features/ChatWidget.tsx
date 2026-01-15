@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { MessageSquare, Send, X, Terminal, Activity } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { getChatResponse } from '../services/openai'
+import { getChatResponse } from '../../services/openai'
 
 interface Message {
   id: string
@@ -128,8 +128,8 @@ const ChatWidget: React.FC = () => {
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex flex-col ${msg.isBot ? 'items-start' : 'items-end'}`}>
                   <div className={`max-w-[85%] p-4 text-[11px] font-mono leading-relaxed transition-all ${msg.isBot
-                      ? 'bg-stealth-800 border-l-2 border-electric-blue text-gray-300'
-                      : 'bg-electric-blue/10 border-r-2 border-crimson text-white text-right'
+                    ? 'bg-stealth-800 border-l-2 border-electric-blue text-gray-300'
+                    : 'bg-electric-blue/10 border-r-2 border-crimson text-white text-right'
                     }`}>
                     {msg.text}
                   </div>
