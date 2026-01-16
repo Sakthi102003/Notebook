@@ -4,20 +4,13 @@ import {
   Linkedin,
   Mail,
   Folder,
-  FileCode,
-  FileText,
   ChevronRight,
-  ChevronDown,
   Monitor,
   User,
   Activity,
   Zap,
-  Settings,
   Instagram,
-  Terminal as TerminalIcon,
-  X,
-  Menu,
-  MessageSquare
+  Terminal as TerminalIcon
 } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
 import {
@@ -44,17 +37,12 @@ import { Link } from 'react-router-dom'
 import AgeCounter from '../components/features/AgeCounter'
 import SystemClock from '../components/features/SystemClock'
 
-const FILE_TREE = [
-  { id: 'home', label: 'index.tsx', icon: FileCode, category: 'src' },
-  { id: 'about', label: 'bio.md', icon: FileText, category: 'src/identity' },
-  { id: 'quotes', label: 'quotes.log', icon: MessageSquare, category: 'src/data' },
-  { id: 'skills', label: 'stack.json', icon: Settings, category: 'src/capability' },
-  { id: 'projects', label: 'ops/', icon: Folder, category: 'src/deployments', isFolder: true },
-  { id: 'gears', label: 'gears.cfg', icon: Monitor, category: 'src/sys' },
-  { id: 'contact', label: 'relay.log', icon: TerminalIcon, category: 'src/comm' },
-]
-
 import WakatimeStats from '../components/features/WakatimeStats'
+
+import StealthSidebar from '../components/layout/StealthSidebar'
+import StealthHeader from '../components/layout/StealthHeader'
+import HoloCard from '../components/ui/HoloCard'
+import { FILE_TREE } from '../data/navigation'
 
 function Home() {
   const [activeFile, setActiveFile] = useState('home')
@@ -75,8 +63,6 @@ function Home() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [selectedProject, setSelectedProject] = useState<any>(null)
   const mainContentRef = useRef<HTMLDivElement>(null)
-  const tabsRef = useRef<HTMLDivElement>(null)
-  const sidebarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,23 +111,6 @@ function Home() {
     }
   }
 
-  useEffect(() => {
-    // Scroll active tab into view
-    if (tabsRef.current) {
-      const activeTab = tabsRef.current.querySelector('[data-active="true"]')
-      if (activeTab) {
-        activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-      }
-    }
-    // Scroll active sidebar item into view
-    if (sidebarRef.current) {
-      const activeItem = sidebarRef.current.querySelector('[data-active="true"]')
-      if (activeItem) {
-        activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      }
-    }
-  }, [activeFile])
-
   return (
     <div className="flex h-screen bg-stealth-900 text-gray-400 font-stealth overflow-hidden selection:bg-electric-blue/30 selection:text-white">
       {/* Visual Accents - Glowing Vertical Lines */}
@@ -149,143 +118,29 @@ function Home() {
       <div className="fixed right-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-crimson/10 to-transparent pointer-events-none" />
 
       {/* IDE Sidebar (File Tree) */}
-      <aside
-        className={`${sidebarOpen ? 'w-64' : 'w-0'
-          } transition-all duration-300 border-r border-white/5 bg-stealth-800/20 backdrop-blur-md hidden md:flex flex-col h-full overflow-hidden`}
-      >
-        <div className="p-4 border-b border-white/5 flex items-center justify-between">
-          <span className="text-[10px] font-mono tracking-[0.3em] text-white/40 uppercase">Explorer</span>
-          <TerminalIcon size={14} className="text-white/20" />
-        </div>
-
-        <div ref={sidebarRef} className="flex-1 overflow-y-auto p-2 space-y-1">
-          <div className="flex items-center gap-2 px-2 py-1 text-[10px] font-mono text-white/30 uppercase tracking-widest mb-2">
-            <ChevronDown size={12} /> Root
-          </div>
-
-          {FILE_TREE.map((file) => (
-            <button
-              key={file.id}
-              onClick={() => scrollToSection(file.id)}
-              data-active={activeFile === file.id}
-              className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-all group ${activeFile === file.id
-                ? 'bg-electric-blue/10 text-electric-blue'
-                : 'hover:bg-white/5 text-gray-500 hover:text-white'
-                }`}
-            >
-              <file.icon size={16} className={activeFile === file.id ? 'text-electric-blue' : 'text-gray-600 group-hover:text-gray-400'} />
-              <span className="truncate">{file.label}</span>
-              {activeFile === file.id && (
-                <motion.div layoutId="file-active" className="ml-auto w-1 h-4 bg-electric-blue shadow-[0_0_8px_#00E5FF]" />
-              )}
-            </button>
-          ))}
-        </div>
-
-        <div className="p-4 border-t border-white/5 bg-stealth-900/50">
-          <div className="flex items-center gap-3 mb-4">
-            <img src="/images/blue avatar.png" alt="Profile" className="w-8 h-8 rounded-none border border-electric-blue/50" />
-            <div className="flex flex-col">
-              <span className="text-[10px] text-white font-bold leading-none">SAKTHI_MURUGAN</span>
-              <span className="text-[8px] text-gray-500 uppercase tracking-tighter">Stealth Dev v2.0</span>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <a href="https://github.com/Sakthi102003" className="text-gray-600 hover:text-electric-blue transition-colors"><Github size={14} /></a>
-            <a href="https://www.linkedin.com/in/sakthimurugan-s/" className="text-gray-600 hover:text-electric-blue transition-colors"><Linkedin size={14} /></a>
-            <a href="mailto:sakthimurugan102003@gmail.com" className="text-gray-600 hover:text-electric-blue transition-colors"><Mail size={14} /></a>
-            <a href="https://www.instagram.com/sakthiii_techh/" className="text-gray-600 hover:text-electric-blue transition-colors"><Instagram size={14} /></a>
-            <a href="https://medium.com/@sakthimurugan102003" className="text-gray-600 hover:text-electric-blue transition-colors"><SiMedium size={14} /></a>
-          </div>
-        </div>
-      </aside>
+      <StealthSidebar
+        isOpen={sidebarOpen}
+        activeFile={activeFile}
+        onNavigate={scrollToSection}
+      />
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative h-full overflow-hidden">
         {/* IDE Header / Breadcrumbs */}
-        <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-stealth-900/80 backdrop-blur-md border-b border-white/5' : 'bg-transparent'}`}>
-          <div className="flex items-center justify-between px-4 h-12">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-1 hover:bg-white/5 text-gray-500 hidden md:block"
-              >
-                <Menu size={18} />
-              </button>
-              <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest">
-                <span className="text-gray-600">STEALTH</span>
-                <ChevronRight size={10} className="text-gray-700" />
-                <span className="text-gray-600">WORKSPACE</span>
-                <ChevronRight size={10} className="text-gray-700" />
-                <span className="text-electric-blue">{FILE_TREE.find(f => f.id === activeFile)?.category}/{FILE_TREE.find(f => f.id === activeFile)?.label}</span>
-              </div>
-            </div>
-
-            {/* Mobile Menu Trigger */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-white"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-
-            <div className="hidden md:flex items-center gap-6">
-              <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase font-mono">
-                <Activity size={12} className="text-electric-blue animate-pulse" />
-                Latency: 14ms
-              </div>
-              <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase font-mono">
-                <Zap size={12} className="text-crimson" />
-                Uptime: 99.9%
-              </div>
-            </div>
-
-            {/* Accent Theme Switcher */}
-            <div className="hidden lg:flex items-center gap-1 border border-white/5 bg-black/20 p-1">
-              {[
-                { id: 'blue', color: 'bg-electric-blue' },
-                { id: 'crimson', color: 'bg-crimson' },
-                { id: 'green', color: 'bg-green-500' },
-              ].map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => {
-                    document.documentElement.style.setProperty('--accent-color', t.id === 'blue' ? '0 229 255' : t.id === 'crimson' ? '255 0 60' : '34 197 94');
-                  }}
-                  className={`w-3 h-3 ${t.color} opacity-40 hover:opacity-100 transition-opacity`}
-                  title={`Switch to ${t.id} mode`}
-                />
-              ))}
-              <div className="px-2 text-[8px] font-mono text-white/30 uppercase tracking-widest">Theme</div>
-            </div>
-          </div>
-
-          {/* Tabs Bar */}
-          <div ref={tabsRef} className="flex h-10 border-b border-white/5 bg-stealth-800/10 px-2 overflow-x-auto no-scrollbar">
-            {FILE_TREE.map((file) => (
-              <button
-                key={`tab-${file.id}`}
-                onClick={() => scrollToSection(file.id)}
-                data-active={activeFile === file.id}
-                className={`flex items-center gap-2 px-4 h-full border-r border-white/5 min-w-fit transition-all relative ${activeFile === file.id
-                  ? 'bg-stealth-800/40 text-white'
-                  : 'text-gray-600 hover:text-gray-400'
-                  }`}
-              >
-                <file.icon size={12} className={activeFile === file.id ? 'text-electric-blue' : 'text-gray-700'} />
-                <span className="text-[11px] font-mono">{file.label}</span>
-                {activeFile === file.id && (
-                  <div className="absolute top-0 left-0 w-full h-[2px] bg-electric-blue shadow-[0_0_8px_#00E5FF]" />
-                )}
-              </button>
-            ))}
-          </div>
-        </header>
+        <StealthHeader
+          isScrolled={isScrolled}
+          activeFile={activeFile}
+          onNavigate={scrollToSection}
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+        />
 
         {/* Scrollable Content */}
         <div
           ref={mainContentRef}
-          className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-12 space-y-32 no-scrollbar"
+          className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-12 space-y-32"
         >
           {/* Section: Home (index.tsx) */}
           <section id="home" className="min-h-[80vh] flex flex-col justify-center max-w-4xl mx-auto">
@@ -492,41 +347,43 @@ function Home() {
                   initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className="stealth-card p-8 group flex flex-col h-full cursor-pointer hover:border-electric-blue/30 transition-all"
-                  onClick={() => setSelectedProject(project)}
                 >
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="p-3 bg-electric-blue/5 border border-white/5 text-electric-blue">
-                      <Folder size={24} />
+                  <HoloCard
+                    className="stealth-card p-8 group flex flex-col h-full cursor-pointer hover:border-electric-blue/30 transition-all font-stealth"
+                    onClick={() => setSelectedProject(project)}
+                  >
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="p-3 bg-electric-blue/5 border border-white/5 text-electric-blue">
+                        <Folder size={24} />
+                      </div>
                     </div>
-                    {/* Icons removed here to create cleaner look, they are inside the log viewer now */}
-                  </div>
 
-                  <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide group-hover:text-electric-blue transition-colors">
-                    {project.title}
-                  </h3>
+                    <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide group-hover:text-electric-blue transition-colors">
+                      {project.title}
+                    </h3>
 
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-1.5 h-1.5 rounded-full bg-electric-blue shadow-[0_0_5px_#00E5FF]" />
-                    <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{project.status}</span>
-                  </div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-1.5 h-1.5 rounded-full bg-electric-blue shadow-[0_0_5px_#00E5FF]" />
+                      <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{project.status}</span>
+                    </div>
 
-                  <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-mono uppercase tracking-tighter">
-                    {project.description}
-                  </p>
+                    <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-mono uppercase tracking-tighter">
+                      {project.description}
+                    </p>
 
-                  <div className="flex flex-wrap gap-2 mt-auto pt-6 border-t border-white/5">
-                    {project.tech.map((t) => (
-                      <span key={t} className="text-[9px] font-mono text-white/30 px-2 py-0.5 border border-white/5 bg-white/5 uppercase">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                    <div className="flex flex-wrap gap-2 mt-auto pt-6 border-t border-white/5">
+                      {project.tech.map((t) => (
+                        <span key={t} className="text-[9px] font-mono text-white/30 px-2 py-0.5 border border-white/5 bg-white/5 uppercase">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
 
-                  <div className="mt-4 pt-2 text-[10px] font-mono text-electric-blue/50 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <TerminalIcon size={12} />
-                    CLICK_TO_VIEW_LOGS
-                  </div>
+                    <div className="mt-4 pt-2 text-[10px] font-mono text-electric-blue/50 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <TerminalIcon size={12} />
+                      CLICK_TO_VIEW_LOGS
+                    </div>
+                  </HoloCard>
                 </motion.div>
               ))}
             </div>
@@ -542,8 +399,6 @@ function Home() {
           </section>
 
           <ProjectLogViewer project={selectedProject} onClose={() => setSelectedProject(null)} />
-
-
 
           {/* Section: Gears (gears.cfg) */}
           <section id="gears">
