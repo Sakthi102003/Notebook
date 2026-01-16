@@ -13,7 +13,6 @@ import {
   Activity,
   Zap,
   Settings,
-  Database,
   Instagram,
   Terminal as TerminalIcon,
   X,
@@ -23,23 +22,10 @@ import {
 } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
 import {
-  SiPython,
-  SiJavascript,
   SiTypescript,
   SiReact,
   SiTailwindcss,
-  SiFlask,
-  SiDjango,
-  SiGit,
-  SiGithub,
-  SiFirebase,
-  SiUbuntu,
-  SiKalilinux,
-  SiHtml5,
-  SiCss3,
-  SiChartdotjs,
-  SiNumpy,
-  SiCentos,
+  SiPython,
   SiMedium
 } from 'react-icons/si'
 // import ChatWidget from '../components/ChatWidget'
@@ -49,12 +35,14 @@ import GearsSection from '../components/sections/GearsSection'
 import QuotesSection from '../components/sections/QuotesSection'
 import VisitorCounter from '../components/features/VisitorCounter'
 import GithubHeatmap from '../components/features/GithubHeatmap'
+import SkillsMarquee from '../components/sections/SkillsMarquee'
 
 import RansomNoteText from '../components/ui/RansomNoteText'
 import ScrambleText from '../components/ui/ScrambleText'
 import ProjectLogViewer from '../components/sections/ProjectLogViewer'
 import { projects } from '../data/projects'
 import { Link } from 'react-router-dom'
+import AgeCounter from '../components/features/AgeCounter'
 
 const FILE_TREE = [
   { id: 'home', label: 'index.tsx', icon: FileCode, category: 'src' },
@@ -432,6 +420,11 @@ function Home() {
                   </div>
                 </div>
 
+                <div className="pt-8 border-t border-white/5">
+                  <AgeCounter />
+                </div>
+
+
 
               </div>
             </div>
@@ -451,39 +444,8 @@ function Home() {
               <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-              {[
-                { icon: SiPython, name: "Python" },
-                { icon: SiHtml5, name: "HTML" },
-                { icon: SiCss3, name: "CSS" },
-                { icon: SiJavascript, name: "JavaScript" },
-                { icon: SiTypescript, name: "TypeScript" },
-                { icon: SiReact, name: "React.js" },
-                { icon: SiTailwindcss, name: "Tailwind CSS" },
-                { icon: SiChartdotjs, name: "Chart.js" },
-                { icon: SiFlask, name: "Flask" },
-                { icon: SiDjango, name: "Django" },
-                { icon: SiNumpy, name: "NumPy" },
-                { icon: Database, name: "SQL" },
-                { icon: SiGit, name: "Git" },
-                { icon: SiGithub, name: "GitHub" },
-                { icon: SiFirebase, name: "Firebase" },
-                { icon: FileCode, name: "VS Code" },
-                { icon: SiUbuntu, name: "Ubuntu" },
-                { icon: SiKalilinux, name: "Kali Linux" },
-                { icon: SiCentos, name: "Centos" }
-              ].map((skill) => (
-                <motion.div
-                  key={skill.name}
-                  whileHover={{ y: -5 }}
-                  className="stealth-card p-6 flex flex-col items-center justify-center gap-4 aspect-square group"
-                >
-                  <skill.icon size={36} className="text-gray-500 group-hover:text-electric-blue transition-all duration-300" />
-                  <div className="text-center">
-                    <span className="block text-xs font-bold text-white uppercase tracking-widest">{skill.name}</span>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="w-full -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-0">
+              <SkillsMarquee />
             </div>
 
             <div className="mt-16">

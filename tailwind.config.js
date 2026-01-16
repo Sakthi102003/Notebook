@@ -44,6 +44,8 @@ export default {
         'scanline': 'scanline 6s linear infinite',
         'blink': 'blink 1s step-end infinite',
         'glitch': 'glitch 0.3s ease-in-out infinite',
+        'marquee': 'marquee 25s linear infinite',
+        'marquee-reverse': 'marqueeReverse 25s linear infinite',
       },
       keyframes: {
         scanline: {
@@ -61,6 +63,14 @@ export default {
           '60%': { transform: 'translate(2px, 2px)' },
           '80%': { transform: 'translate(2px, -2px)' },
           '100%': { transform: 'translate(0)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        marqueeReverse: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0%)' },
         },
         blob: {
           '0%': { transform: 'translate(0px, 0px) scale(1)' },

@@ -1,0 +1,42 @@
+import {
+    SiPython,
+    SiJavascript,
+    SiTypescript,
+    SiReact,
+    SiTailwindcss,
+    SiFlask,
+    SiDjango,
+    SiGit,
+    SiGithub,
+    SiFirebase,
+    SiUbuntu,
+    SiKalilinux,
+    SiHtml5,
+    SiCss3,
+    SiChartdotjs,
+    SiNumpy,
+    SiCentos,
+} from 'react-icons/si'
+import { Database, FileCode } from 'lucide-react'
+
+export const skills = [
+    { icon: SiPython, name: "Python" },
+    { icon: SiHtml5, name: "HTML" },
+    { icon: SiCss3, name: "CSS" },
+    { icon: SiJavascript, name: "JavaScript" },
+    { icon: SiTypescript, name: "TypeScript" },
+    { icon: SiReact, name: "React.js" },
+    { icon: SiTailwindcss, name: "Tailwind CSS" },
+    { icon: SiChartdotjs, name: "Chart.js" },
+    { icon: SiFlask, name: "Flask" },
+    { icon: SiDjango, name: "Django" },
+    { icon: SiNumpy, name: "NumPy" },
+    { icon: Database, name: "SQL" },
+    { icon: SiGit, name: "Git" },
+    { icon: SiGithub, name: "GitHub" },
+    { icon: SiFirebase, name: "Firebase" },
+    { icon: FileCode, name: "VS Code" },
+    { icon: SiUbuntu, name: "Ubuntu" },
+    { icon: SiKalilinux, name: "Kali Linux" },
+    { icon: SiCentos, name: "Centos" }
+]
