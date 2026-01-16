@@ -43,6 +43,7 @@ import ProjectLogViewer from '../components/sections/ProjectLogViewer'
 import { projects } from '../data/projects'
 import { Link } from 'react-router-dom'
 import AgeCounter from '../components/features/AgeCounter'
+import SystemClock from '../components/features/SystemClock'
 
 const FILE_TREE = [
   { id: 'home', label: 'index.tsx', icon: FileCode, category: 'src' },
@@ -289,12 +290,19 @@ function Home() {
                 </div>
               </div>
 
+              <SystemClock />
+
               <div className="inline-block px-3 py-1 bg-electric-blue/5 border border-electric-blue/20 text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">
                 System Initialization // Online
               </div>
 
               <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none text-white">
-                <RansomNoteText text="SAKTHIMURUGAN S" className="justify-start gap-2 mb-2" />
+                <div className="flex flex-wrap items-end gap-3 md:gap-4 mb-2">
+                  <RansomNoteText text="SAKTHIMURUGAN S" className="justify-start gap-2" />
+                  <div className="text-xs md:text-sm font-mono text-electric-blue mb-1.5 md:mb-3 opacity-70">
+                    <AgeCounter />
+                  </div>
+                </div>
                 <span className="block text-2xl md:text-4xl text-gray-500 mt-4 font-mono font-light tracking-widest uppercase">
                   <ScrambleText text="Dev & Security Enthusiast" delay={1.5} />
                 </span>
@@ -402,7 +410,7 @@ function Home() {
                 <div className="code-block text-sm leading-loose text-gray-300">
                   <p className="mb-2"><span className="text-crimson"># Objective:</span> Turning complex problems into elegant, secure codebases.</p>
                   <p className="mb-2"><span className="text-electric-blue"># Background:</span> Cybersecurity researcher with a passion for modern web engineering.</p>
-                  <p><span className="text-white/40"># Current status:</span> Investigating Machine Learning integration & Security outsmarting.</p>
+                  <p className="mb-2"><span className="text-white/40"># Current status:</span> Investigating Machine Learning integration & Security outsmarting.</p>
                 </div>
 
                 <div className="space-y-6">
@@ -420,9 +428,6 @@ function Home() {
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-white/5">
-                  <AgeCounter />
-                </div>
 
 
 
