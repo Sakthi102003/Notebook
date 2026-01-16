@@ -17,8 +17,7 @@ import {
   Terminal as TerminalIcon,
   X,
   Menu,
-  MessageSquare,
-  Box
+  MessageSquare
 } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
 import {
@@ -55,10 +54,24 @@ const FILE_TREE = [
   { id: 'contact', label: 'relay.log', icon: TerminalIcon, category: 'src/comm' },
 ]
 
+import WakatimeStats from '../components/features/WakatimeStats'
+
 function Home() {
   const [activeFile, setActiveFile] = useState('home')
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showWakatimeModal, setShowWakatimeModal] = useState(false)
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
+  const iconRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseEnter = () => {
+    if (iconRef.current) {
+      const rect = iconRef.current.getBoundingClientRect()
+      setPopupPosition({ x: rect.right + 20, y: rect.top })
+      setShowWakatimeModal(true)
+    }
+  }
+
   const [isScrolled, setIsScrolled] = useState(false)
   const [selectedProject, setSelectedProject] = useState<any>(null)
   const mainContentRef = useRef<HTMLDivElement>(null)
@@ -283,10 +296,15 @@ function Home() {
               className="space-y-8"
             >
               {/* Avatar Feature from New Design */}
-              <div className="relative w-24 h-24 mb-6">
+              <div className="relative w-24 h-24 mb-6 z-50">
                 <img src="/images/blue avatar.png" alt="Sakthi" className="w-full h-full rounded-full border-2 border-white/10 shadow-2xl transition-all duration-500" />
-                <div className="absolute -bottom-1 -right-1 bg-stealth-900 rounded-xl p-1.5 border border-white/10 shadow-lg group">
-                  <Box size={16} className="text-electric-blue animate-pulse" />
+                <div
+                  ref={iconRef}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={() => setShowWakatimeModal(false)}
+                  className="absolute -bottom-1 -right-1 bg-stealth-900 rounded-xl p-1.5 border border-white/10 shadow-lg group hover:border-electric-blue/50 transition-colors cursor-help"
+                >
+                  <img src="/images/vscode.png" alt="VS Code Stats" className="w-4 h-4 object-contain group-hover:scale-110 transition-transform" />
                 </div>
               </div>
 
@@ -665,6 +683,27 @@ function Home() {
                 </div>
               </motion.div>
             </>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {showWakatimeModal && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, x: -20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.9, x: -20 }}
+              style={{
+                position: 'fixed',
+                left: popupPosition.x,
+                top: popupPosition.y,
+                zIndex: 100
+              }}
+              className="pointer-events-none"
+            >
+              <div className="w-80 bg-stealth-900/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+                <WakatimeStats />
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
 
