@@ -71,7 +71,10 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
       setActiveLogIndex((prev) => Math.min(prev + 1, SECURITY_LOGS.length - 1));
     }, duration / SECURITY_LOGS.length);
 
+    document.body.classList.add('loading-active');
+
     return () => {
+      document.body.classList.remove('loading-active');
       clearInterval(loadingTimer);
       clearInterval(logTimer);
       clearInterval(langTimer);
