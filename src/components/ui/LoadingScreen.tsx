@@ -62,10 +62,10 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
       });
     }, interval);
 
-    // Cycle languages faster than logs
+    // Cycle languages slightly slower to match animation durations
     const langTimer = setInterval(() => {
       setLangIndex((prev) => (prev + 1) % LANGUAGES.length);
-    }, 250);
+    }, 400);
 
     const logTimer = setInterval(() => {
       setActiveLogIndex((prev) => Math.min(prev + 1, SECURITY_LOGS.length - 1));
@@ -82,13 +82,32 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, filter: "blur(20px)", transition: { duration: 1, ease: "easeInOut" } }}
+      exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden font-mono"
     >
       {/* Dynamic Cyber Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(90deg,rgba(0,229,255,0.1)_1px,transparent_1px),linear-gradient(rgba(0,229,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,229,255,0.05)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(90deg,rgba(0,229,255,0.1)_1px,transparent_1px),linear-gradient(rgba(0,229,255,0.1)_1px,transparent_1px)] bg-[size:25px_25px]" />
+
+        {/* Floating Background Data Fragments */}
+        <div className="absolute inset-0 overflow-hidden opacity-[0.05]">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ y: "110%", x: `${Math.random() * 100}%` }}
+              animate={{ y: "-10%" }}
+              transition={{
+                duration: 10 + Math.random() * 20,
+                repeat: Infinity,
+                ease: "linear",
+                delay: Math.random() * 10
+              }}
+              className="absolute text-[8px] font-mono text-electric-blue whitespace-nowrap"
+            >
+              {Math.random().toString(16).toUpperCase().slice(2, 10)} 0x{i}F{i}A
+            </motion.div>
+          ))}
+        </div>
 
         {/* Horizontal Scanline */}
         <motion.div
@@ -97,62 +116,79 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
           className="absolute left-0 w-full h-[2px] bg-electric-blue/40 shadow-[0_0_20px_#00E5FF] z-10"
         />
 
-        {/* Floating Noise/Glitches */}
+        {/* Noise Overlay */}
         <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       </div>
 
       <div className="relative z-10 w-full max-w-2xl px-8 flex flex-col items-center gap-16">
-        {/* Name Cycle Section */}
-        <div className="flex flex-col items-center justify-center min-h-[120px] relative w-full">
+        {/* Name Cycle Section with Frame */}
+        <div className="flex flex-col items-center justify-center min-h-[160px] relative w-full group">
+          {/* Animated Corner Brackets */}
+          <div className="absolute -inset-10 pointer-events-none">
+            {/* Top Left */}
+            <motion.div
+              animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.02, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-electric-blue/30"
+            />
+            {/* Top Right */}
+            <motion.div
+              animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.02, 1] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-electric-blue/30"
+            />
+            {/* Bottom Left */}
+            <motion.div
+              animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.02, 1] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+              className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-electric-blue/30"
+            />
+            {/* Bottom Right */}
+            <motion.div
+              animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.02, 1] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
+              className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-electric-blue/30"
+            />
+          </div>
+
+          {/* Rotating Scan Ring (Behind name) */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute w-64 h-64 border border-dashed border-electric-blue/10 rounded-full -z-10"
+          />
+
           <AnimatePresence mode="wait">
             <motion.div
               key={langIndex}
-              initial={{ opacity: 0, y: 10, filter: "blur(10px)", scale: 0.9 }}
+              initial={{ opacity: 0 }}
               animate={{
                 opacity: 1,
-                y: 0,
-                filter: "blur(0px)",
-                scale: 1,
-                transition: { duration: 0.2, ease: "easeOut" }
+                transition: { duration: 0.1, ease: "easeOut" }
               }}
               exit={{
                 opacity: 0,
-                y: -10,
-                filter: "blur(8px)",
-                scale: 1.1,
-                transition: { duration: 0.15 }
+                transition: { duration: 0.1 }
               }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center relative"
             >
-              <span className="text-sm text-electric-blue/50 tracking-[0.5em] mb-4 uppercase">
-                {LANGUAGES[langIndex].label}
-              </span>
-              <h1 className="text-6xl md:text-8xl font-black text-white tracking-[0.2em] relative">
-                {LANGUAGES[langIndex].text}
-                <motion.span
-                  className="absolute -inset-1 bg-electric-blue/10 blur-xl block -z-10"
-                  animate={{ opacity: [0.3, 0.6, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              </h1>
+              <div className="relative">
+                <h1 className="text-6xl md:text-8xl font-black text-white tracking-[0.2em] relative z-10">
+                  {LANGUAGES[langIndex].text}
+                </h1>
+
+                {/* Integrated Glitch Overlay (Monochromatic for clean 2D look) */}
+                <div className="absolute inset-0 pointer-events-none opacity-20 overflow-visible">
+                  <div
+                    data-text={LANGUAGES[langIndex].text}
+                    className="animate-cyber-glitch text-white absolute inset-0 flex items-center justify-center text-6xl md:text-8xl font-black select-none"
+                  >
+                    {LANGUAGES[langIndex].text}
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </AnimatePresence>
-
-          {/* Glitch Overlay Effect */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none opacity-20">
-            <div
-              data-text={LANGUAGES[langIndex].text}
-              className="animate-cyber-glitch text-crimson absolute inset-0 flex items-center justify-center text-7xl md:text-9xl font-black opacity-30 select-none"
-            >
-              {LANGUAGES[langIndex].text}
-            </div>
-            <div
-              data-text={LANGUAGES[langIndex].text}
-              className="animate-cyber-glitch text-electric-blue absolute inset-0 flex items-center justify-center text-7xl md:text-9xl font-black opacity-30 select-none [animation-delay:0.1s]"
-            >
-              {LANGUAGES[langIndex].text}
-            </div>
-          </div>
         </div>
 
         {/* Progress & Logs Section */}
