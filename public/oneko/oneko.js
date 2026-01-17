@@ -35,6 +35,7 @@
       ["maia", "Maia (maia.crimew.gay)"],
       ["vaporwave", "Vaporwave (nya.rest)"],
     ],
+    getVariantUrl = (v) => `/oneko/oneko-${v}.gif`,
     spriteSets = {
       idle: [[-3, -3]],
       alert: [[-7, -3]],
@@ -166,7 +167,7 @@
     nekoEl.style.position = "fixed";
     nekoEl.style.pointerEvents = "auto";
     nekoEl.style.cursor = "pointer";
-    nekoEl.style.backgroundImage = `url('/oneko/oneko-${variant}.gif')`;
+    nekoEl.style.backgroundImage = `url('${getVariantUrl(variant)}')`;
     nekoEl.style.imageRendering = "pixelated";
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
@@ -265,6 +266,7 @@
   function setSprite(name, frame) {
     const sprite = getSprite(name, frame);
     nekoEl.style.backgroundPosition = `${sprite[0] * 32}px ${sprite[1] * 32}px`;
+    nekoEl.style.transform = "none";
   }
 
   function resetIdleAnimation() {
@@ -410,7 +412,7 @@
 
     variant = arr[0];
     localStorage.setItem("oneko:variant", `"${variant}"`);
-    nekoEl.style.backgroundImage = `url('/oneko/oneko-${variant}.gif')`;
+    nekoEl.style.backgroundImage = `url('${getVariantUrl(variant)}')`;
   }
 
   // Popup modal to choose variant
@@ -532,27 +534,10 @@
         width: 72px;
         height: 72px;
         cursor: pointer;
-        background-image: url('/oneko/oneko-${variantEnum[0]}.gif');
+        background-image: url('${getVariantUrl(variantEnum[0])}');
         background-size: 800%;
-        background-position: ${idle[0] * 32}px ${idle[1] * 32}px; /* Adjusted scaling */
-        background-repeat: no-repeat;
-        /* Correction for scaling pixel art in css background is tricky, 
-           so we use the sprite logic but scale the element. 
-           The original code used 64px div with 32px sprite scaled?
-           Original was: background-size: 800%; pos: ...*64
-        */
-        background-size: 800%; 
-        background-position: ${idle[0] * 100}% ${idle[1] * 33.33}%; /* Approximate % for sprites? No, let's stick to pixel math */
-        
-        /* 
-           Original: 
-           div size: 64px
-           image: 256x128 
-           bg-size: 800% -> this means the bg image is treated as 8 * 64px wide? 
-           Let's replicate exactly what worked but with new styles.
-        */
         background-position: ${idle[0] * 64}px ${idle[1] * 64}px;
-
+        background-repeat: no-repeat;
         background-color: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.2s ease-in-out;
@@ -589,7 +574,9 @@
       };
 
       div.onmouseleave = () => {
-        div.style.backgroundPosition = `${idle[0] * 64}px ${idle[1] * 64}px`;
+        if (!isAvatar(variantEnum[0])) {
+          div.style.backgroundPosition = `${idle[0] * 64}px ${idle[1] * 64}px`;
+        }
         if (variantEnum[0] !== variant) {
           div.style.borderColor = "rgba(255, 255, 255, 0.1)";
           div.style.boxShadow = "none";
