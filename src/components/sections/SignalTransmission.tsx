@@ -26,6 +26,10 @@ export default function SignalTransmission() {
                                 Encrypted channel open for reconnaissance and collaboration.
                                 Initiating mission briefing for potential partners.
                             </p>
+                            <div className="flex items-center gap-2 text-[10px] font-mono text-green-500 uppercase tracking-widest bg-green-500/5 border border-green-500/20 px-3 py-1.5 w-fit">
+                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                                FREELANCE PROTOCOL: ACTIVE
+                            </div>
                         </div>
 
                         <div className="space-y-6">

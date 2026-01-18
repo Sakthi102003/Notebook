@@ -21,6 +21,7 @@ import ScrambleText from '../ui/ScrambleText'
 import AgeCounter from '../features/AgeCounter'
 import SystemClock from '../features/SystemClock'
 import WakatimeStats from '../features/WakatimeStats'
+import SpotifyStatus from '../features/SpotifyStatus'
 
 interface HeroSectionProps {
     scrollToSection: (id: string) => void
@@ -62,8 +63,18 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
 
                 <SystemClock />
 
-                <div className="inline-block px-3 py-1 bg-electric-blue/5 border border-electric-blue/20 text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">
-                    System Initialization // Online
+                <div className="flex flex-wrap items-center gap-4">
+                    <div className="inline-block px-3 py-1 bg-electric-blue/5 border border-electric-blue/20 text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">
+                        System Initialization // Online
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-1 bg-green-500/5 border border-green-500/20 text-[10px] font-mono text-green-500 uppercase tracking-[0.3em] animate-pulse-slow">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                        Freelance_Work // Available
+                    </div>
+                </div>
+
+                <div className="w-full max-w-md pt-2">
+                    <SpotifyStatus />
                 </div>
 
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none text-white">

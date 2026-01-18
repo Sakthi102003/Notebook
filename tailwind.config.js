@@ -46,6 +46,8 @@ export default {
         'glitch': 'glitch 0.3s ease-in-out infinite',
         'marquee': 'marquee 25s linear infinite',
         'marquee-reverse': 'marqueeReverse 25s linear infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin-slow': 'spin 3s linear infinite',
       },
       keyframes: {
         scanline: {

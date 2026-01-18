@@ -17,6 +17,10 @@ export default function StealthStatusBar() {
             <div className="flex items-center gap-4">
                 <span>UTF-8</span>
                 <span>TypeScript JSX</span>
+                <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/10 border border-green-500/20 text-green-500 rounded-sm">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span>AVAILABLE FOR FREELANCE</span>
+                </div>
                 <span>SakthiLabs_v2.0</span>
             </div>
         </footer>

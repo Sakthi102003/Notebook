@@ -16,6 +16,7 @@ export default function MissionParams() {
                         <p className="mb-2"><span className="text-crimson"># Objective:</span> Turning complex problems into elegant, secure codebases.</p>
                         <p className="mb-2"><span className="text-electric-blue"># Background:</span> Cybersecurity researcher with a passion for modern web engineering.</p>
                         <p className="mb-2"><span className="text-white/40"># Current status:</span> Investigating Machine Learning integration & Security outsmarting.</p>
+                        <p className="mb-2"><span className="text-green-500"># Availability:</span> OPEN_TO_FREELANCE_WORK.</p>
                     </div>
 
                     <div className="space-y-6">
