@@ -22,6 +22,16 @@ const SpotifyStatus = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        // Load last played from storage on mount
+        const saved = localStorage.getItem('spotify_last_played');
+        if (saved) {
+            try {
+                setLastPlayed(JSON.parse(saved));
+            } catch (e) {
+                console.error("Error parsing saved spotify data", e);
+            }
+        }
+
         const fetchPresence = async () => {
             try {
                 const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
@@ -41,6 +51,8 @@ const SpotifyStatus = () => {
                         };
                         setSpotify(current);
                         setLastPlayed(current);
+                        // Persist to storage
+                        localStorage.setItem('spotify_last_played', JSON.stringify(current));
                     } else {
                         setSpotify(null);
                     }
