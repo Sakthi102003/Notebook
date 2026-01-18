@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { Play } from 'lucide-react';
 
-const DISCORD_ID = "1074201854143123560";
+const DISCORD_ID = import.meta.env.VITE_DISCORD_ID || "1074201854143123560";
 
 interface SpotifyData {
     active: boolean;
@@ -40,23 +40,29 @@ const SpotifyStatus = () => {
                 if (result.success) {
                     setError(null);
                     const data = result.data;
-                    if (data.listening_to_spotify) {
-                        const current = {
+
+                    // Priority 1: Direct Lanyard Spotify Data
+                    // Priority 2: Fallback check in activities array
+                    const spotifyActivity = data.activities?.find((a: any) => a.name === "Spotify" || a.type === 2);
+
+                    if (data.listening_to_spotify || spotifyActivity) {
+                        const current: SpotifyData = {
                             active: true,
-                            song: data.spotify.song,
-                            artist: data.spotify.artist,
-                            album: data.spotify.album,
-                            album_art_url: data.spotify.album_art_url,
-                            track_id: data.spotify.track_id
+                            song: data.spotify?.song || spotifyActivity?.details || "Unknown Track",
+                            artist: data.spotify?.artist || spotifyActivity?.state || "Unknown Artist",
+                            album: data.spotify?.album || spotifyActivity?.assets?.large_text || "",
+                            album_art_url: data.spotify?.album_art_url || (spotifyActivity?.assets?.large_image ? `https://i.scdn.co/image/${spotifyActivity.assets.large_image.split(':')[1]}` : ""),
+                            track_id: data.spotify?.track_id || ""
                         };
+
                         setSpotify(current);
                         setLastPlayed(current);
-                        // Persist to storage
                         localStorage.setItem('spotify_last_played', JSON.stringify(current));
                     } else {
                         setSpotify(null);
                     }
                 } else {
+                    console.warn("Lanyard API Error:", result.error);
                     if (result.error?.code === "user_not_monitored") {
                         setError("Lanyard_Not_Linked");
                     } else {
@@ -131,7 +137,7 @@ const SpotifyStatus = () => {
                     <img
                         src={data.album_art_url}
                         alt={data.album}
-                        className={`w-16 h-16 rounded-lg shadow-lg object-cover ${spotify ? 'animate-none' : 'grayscale-[0.5]'}`}
+                        className={`w-16 h-16 rounded-lg object-cover transition-all duration-500 ${spotify ? 'shadow-[0_0_15px_-3px_#1DB954] ring-1 ring-[#1DB954]/50' : 'grayscale-[0.5] shadow-lg outline outline-1 outline-white/10'}`}
                     />
                     {spotify && (
                         <div className="absolute -bottom-1 -right-1 bg-[#1DB954] rounded-full p-1 shadow-lg">
