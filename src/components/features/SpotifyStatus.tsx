@@ -18,6 +18,7 @@ const SpotifyStatus = () => {
     const [spotify, setSpotify] = useState<SpotifyData | null>(null);
     const [lastPlayed, setLastPlayed] = useState<SpotifyData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
     const [error, setError] = useState<string | null>(null);
 
@@ -39,6 +40,7 @@ const SpotifyStatus = () => {
 
                 if (result.success) {
                     setError(null);
+                    setLastUpdated(new Date());
                     const data = result.data;
 
                     // Priority 1: Direct Lanyard Spotify Data
@@ -178,6 +180,11 @@ const SpotifyStatus = () => {
                     <p className="text-gray-400 text-sm truncate">
                         by {data.artist}
                     </p>
+                    {lastUpdated && !spotify && (
+                        <p className="text-[8px] text-gray-600 font-mono mt-0.5">
+                            LIVE_LAST_SYNC: {lastUpdated.toLocaleTimeString([], { hour12: false })}
+                        </p>
+                    )}
                 </div>
 
                 {/* Play Icon/Button */}
