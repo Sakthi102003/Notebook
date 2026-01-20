@@ -44,27 +44,33 @@ const SpotifyStatus = ({ isSmall = false }: SpotifyStatusProps) => {
             setError(null);
             setLastUpdated(new Date());
 
-            // Check if there is a specific Spotify activity or if Lanyard flag is true
+            // 1. Determine if actually listening (Prioritize activities[] as it is usually more "live")
             const spotifyActivity = data.activities?.find((a: any) => a.name === "Spotify" || a.type === 2);
             const rawSpotify = data.spotify;
-            const isActive = data.listening_to_spotify === true || !!spotifyActivity;
+            const isListening = data.listening_to_spotify === true || !!spotifyActivity;
 
-            if (isActive && (rawSpotify || spotifyActivity)) {
-                const trackId = rawSpotify?.track_id || spotifyActivity?.sync_id || "";
+            // Log for debugging (Hidden in console but searchable)
+            console.log(`[SpotifySync] ID:${DISCORD_ID} | Live:${isListening} | Activity:${!!spotifyActivity}`);
 
-                let albumArt = rawSpotify?.album_art_url || "";
-                if (!albumArt && spotifyActivity?.assets?.large_image) {
+            if (isListening && (rawSpotify || spotifyActivity)) {
+                // Prioritize data from the activity array if it exists
+                const trackId = spotifyActivity?.sync_id || rawSpotify?.track_id || "";
+
+                let albumArt = "";
+                if (spotifyActivity?.assets?.large_image) {
                     const imgId = spotifyActivity.assets.large_image;
                     albumArt = imgId.includes(':')
                         ? `https://i.scdn.co/image/${imgId.split(':')[1]}`
                         : `https://i.scdn.co/image/${imgId}`;
+                } else {
+                    albumArt = rawSpotify?.album_art_url || "";
                 }
 
                 const current: SpotifyData = {
                     active: true,
-                    song: rawSpotify?.song || spotifyActivity?.details || "Unknown Track",
-                    artist: rawSpotify?.artist || spotifyActivity?.state || "Unknown Artist",
-                    album: rawSpotify?.album || spotifyActivity?.assets?.large_text || "",
+                    song: spotifyActivity?.details || rawSpotify?.song || "Unknown Track",
+                    artist: spotifyActivity?.state || rawSpotify?.artist || "Unknown Artist",
+                    album: spotifyActivity?.assets?.large_text || rawSpotify?.album || "",
                     album_art_url: albumArt,
                     track_id: trackId
                 };
@@ -80,7 +86,6 @@ const SpotifyStatus = ({ isSmall = false }: SpotifyStatusProps) => {
 
         const fetchPresence = async () => {
             try {
-                // Aggressive cache busting
                 const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}?nocache=${Date.now()}`, {
                     headers: {
                         'Cache-Control': 'no-cache, no-store, must-revalidate',
