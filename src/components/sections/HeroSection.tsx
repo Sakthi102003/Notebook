@@ -73,10 +73,6 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     </div>
                 </div>
 
-                <div className="w-full max-w-md pt-2">
-                    <SpotifyStatus />
-                </div>
-
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none text-white">
                     <div className="flex flex-wrap items-end gap-3 md:gap-4 mb-2">
                         <RansomNoteText text="SAKTHIMURUGAN S" className="justify-start gap-2" />
@@ -93,30 +89,36 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2 }}
-                    className="flex gap-6 mt-6"
+                    className="flex flex-wrap items-center gap-x-12 gap-y-6 mt-6"
                 >
-                    {[
-                        { icon: Github, href: 'https://github.com/Sakthi102003', label: 'GITHUB' },
-                        { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN' },
-                        { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL' },
-                        { icon: Instagram, href: 'https://www.instagram.com/sakthiii_techh/', label: 'INSTAGRAM' },
-                        { icon: SiMedium, href: 'https://medium.com/@sakthimurugan102003', label: 'MEDIUM' }
-                    ].map((social) => (
-                        <a
-                            key={social.label}
-                            href={social.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group relative p-2"
-                            title={social.label}
-                        >
-                            <social.icon size={20} className="text-gray-500 group-hover:text-electric-blue transition-colors duration-300" />
-                            <motion.div
-                                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-electric-blue group-hover:w-full transition-all duration-300"
-                                layoutId={`social-hover-${social.label}`}
-                            />
-                        </a>
-                    ))}
+                    <div className="flex gap-6">
+                        {[
+                            { icon: Github, href: 'https://github.com/Sakthi102003', label: 'GITHUB' },
+                            { icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN' },
+                            { icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL' },
+                            { icon: Instagram, href: 'https://www.instagram.com/sakthiii_techh/', label: 'INSTAGRAM' },
+                            { icon: SiMedium, href: 'https://medium.com/@sakthimurugan102003', label: 'MEDIUM' }
+                        ].map((social) => (
+                            <a
+                                key={social.label}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group relative p-2"
+                                title={social.label}
+                            >
+                                <social.icon size={20} className="text-gray-500 group-hover:text-electric-blue transition-colors duration-300" />
+                                <motion.div
+                                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-electric-blue group-hover:w-full transition-all duration-300"
+                                    layoutId={`social-hover-${social.label}`}
+                                />
+                            </a>
+                        ))}
+                    </div>
+
+                    <div className="flex-grow max-w-[300px]">
+                        <SpotifyStatus isSmall />
+                    </div>
                 </motion.div>
 
                 <div className="glow-line-blue opacity-50 max-w-md" />
