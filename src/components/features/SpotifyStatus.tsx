@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { Play } from 'lucide-react';
@@ -19,8 +19,9 @@ const SpotifyStatus = () => {
     const [lastPlayed, setLastPlayed] = useState<SpotifyData | null>(null);
     const [loading, setLoading] = useState(true);
     const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-
     const [error, setError] = useState<string | null>(null);
+
+    const socketRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
         // Load last played from storage on mount
@@ -33,36 +34,49 @@ const SpotifyStatus = () => {
             }
         }
 
+        const handlePresenceUpdate = (data: any) => {
+            if (!data) return;
+
+            setError(null);
+            setLastUpdated(new Date());
+
+            // Priority 1: Direct Lanyard Spotify Data
+            // Priority 2: Fallback check in activities array
+            const spotifyActivity = data.activities?.find((a: any) => a.name === "Spotify" || a.type === 2);
+
+            if (data.listening_to_spotify || spotifyActivity) {
+                const current: SpotifyData = {
+                    active: true,
+                    song: data.spotify?.song || spotifyActivity?.details || "Unknown Track",
+                    artist: data.spotify?.artist || spotifyActivity?.state || "Unknown Artist",
+                    album: data.spotify?.album || spotifyActivity?.assets?.large_text || "",
+                    album_art_url: data.spotify?.album_art_url || (spotifyActivity?.assets?.large_image ? `https://i.scdn.co/image/${spotifyActivity.assets.large_image.split(':')[1]}` : ""),
+                    track_id: data.spotify?.track_id || ""
+                };
+
+                setSpotify(current);
+                setLastPlayed(current);
+                localStorage.setItem('spotify_last_played', JSON.stringify(current));
+            } else {
+                setSpotify(null);
+            }
+            setLoading(false);
+        };
+
         const fetchPresence = async () => {
             try {
-                const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+                // Add timestamp to bypass any browser/CDN caching
+                const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}?t=${Date.now()}`, {
+                    cache: 'no-store',
+                    headers: {
+                        'Pragma': 'no-cache',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
                 const result = await response.json();
 
                 if (result.success) {
-                    setError(null);
-                    setLastUpdated(new Date());
-                    const data = result.data;
-
-                    // Priority 1: Direct Lanyard Spotify Data
-                    // Priority 2: Fallback check in activities array
-                    const spotifyActivity = data.activities?.find((a: any) => a.name === "Spotify" || a.type === 2);
-
-                    if (data.listening_to_spotify || spotifyActivity) {
-                        const current: SpotifyData = {
-                            active: true,
-                            song: data.spotify?.song || spotifyActivity?.details || "Unknown Track",
-                            artist: data.spotify?.artist || spotifyActivity?.state || "Unknown Artist",
-                            album: data.spotify?.album || spotifyActivity?.assets?.large_text || "",
-                            album_art_url: data.spotify?.album_art_url || (spotifyActivity?.assets?.large_image ? `https://i.scdn.co/image/${spotifyActivity.assets.large_image.split(':')[1]}` : ""),
-                            track_id: data.spotify?.track_id || ""
-                        };
-
-                        setSpotify(current);
-                        setLastPlayed(current);
-                        localStorage.setItem('spotify_last_played', JSON.stringify(current));
-                    } else {
-                        setSpotify(null);
-                    }
+                    handlePresenceUpdate(result.data);
                 } else {
                     console.warn("Lanyard API Error:", result.error);
                     if (result.error?.code === "user_not_monitored") {
@@ -79,9 +93,89 @@ const SpotifyStatus = () => {
             }
         };
 
-        fetchPresence();
-        const interval = setInterval(fetchPresence, 10000);
-        return () => clearInterval(interval);
+        const connectWebSocket = () => {
+            // Prevent multiple connections
+            if (socketRef.current && (socketRef.current.readyState === WebSocket.CONNECTING || socketRef.current.readyState === WebSocket.OPEN)) {
+                return;
+            }
+
+            const socket = new WebSocket('wss://api.lanyard.rest/socket');
+            socketRef.current = socket;
+
+            let heartbeat: any;
+
+            socket.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+
+                if (msg.op === 1) { // Hello
+                    if (socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            op: 2,
+                            d: { subscribe_to_id: DISCORD_ID }
+                        }));
+                    }
+
+                    // Heartbeat
+                    heartbeat = setInterval(() => {
+                        if (socket.readyState === WebSocket.OPEN) {
+                            socket.send(JSON.stringify({ op: 3 }));
+                        }
+                    }, msg.d.heartbeat_interval);
+                }
+
+                if (msg.op === 0) { // Event
+                    if (msg.t === 'INIT_STATE' || msg.t === 'PRESENCE_UPDATE') {
+                        handlePresenceUpdate(msg.d);
+                    }
+                }
+            };
+
+            socket.onerror = () => {
+                // On socket error, fallback to polling
+                fetchPresence();
+            };
+
+            socket.onclose = (e) => {
+                if (heartbeat) clearInterval(heartbeat);
+
+                // Only reconnect if not closed intentionally by cleanup (code 1000)
+                if (e.code !== 1000) {
+                    setTimeout(() => {
+                        // Check if we still want to connect
+                        if (socketRef.current === socket) {
+                            connectWebSocket();
+                        }
+                    }, 5000);
+                }
+            };
+        };
+
+        // Initialize connections
+        connectWebSocket();
+        fetchPresence(); // Initial fetch for immediate data
+
+        // Fallback polling every 30s in case WS fails
+        const pollInterval = setInterval(fetchPresence, 30000);
+
+        const handleOnline = () => {
+            connectWebSocket();
+            fetchPresence();
+        };
+
+        window.addEventListener('online', handleOnline);
+
+        return () => {
+            const socket = socketRef.current;
+            if (socket) {
+                socketRef.current = null; // Mark as being cleaned up
+                // Only close if it's not already closing or closed
+                if (socket.readyState !== WebSocket.CLOSED && socket.readyState !== WebSocket.CLOSING) {
+                    socket.close(1000);
+                }
+            }
+            clearInterval(pollInterval);
+            window.removeEventListener('online', handleOnline);
+        };
     }, []);
 
     const data = spotify || lastPlayed;
@@ -136,11 +230,17 @@ const SpotifyStatus = () => {
             <div className="flex items-center gap-4">
                 {/* Album Art */}
                 <div className="relative flex-shrink-0">
-                    <img
-                        src={data.album_art_url}
-                        alt={data.album}
-                        className={`w-16 h-16 rounded-lg object-cover transition-all duration-500 ${spotify ? 'shadow-[0_0_15px_-3px_#1DB954] ring-1 ring-[#1DB954]/50' : 'grayscale-[0.5] shadow-lg outline outline-1 outline-white/10'}`}
-                    />
+                    {data.album_art_url ? (
+                        <img
+                            src={data.album_art_url}
+                            alt={data.album}
+                            className={`w-16 h-16 rounded-lg object-cover transition-all duration-500 ${spotify ? 'shadow-[0_0_15px_-3px_#1DB954] ring-1 ring-[#1DB954]/50' : 'grayscale-[0.5] shadow-lg outline outline-1 outline-white/10'}`}
+                        />
+                    ) : (
+                        <div className="w-16 h-16 bg-white/5 rounded-lg flex items-center justify-center grayscale">
+                            <SiSpotify size={24} className="text-gray-600" />
+                        </div>
+                    )}
                     {spotify && (
                         <div className="absolute -bottom-1 -right-1 bg-[#1DB954] rounded-full p-1 shadow-lg">
                             <SiSpotify size={12} className="text-black" />
@@ -202,3 +302,4 @@ const SpotifyStatus = () => {
 };
 
 export default SpotifyStatus;
+
