@@ -86,8 +86,15 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden font-mono"
+      onClick={onLoadingComplete}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden font-mono cursor-pointer group"
     >
+      {/* Skip Hint */}
+      <div className="absolute top-10 right-10 opacity-0 group-hover:opacity-40 transition-opacity duration-300">
+        <span className="text-[10px] text-white tracking-[0.4em] uppercase font-mono bg-white/5 border border-white/10 px-4 py-2 rounded-full">
+          Click_to_Skip_Initialization
+        </span>
+      </div>
       {/* Dynamic Cyber Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(90deg,rgba(0,229,255,0.1)_1px,transparent_1px),linear-gradient(rgba(0,229,255,0.1)_1px,transparent_1px)] bg-[size:25px_25px]" />

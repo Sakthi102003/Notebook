@@ -1,18 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap } from 'lucide-react';
 
 const IdCardOverlay = () => {
     const [isVisible, setIsVisible] = useState(true);
 
-    useEffect(() => {
-        // Hide after 5 seconds
-        const timer = setTimeout(() => {
-            setIsVisible(false);
-        }, 5000);
 
-        return () => clearTimeout(timer);
-    }, []);
 
     return (
         <AnimatePresence>
@@ -53,7 +46,8 @@ const IdCardOverlay = () => {
 
                     {/* Card Holder */}
                     <motion.div
-                        className="relative z-10 w-[280px] h-[450px] bg-black border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col p-6"
+                        className="relative z-10 w-[280px] h-[450px] bg-black border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col p-6 cursor-pointer"
+                        onClick={() => setIsVisible(false)}
                         animate={{
                             rotateZ: [0, 1.5, -1.5, 0],
                         }}
