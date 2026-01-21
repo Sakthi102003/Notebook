@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
  * Tracks user engagement and "Power Level"
  */
 export const useGamification = () => {
-    const [powerLevel, setPowerLevel] = useState(0);
+    const [explorationProgress, setExplorationProgress] = useState(0);
     const [visitedSections, setVisitedSections] = useState<Set<string>>(new Set());
     const [interactions, setInteractions] = useState<Set<string>>(new Set());
 
@@ -12,9 +12,13 @@ export const useGamification = () => {
     useEffect(() => {
         const saved = localStorage.getItem('sakthi_gamification');
         if (saved) {
-            const data = JSON.parse(saved);
-            setVisitedSections(new Set(data.visitedSections || []));
-            setInteractions(new Set(data.interactions || []));
+            try {
+                const data = JSON.parse(saved);
+                setVisitedSections(new Set(data.visitedSections || []));
+                setInteractions(new Set(data.interactions || []));
+            } catch (e) {
+                console.error("Failed to load gamification data", e);
+            }
         }
     }, []);
 
@@ -25,12 +29,13 @@ export const useGamification = () => {
             interactions: Array.from(interactions)
         }));
 
-        // Calculate power level
-        // 10% per unique section visited (max 7 sections = 70%)
-        // 5% per unique interaction (chat, command palette, terminal, projects) - max 30%
+        // Calculate exploration progress
+        // Max 100%
+        // - Sections: (max 7) * 10% = 70%
+        // - Interactions: (max 6) * 5% = 30%
         const sectionScore = Math.min(visitedSections.size * 10, 70);
         const interactionScore = Math.min(interactions.size * 5, 30);
-        setPowerLevel(sectionScore + interactionScore);
+        setExplorationProgress(Math.min(sectionScore + interactionScore, 100));
     }, [visitedSections, interactions]);
 
     const trackSection = useCallback((sectionId: string) => {
@@ -51,5 +56,5 @@ export const useGamification = () => {
         });
     }, []);
 
-    return { powerLevel, trackSection, trackInteraction };
+    return { explorationProgress, trackSection, trackInteraction };
 };

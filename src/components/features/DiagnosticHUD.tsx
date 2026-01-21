@@ -6,10 +6,9 @@ import StealthCard from '../ui/StealthCard';
 interface HUDProps {
     isOpen: boolean;
     onClose: () => void;
-    powerLevel: number;
 }
 
-const DiagnosticHUD: React.FC<HUDProps> = ({ isOpen, onClose, powerLevel }) => {
+const DiagnosticHUD: React.FC<HUDProps> = ({ isOpen, onClose }) => {
     const [browserInfo, setBrowserInfo] = useState({
         ua: '',
         res: '',
@@ -90,13 +89,13 @@ const DiagnosticHUD: React.FC<HUDProps> = ({ isOpen, onClose, powerLevel }) => {
                             </div>
                             <div className="space-y-4 font-mono text-[10px] uppercase">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-gray-500">Power_Level</span>
-                                    <span className="text-electric-blue">{powerLevel}%</span>
+                                    <span className="text-gray-500">Power_Output</span>
+                                    <span className="text-electric-blue">OVERLOADED</span>
                                 </div>
                                 <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
                                     <motion.div
                                         initial={{ width: 0 }}
-                                        animate={{ width: `${powerLevel}%` }}
+                                        animate={{ width: `100%` }}
                                         className="h-full bg-electric-blue shadow-[0_0_10px_#00E5FF]"
                                     />
                                 </div>

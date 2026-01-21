@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Folder, ChevronRight, Terminal as TerminalIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useGamification } from '../../utils/useGamification'
 
 import HoloCard from '../ui/HoloCard'
 import ProjectLogViewer from './ProjectLogViewer'
@@ -9,6 +10,12 @@ import { projects } from '../../data/projects'
 
 export default function DeployedAssets() {
     const [selectedProject, setSelectedProject] = useState<any>(null)
+    const { trackInteraction } = useGamification()
+
+    const handleProjectClick = (project: any) => {
+        setSelectedProject(project)
+        trackInteraction('projects')
+    }
 
     return (
         <>
@@ -30,7 +37,7 @@ export default function DeployedAssets() {
                         >
                             <HoloCard
                                 className="stealth-card p-8 group flex flex-col h-full cursor-pointer hover:border-electric-blue/30 transition-all font-stealth"
-                                onClick={() => setSelectedProject(project)}
+                                onClick={() => handleProjectClick(project)}
                             >
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="p-3 bg-electric-blue/5 border border-white/5 text-electric-blue">

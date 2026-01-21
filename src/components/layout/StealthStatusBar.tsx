@@ -1,29 +1,13 @@
-import { Activity, Zap, Shield } from 'lucide-react'
+import { Activity, Zap } from 'lucide-react'
 
-interface StealthStatusBarProps {
-    powerLevel?: number;
-}
+export default function StealthStatusBar() {
 
-export default function StealthStatusBar({ powerLevel = 0 }: StealthStatusBarProps) {
     return (
         <footer className="h-6 bg-electric-blue flex items-center justify-between px-3 text-stealth-900 text-[10px] font-mono font-bold z-50">
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                     <Activity size={10} />
-                    <span>MAIN*</span>
-                </div>
-                <div className="flex items-center gap-4 border-l border-stealth-900/20 pl-4">
-                    <div className="flex items-center gap-1.5">
-                        <Shield size={10} />
-                        <span>POWER_LVL:</span>
-                        <div className="w-20 h-2 bg-stealth-900/20 rounded-full overflow-hidden border border-stealth-900/10">
-                            <div
-                                className="h-full bg-stealth-900 transition-all duration-500"
-                                style={{ width: `${powerLevel}%` }}
-                            />
-                        </div>
-                        <span className="min-w-[25px]">{powerLevel}%</span>
-                    </div>
+                    <span>SYSTEM_STATUS // ONLINE</span>
                 </div>
             </div>
 

@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { MessageSquare, Send, X, Terminal, Activity } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { getChatResponse } from '../../services/openai'
+import { useGamification } from '../../utils/useGamification'
 
 interface Message {
   id: string
@@ -36,6 +37,7 @@ const quickReplies: QuickReply[] = [
 
 const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const { trackInteraction } = useGamification()
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -187,7 +189,10 @@ const ChatWidget: React.FC = () => {
       </AnimatePresence>
 
       <motion.button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen)
+          if (!isOpen) trackInteraction('chat')
+        }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className="w-14 h-14 bg-stealth-900 border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)] flex items-center justify-center text-electric-blue hover:border-electric-blue transition-all group"

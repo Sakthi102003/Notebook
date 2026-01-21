@@ -130,6 +130,29 @@ class CyberAudioEngine {
         osc.start(t);
         osc.stop(t + 0.3);
     }
+
+    // Elite Operative Soundscape (Reward)
+    public playElite() {
+        if (!this.ctx || this.isMuted) return;
+
+        const t = this.ctx.currentTime;
+        [440, 554, 659, 880].forEach((freq, i) => {
+            const osc = this.ctx!.createOscillator();
+            const gain = this.ctx!.createGain();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, t + i * 0.15);
+
+            gain.gain.setValueAtTime(0.1, t + i * 0.15);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.15 + 0.6);
+
+            osc.connect(gain);
+            gain.connect(this.masterGain!);
+
+            osc.start(t + i * 0.15);
+            osc.stop(t + i * 0.15 + 0.6);
+        });
+    }
 }
 
 export const audioEngine = new CyberAudioEngine();

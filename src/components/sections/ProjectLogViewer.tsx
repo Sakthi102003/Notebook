@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, Terminal } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
+import ProjectSimulator from '../features/ProjectSimulator';
 
 interface Project {
     title: string;
@@ -19,6 +20,7 @@ interface ProjectLogViewerProps {
 
 const ProjectLogViewer = ({ project, onClose }: ProjectLogViewerProps) => {
     const [logs, setLogs] = useState<string[]>([]);
+    const [simOpen, setSimOpen] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -113,14 +115,14 @@ const ProjectLogViewer = ({ project, onClose }: ProjectLogViewerProps) => {
                                 <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
                                 <p className="text-gray-400 mb-6 max-w-2xl">{project.description}</p>
 
-                                <div className="flex gap-4">
+                                <div className="flex flex-wrap gap-4">
                                     <a
                                         href={project.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:border-electric-blue hover:text-electric-blue transition-all uppercase text-xs tracking-wider"
                                     >
-                                        <Github size={14} /> Source Code
+                                        <Github size={14} /> Source
                                     </a>
                                     {project.demoLink && (
                                         <a
@@ -129,9 +131,15 @@ const ProjectLogViewer = ({ project, onClose }: ProjectLogViewerProps) => {
                                             rel="noopener noreferrer"
                                             className="flex items-center gap-2 px-4 py-2 bg-electric-blue/10 border border-electric-blue/30 text-electric-blue hover:bg-electric-blue/20 transition-all uppercase text-xs tracking-wider"
                                         >
-                                            <ExternalLink size={14} /> Live Deployment
+                                            <ExternalLink size={14} /> Live
                                         </a>
                                     )}
+                                    <button
+                                        onClick={() => setSimOpen(true)}
+                                        className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/20 transition-all uppercase text-xs tracking-wider"
+                                    >
+                                        <Terminal size={14} /> Live Simulation
+                                    </button>
                                 </div>
                             </motion.div>
                         )}
@@ -147,6 +155,12 @@ const ProjectLogViewer = ({ project, onClose }: ProjectLogViewerProps) => {
                     </div>
                 </motion.div>
             </motion.div>
+
+            <ProjectSimulator
+                isOpen={simOpen}
+                onClose={() => setSimOpen(false)}
+                project={project}
+            />
         </AnimatePresence>
     );
 };
