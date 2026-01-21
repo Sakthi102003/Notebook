@@ -146,7 +146,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                 <div className="flex flex-wrap gap-4 pt-4">
                     <button
                         onClick={() => scrollToSection('about')}
-                        className="px-8 py-4 bg-electric-blue text-stealth-900 font-bold hover:shadow-[0_0_30px_#00E5FF] transition-all flex items-center gap-2 group uppercase tracking-widest text-xs"
+                        className="px-8 py-4 bg-electric-blue text-stealth-900 font-bold hover:shadow-[0_0_30px_#00E5FF] transition-all flex items-center gap-2 group uppercase tracking-widest text-xs tactical-glitch-hover"
                     >
                         INITIALIZE_RECON <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </button>
@@ -154,7 +154,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                         href="https://drive.google.com/file/d/1XP0eR-HanWD3CqGtO9ZeTe6enXxylaSk/view?usp=sharing"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-8 py-4 border border-white/10 text-white font-bold hover:bg-white/5 transition-all flex items-center gap-2 uppercase tracking-widest text-xs"
+                        className="px-8 py-4 border border-white/10 text-white font-bold hover:bg-white/5 transition-all flex items-center gap-2 uppercase tracking-widest text-xs tactical-glitch-hover"
                     >
                         EXTRACT_IDENT.PDF <Monitor size={16} />
                     </a>
@@ -164,16 +164,21 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.5, duration: 1 }}
-                    className="pt-8 flex items-center gap-3 text-[10px] text-gray-500 font-mono uppercase tracking-widest"
+                    className="pt-8 flex flex-col gap-4 text-[10px] text-gray-500 font-mono uppercase tracking-widest"
                 >
-                    <div className="flex items-center gap-1.5 opacity-70">
-                        <kbd className="px-2 py-1 border border-white/10 rounded bg-white/5 font-sans font-bold text-gray-400">CTRL</kbd>
-                        <span className="text-electric-blue">+</span>
-                        <kbd className="px-2 py-1 border border-white/10 rounded bg-white/5 font-sans font-bold text-gray-400">K</kbd>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-1 h-1 rounded-full bg-electric-blue animate-pulse" />
-                        <span>Command_Palette_Ready</span>
+                    <div className="flex flex-wrap items-center gap-6">
+                        <div className="flex items-center gap-1.5 opacity-70">
+                            <kbd className="px-1.5 py-0.5 border border-white/10 rounded bg-white/5 text-gray-400">CTRL K</kbd>
+                            <span className="text-gray-600">COMMANDS</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 opacity-70">
+                            <kbd className="px-1.5 py-0.5 border border-white/10 rounded bg-white/5 text-gray-400">CTRL \</kbd>
+                            <span className="text-gray-600">TERMINAL</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 opacity-70">
+                            <kbd className="px-1.5 py-0.5 border border-white/10 rounded bg-white/5 text-gray-400">ALT D</kbd>
+                            <span className="text-gray-600">DIAGNOSTICS</span>
+                        </div>
                     </div>
                 </motion.div>
 

@@ -18,6 +18,11 @@ import TechCapability from '../components/sections/TechCapability'
 import DeployedAssets from '../components/sections/DeployedAssets'
 import SignalTransmission from '../components/sections/SignalTransmission'
 
+// New Feature Imports
+import Terminal from '../components/features/Terminal'
+import DiagnosticHUD from '../components/features/DiagnosticHUD'
+import { useGamification } from '../utils/useGamification'
+
 function Home() {
   const [activeFile, setActiveFile] = useState('home')
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -25,6 +30,11 @@ function Home() {
 
   const [isScrolled, setIsScrolled] = useState(false)
   const mainContentRef = useRef<HTMLDivElement>(null)
+
+  // Gamification & Feature State
+  const { powerLevel, trackSection, trackInteraction } = useGamification()
+  const [terminalOpen, setTerminalOpen] = useState(false)
+  const [hudOpen, setHudOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,11 +68,35 @@ function Home() {
     const contentArea = mainContentRef.current
     contentArea?.addEventListener('scroll', handleScroll)
 
+    // Keyboard Shortcuts
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl + \ to toggle terminal
+      if (e.ctrlKey && e.key === '\\') {
+        e.preventDefault()
+        setTerminalOpen(prev => !prev)
+        trackInteraction('terminal')
+      }
+      // Alt + d to toggle HUD
+      if (e.altKey && e.key === 'd') {
+        e.preventDefault()
+        setHudOpen(prev => !prev)
+        trackInteraction('hud')
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+
     return () => {
       contentArea?.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('keydown', handleKeyDown)
       observer.disconnect()
     }
-  }, [])
+  }, [trackInteraction])
+
+  useEffect(() => {
+    if (activeFile !== 'home') {
+      trackSection(activeFile)
+    }
+  }, [activeFile, trackSection])
 
   const scrollToSection = (id: string) => {
     setActiveFile(id)
@@ -139,7 +173,25 @@ function Home() {
         </div>
 
         {/* IDE Footer / Status Bar */}
-        <StealthStatusBar />
+        <StealthStatusBar powerLevel={powerLevel} />
+
+        {/* Global Features */}
+        <Terminal
+          isOpen={terminalOpen}
+          onClose={() => setTerminalOpen(false)}
+          onCommand={(cmd) => {
+            if (cmd === 'status') {
+              setHudOpen(true)
+              trackInteraction('hud')
+            }
+          }}
+        />
+
+        <DiagnosticHUD
+          isOpen={hudOpen}
+          onClose={() => setHudOpen(false)}
+          powerLevel={powerLevel}
+        />
 
         {/* Mobile Sidebar Overlay */}
         <AnimatePresence>

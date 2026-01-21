@@ -56,9 +56,9 @@ export default function StealthSidebar({
                         key={file.id}
                         onClick={() => onNavigate(file.id)}
                         data-active={activeFile === file.id}
-                        className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-all group ${activeFile === file.id
-                                ? 'bg-electric-blue/10 text-electric-blue'
-                                : 'hover:bg-white/5 text-gray-500 hover:text-white'
+                        className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-all group tactical-glitch-hover ${activeFile === file.id
+                            ? 'bg-electric-blue/10 text-electric-blue'
+                            : 'hover:bg-white/5 text-gray-500 hover:text-white'
                             }`}
                     >
                         <file.icon
@@ -96,34 +96,34 @@ export default function StealthSidebar({
                         </span>
                     </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex justify-between px-2">
                     <a
                         href="https://github.com/Sakthi102003"
-                        className="text-gray-600 hover:text-electric-blue transition-colors"
+                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
                     >
                         <Github size={14} />
                     </a>
                     <a
                         href="https://www.linkedin.com/in/sakthimurugan-s/"
-                        className="text-gray-600 hover:text-electric-blue transition-colors"
+                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
                     >
                         <Linkedin size={14} />
                     </a>
                     <a
                         href="mailto:sakthimurugan102003@gmail.com"
-                        className="text-gray-600 hover:text-electric-blue transition-colors"
+                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
                     >
                         <Mail size={14} />
                     </a>
                     <a
                         href="https://www.instagram.com/sakthiii_techh/"
-                        className="text-gray-600 hover:text-electric-blue transition-colors"
+                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
                     >
                         <Instagram size={14} />
                     </a>
                     <a
                         href="https://medium.com/@sakthimurugan102003"
-                        className="text-gray-600 hover:text-electric-blue transition-colors"
+                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
                     >
                         <SiMedium size={14} />
                     </a>

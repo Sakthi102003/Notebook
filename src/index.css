@@ -166,4 +166,34 @@
     4%, 60% { transform: translate(-2px, 0); }
     62% { transform: translate(-10px, 0); }
   }
+
+  /* Tactical Feedback */
+  .tactical-glitch-hover:hover {
+    position: relative;
+    animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+  }
+
+  .tactical-glitch-hover:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 229, 255, 0.1);
+    z-index: -1;
+    animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) reverse both infinite;
+  }
+
+  .interactive-glow:hover {
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+    border-color: rgba(0, 229, 255, 0.5);
+    background: rgba(0, 229, 255, 0.05);
+  }
+
+  /* Scanline Overlay */
+  .vignette-overlay {
+    background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.4) 150%);
+    pointer-events: none;
+  }
 }
