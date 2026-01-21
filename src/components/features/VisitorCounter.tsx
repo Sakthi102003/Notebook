@@ -9,12 +9,18 @@ const VisitorCounter = () => {
   const [hasIncremented, setHasIncremented] = useState(false)
 
   useEffect(() => {
-    if (!hasIncremented) {
+    // Check if we are in development mode
+    const isDev = import.meta.env.DEV || window.location.hostname === 'localhost';
+
+    if (!hasIncremented && !isDev) {
       incrementVisitorCount().then(() => {
         setHasIncremented(true)
       }).catch(() => {
         setIsLoading(false)
       })
+    } else if (isDev && !hasIncremented) {
+      // In dev mode, we still want to see the count, but not increment it
+      setHasIncremented(true)
     }
 
     const unsubscribe = subscribeToVisitorCount((count) => {
@@ -46,7 +52,7 @@ const VisitorCounter = () => {
 
       <div className="flex items-center gap-2">
         <Eye size={14} className="text-electric-blue" />
-        <span className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Live_Views</span>
+        <span className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Access_Logs</span>
       </div>
 
       <div className="flex gap-1">

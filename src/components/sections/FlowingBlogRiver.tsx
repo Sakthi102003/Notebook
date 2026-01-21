@@ -81,12 +81,12 @@ const FlowingBlogRiver = () => {
         )}
       </div>
 
-      <div className="mt-12 flex justify-center">
+      <div className="mt-12 flex justify-center relative z-20">
         <a
           href="https://medium.com/@sakthimurugan102003"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[10px] font-mono text-gray-400 hover:text-electric-blue uppercase tracking-[0.3em] transition-all flex items-center gap-2"
+          className="text-[10px] font-mono text-gray-400 hover:text-electric-blue uppercase tracking-[0.3em] transition-all flex items-center gap-2 cursor-pointer pointer-events-auto"
         >
           <Activity size={14} /> View_Full_Data_Stream
         </a>
