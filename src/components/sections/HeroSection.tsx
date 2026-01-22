@@ -40,12 +40,13 @@ const INITIAL_SOCIALS_DATA = {
     LINKEDIN: {
         name: "Sakthimurugan S",
         handle: "sakthimurugan-s",
-        bio: "Cybersecurity Enthusiast | Full Stack Developer | Building secure digital infrastructure",
+        bio: "Cybersecurity Researcher | Full Stack Developer | Building secure digital infrastructure",
         avatar: "/images/profile.jpg",
-        avatarPosition: "top",
-        banner: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2000&auto=format&fit=crop",
+        banner: "/images/linkedin-banner.png",
         platform: 'LINKEDIN',
-        stats: [] as { label: string; value: string }[]
+        stats: [
+            { label: "connections", value: "500+" }
+        ]
     },
     MAIL: {
         name: "Sakthimurugan S",
@@ -57,12 +58,15 @@ const INITIAL_SOCIALS_DATA = {
         stats: [] as { label: string; value: string }[]
     },
     DISCORD: {
-        name: "Sakthimurugan S",
+        name: "Sakthi",
         handle: "sakthi102003",
         bio: "Chat, collaborate, and discuss security research.",
         avatar: "https://cdn.discordapp.com/avatars/1074201854143123560/046bffa764f10d06a65dcbce5c6e5b5a.png",
         banner: "linear-gradient(135deg, #5865F2 0%, #404EED 100%)",
-        stats: [] as { label: string; value: string }[]
+        platform: 'DISCORD',
+        stats: [
+            { label: 'custom_status', value: 'A Normal Sec Dev' }
+        ]
     },
     MEDIUM: {
         name: "Sakthimurugan S",
@@ -120,11 +124,19 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
             .catch(err => console.error("Medium fetch failed", err));
 
         // Fetch Discord stats via Lanyard
+        // Fetch Discord stats via Lanyard
         fetch('https://api.lanyard.rest/v1/users/1074201854143123560')
             .then(res => res.json())
             .then(data => {
-                if (data.data && data.data.discord_user) {
+                if (data.data) {
                     const user = data.data.discord_user;
+                    const discordStatus = data.data.discord_status || 'offline';
+
+                    // Try to find a custom status activity (usually type 4)
+                    const activities = data.data.activities || [];
+                    const customStatusActivity = activities.find((a: any) => a.type === 4);
+                    const customStatusText = customStatusActivity?.state || 'keep shipping!';
+
                     setSocialsData(prev => ({
                         ...prev,
                         DISCORD: {
@@ -133,7 +145,8 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                             handle: user.username,
                             avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`,
                             stats: [
-                                { label: 'status', value: data.data.discord_status || 'offline' }
+                                { label: 'status', value: discordStatus },
+                                { label: 'custom_status', value: customStatusText }
                             ]
                         }
                     }))
@@ -156,6 +169,14 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
         setPopupPosition({ x: rect.left, y: rect.bottom + 10 });
         setHoveredSocial(id);
     };
+
+    const SOCIAL_LINKS = [
+        { id: 'GITHUB' as const, icon: Github, href: 'https://github.com/Sakthi102003', label: 'GITHUB' },
+        { id: 'LINKEDIN' as const, icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN' },
+        { id: 'MAIL' as const, icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL' },
+        { id: 'DISCORD' as const, icon: SiDiscord, href: 'https://discord.com/users/1074201854143123560', label: 'DISCORD' },
+        { id: 'MEDIUM' as const, icon: SiMedium, href: 'https://medium.com/@sakthimurugan102003', label: 'MEDIUM' }
+    ];
 
     return (
         <section id="home" className="min-h-[80vh] flex flex-col justify-center max-w-4xl mx-auto relative">
@@ -209,13 +230,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     className="flex flex-wrap items-center gap-x-12 gap-y-6 mt-6"
                 >
                     <div className="flex gap-6 relative">
-                        {[
-                            { id: 'GITHUB' as const, icon: Github, href: 'https://github.com/Sakthi102003', label: 'GITHUB' },
-                            { id: 'LINKEDIN' as const, icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN' },
-                            { id: 'MAIL' as const, icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL' },
-                            { id: 'DISCORD' as const, icon: SiDiscord, href: 'https://discord.com/users/1074201854143123560', label: 'DISCORD' },
-                            { id: 'MEDIUM' as const, icon: SiMedium, href: 'https://medium.com/@sakthimurugan102003', label: 'MEDIUM' }
-                        ].map((social) => (
+                        {SOCIAL_LINKS.map((social) => (
                             <a
                                 key={social.label}
                                 href={social.href}
@@ -243,7 +258,10 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                                         top: popupPosition.y,
                                     }}
                                 >
-                                    <SocialProfileCard {...socialsData[hoveredSocial]} />
+                                    <SocialProfileCard
+                                        {...socialsData[hoveredSocial]}
+                                        PlatformIcon={SOCIAL_LINKS.find(s => s.id === hoveredSocial)?.icon}
+                                    />
                                 </div>
                             )}
                         </AnimatePresence>

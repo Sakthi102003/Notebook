@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap } from 'lucide-react';
 
 const IdCardOverlay = () => {
     const [isVisible, setIsVisible] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsVisible(false), 5000);
+        return () => clearTimeout(timer);
+    }, []);
 
 
 
