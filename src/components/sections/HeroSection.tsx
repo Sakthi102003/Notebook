@@ -12,7 +12,11 @@ import {
     SiTailwindcss,
     SiPython,
     SiMedium,
-    SiDiscord
+    SiDiscord,
+    SiGithub,
+    SiLinkedin,
+    SiGmail,
+    SiX
 } from 'react-icons/si'
 import { useRef, useState, useEffect } from 'react'
 
@@ -68,12 +72,13 @@ const INITIAL_SOCIALS_DATA = {
             { label: 'custom_status', value: 'A Normal Sec Dev' }
         ]
     },
-    MEDIUM: {
-        name: "Sakthimurugan S",
-        handle: "sakthimurugan102003",
-        bio: "Distilling complex security research into readable technical deep-dives.",
-        avatar: "https://miro.medium.com/v2/resize:fill:176:176/1*kRuWkrO9HoGf6f1EkeAV1A.png",
-        banner: "linear-gradient(135deg, #000000 0%, #333333 100%)",
+    X: {
+        name: "Sakthi",
+        handle: "sakthimurugans_",
+        bio: "22 | Frontend | Security | Python | Cricket | Tech Content Writer | ICT | MI 💙",
+        avatar: "/images/x-avatar.png",
+        banner: "/images/x-banner.png",
+        platform: 'X',
         stats: [] as { label: string; value: string }[]
     }
 };
@@ -86,7 +91,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
     const iconRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        // Fetch GitHub stats
+        // Fetch GitHub stats and profile
         fetch('https://api.github.com/users/Sakthi102003')
             .then(res => res.json())
             .then(data => {
@@ -95,6 +100,9 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                         ...prev,
                         GITHUB: {
                             ...prev.GITHUB,
+                            name: data.name || prev.GITHUB.name,
+                            avatar: data.avatar_url || prev.GITHUB.avatar,
+                            bio: data.bio || prev.GITHUB.bio,
                             stats: [
                                 { label: 'followers', value: data.followers ? `${data.followers}` : '0' },
                                 { label: 'public_repos', value: data.public_repos ? `${data.public_repos}` : '0' }
@@ -105,23 +113,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
             })
             .catch(err => console.error("GitHub fetch failed", err));
 
-        // Fetch Medium stats
-        fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@sakthimurugan102003/feed')
-            .then(res => res.json())
-            .then(data => {
-                if (data.items) {
-                    setSocialsData(prev => ({
-                        ...prev,
-                        MEDIUM: {
-                            ...prev.MEDIUM,
-                            stats: [
-                                { label: 'latest_posts', value: `${data.items.length}` }
-                            ]
-                        }
-                    }))
-                }
-            })
-            .catch(err => console.error("Medium fetch failed", err));
+
 
         // Fetch Discord stats via Lanyard
         // Fetch Discord stats via Lanyard
@@ -229,28 +221,36 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     transition={{ delay: 2 }}
                     className="flex flex-wrap items-center gap-x-12 gap-y-6 mt-6"
                 >
+                    {/* Social Links with App Icon Style */}
                     <div className="flex gap-6 relative">
-                        {SOCIAL_LINKS.map((social) => (
+                        {[
+                            { id: 'X' as const, icon: SiX, href: 'https://x.com/sakthimurugans_', label: 'X', color: 'text-white' },
+                            { id: 'LINKEDIN' as const, icon: SiLinkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN', color: 'text-[#0077b5]' },
+                            { id: 'GITHUB' as const, icon: SiGithub, href: 'https://github.com/Sakthi102003', label: 'GITHUB', color: 'text-white' },
+                            { id: 'MAIL' as const, icon: SiGmail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL', color: 'text-[#EA4335]' },
+                            { id: 'DISCORD' as const, icon: SiDiscord, href: 'https://discord.com/users/1074201854143123560', label: 'DISCORD', color: 'text-[#5865F2]' }
+                        ].map((social) => (
                             <a
                                 key={social.label}
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative p-2"
+                                className="group relative"
                                 title={social.label}
                                 onMouseEnter={(e) => handleSocialEnter(social.id, e)}
                                 onMouseLeave={() => setHoveredSocial(null)}
                             >
-                                <social.icon size={20} className="text-gray-500 group-hover:text-electric-blue transition-colors duration-300" />
-                                <motion.div
-                                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-electric-blue group-hover:w-full transition-all duration-300"
-                                    layoutId={`social-hover-${social.label}`}
-                                />
+                                <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-110 group-hover:border-white/30 transition-all duration-300 relative overflow-hidden">
+                                    {/* Gloss reflection */}
+                                    <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-50" />
+
+                                    <social.icon size={26} className={`${social.color} relative z-10 transition-colors duration-300`} />
+                                </div>
                             </a>
                         ))}
 
                         <AnimatePresence>
-                            {hoveredSocial && (
+                            {hoveredSocial && socialsData[hoveredSocial] && (
                                 <div
                                     className="fixed z-[100] pointer-events-none"
                                     style={{
@@ -349,6 +349,6 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     </div>
                 )}
             </motion.div>
-        </section>
+        </section >
     )
 }
