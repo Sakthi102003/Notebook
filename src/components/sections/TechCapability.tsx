@@ -6,9 +6,9 @@ export default function TechCapability() {
         <section id="skills" className="max-w-6xl mx-auto">
             <div className="flex items-center gap-4 mb-12">
                 <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4">
-                    <span className="text-crimson font-mono opacity-50">02.</span> TECH_CAPABILITY
+                    <span className="text-electric-blue font-mono opacity-50">02.</span> TECH_CAPABILITY
                 </h2>
-                <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
+                <div className="flex-1 h-[1px] bg-gradient-to-r from-electric-blue/30 to-transparent" />
             </div>
 
             <div className="w-full -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-0">
