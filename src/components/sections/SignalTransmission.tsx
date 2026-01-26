@@ -7,7 +7,7 @@ export default function SignalTransmission() {
         <section id="contact" className="max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-12">
                 <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4">
-                    <span className="text-crimson font-mono opacity-50">04.</span> SIGNAL_TRANSMISSION
+                    <span className="text-crimson font-mono opacity-50">05.</span> SIGNAL_TRANSMISSION
                 </h2>
                 <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
             </div>

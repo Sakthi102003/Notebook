@@ -41,7 +41,7 @@ const GearsSection = () => {
           >
             <div className="flex items-center gap-4 mb-8">
               <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4 text-white">
-                <span className="text-crimson font-mono opacity-50">05.</span> SYSTEM_LOADOUT
+                <span className="text-crimson font-mono opacity-50">04.</span> SYSTEM_LOADOUT
               </h2>
               <div className="flex-1 h-[1px] bg-gradient-to-r from-crimson/30 to-transparent" />
             </div>
