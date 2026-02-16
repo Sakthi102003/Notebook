@@ -14,7 +14,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    cursor: none;
   }
 
   body.loading-active #oneko {
@@ -29,8 +28,15 @@
     @apply bg-electric-blue/30 text-white;
   }
 
-  a, button, input, textarea, [role="button"], .cursor-pointer {
-    cursor: none !important;
+  /* Only hide cursor on non-touch devices where CustomCursor is active */
+  @media (hover: hover) and (pointer: fine) {
+      body {
+          cursor: none;
+      }
+      
+      a, button, input, textarea, [role="button"], .cursor-pointer {
+          cursor: none !important;
+      }
   }
 }
 

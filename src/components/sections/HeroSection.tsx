@@ -157,6 +157,9 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
     }
 
     const handleSocialEnter = (id: keyof typeof INITIAL_SOCIALS_DATA, e: React.MouseEvent) => {
+        // Disable hover preview on mobile to prevent layout issues
+        if (window.innerWidth < 768) return;
+        
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
         setPopupPosition({ x: rect.left, y: rect.bottom + 10 });
         setHoveredSocial(id);
@@ -203,14 +206,14 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     </div>
                 </div>
 
-                <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none text-white">
-                    <div className="flex flex-wrap items-end gap-3 md:gap-4 mb-2">
-                        <RansomNoteText text="SAKTHIMURUGAN S" className="justify-start gap-2" />
+                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-white">
+                    <div className="flex flex-wrap items-end gap-2 md:gap-4 mb-2">
+                        <RansomNoteText text="SAKTHIMURUGAN S" className="justify-start gap-2 max-w-full" />
                         <div className="text-xs md:text-sm font-mono text-electric-blue mb-1.5 md:mb-3 opacity-70">
                             <AgeCounter />
                         </div>
                     </div>
-                    <span className="block text-2xl md:text-4xl text-gray-500 mt-4 font-mono font-light tracking-widest uppercase">
+                    <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-500 mt-2 md:mt-4 font-mono font-light tracking-widest uppercase break-words">
                         <ScrambleText text="Dev & Security Enthusiast" delay={1.5} />
                     </span>
                 </h1>
@@ -219,10 +222,10 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2 }}
-                    className="flex flex-wrap items-center gap-x-12 gap-y-6 mt-6"
+                    className="flex flex-wrap items-center gap-4 md:gap-x-12 md:gap-y-6 mt-6"
                 >
                     {/* Social Links with App Icon Style */}
-                    <div className="flex gap-6 relative">
+                    <div className="flex flex-wrap gap-3 md:gap-6 relative justify-start">
                         {[
                             { id: 'X' as const, icon: SiX, href: 'https://x.com/sakthimurugans_', label: 'X', color: 'text-white' },
                             { id: 'LINKEDIN' as const, icon: SiLinkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN', color: 'text-[#0077b5]' },
@@ -240,11 +243,11 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                                 onMouseEnter={(e) => handleSocialEnter(social.id, e)}
                                 onMouseLeave={() => setHoveredSocial(null)}
                             >
-                                <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-110 group-hover:border-white/30 transition-all duration-300 relative overflow-hidden">
+                                <div className="w-12 h-12 md:w-14 md:h-14 bg-black rounded-xl md:rounded-2xl flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-110 group-hover:border-white/30 transition-all duration-300 relative overflow-hidden">
                                     {/* Gloss reflection */}
                                     <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-50" />
 
-                                    <social.icon size={26} className={`${social.color} relative z-10 transition-colors duration-300`} />
+                                    <social.icon size={22} className={`${social.color} relative z-10 transition-colors duration-300 md:w-[26px] md:h-[26px]`} />
                                 </div>
                             </a>
                         ))}
@@ -267,14 +270,14 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                         </AnimatePresence>
                     </div>
 
-                    <div className="flex-grow max-w-[300px]">
+                    <div className="w-full sm:w-auto flex-grow max-w-full sm:max-w-[300px]">
                         <SpotifyStatus isSmall />
                     </div>
                 </motion.div>
 
                 <div className="glow-line-blue opacity-50 max-w-md" />
 
-                <div className="text-lg text-gray-400 max-w-2xl leading-relaxed font-sans">
+                <div className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed font-sans">
                     <span className="inline">Specializing in razor-sharp web experiences using </span>
                     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-electric-blue hover:border-electric-blue/50 transition-colors cursor-default whitespace-nowrap">
                         <SiTypescript size={12} /> TypeScript

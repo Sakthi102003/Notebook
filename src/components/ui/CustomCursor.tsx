@@ -14,6 +14,10 @@ const CustomCursor = () => {
   const trailY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
+    // Disable on mobile/touch devices
+    if (typeof navigator !== 'undefined' && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Touch/i.test(navigator.userAgent)) {
+        return;
+    }
     const updateMousePosition = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -46,8 +50,10 @@ const CustomCursor = () => {
 
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // Hide original cursor
-    document.body.style.cursor = 'none';
+    // Hide original cursor only on non-touch devices
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        document.body.style.cursor = 'none';
+    }
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);

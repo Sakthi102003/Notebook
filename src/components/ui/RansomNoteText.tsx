@@ -73,7 +73,7 @@ const RansomNoteText: React.FC<RansomNoteTextProps> = ({ text, className = '' })
                     ? 'text-white'
                     : 'text-electric-blue drop-shadow-[0_0_8px_#00E5FF] opacity-80'
                   }
-                  text-3xl sm:text-5xl md:text-7xl leading-none
+                  text-2xl sm:text-5xl md:text-7xl leading-none
                   transition-colors duration-100
                 `}
                 style={isActualChar ? {

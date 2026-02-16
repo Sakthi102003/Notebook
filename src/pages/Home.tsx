@@ -131,7 +131,7 @@ function Home() {
           {/* Scrollable Content */}
           <div
             ref={mainContentRef}
-            className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-12 space-y-32"
+            className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-8 md:py-12 space-y-16 md:space-y-32"
           >
             {/* Section: Home (index.tsx) */}
             <HeroSection scrollToSection={scrollToSection} />
