@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
+import { Terminal as TerminalIcon, Activity } from 'lucide-react'
 
 import FlowingBlogRiver from '../components/sections/FlowingBlogRiver'
 import GearsSection from '../components/sections/GearsSection'
@@ -220,6 +221,26 @@ function Home() {
                     {file.label}
                   </button>
                 ))}
+
+                {/* System Tools for Mobile */}
+                <div className="h-px bg-white/10 my-4" />
+                <div className="px-4 text-xs font-mono text-gray-500 uppercase tracking-widest mb-2">System Tools</div>
+
+                <button
+                  onClick={() => { setTerminalOpen(true); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest text-gray-400 hover:text-electric-blue transition-all"
+                >
+                  <TerminalIcon size={18} />
+                  Terminal
+                </button>
+
+                <button
+                  onClick={() => { setHudOpen(true); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest text-gray-400 hover:text-electric-blue transition-all"
+                >
+                  <Activity size={18} />
+                  Diagnostics
+                </button>
               </div>
             </motion.div>
           </>

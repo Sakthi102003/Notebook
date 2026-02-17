@@ -318,7 +318,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.5, duration: 1 }}
-                    className="pt-8 flex flex-col gap-4 text-[10px] text-gray-500 font-mono uppercase tracking-widest"
+                    className="hidden md:flex pt-8 flex-col gap-4 text-[10px] text-gray-500 font-mono uppercase tracking-widest"
                 >
                     <div className="flex flex-wrap items-center gap-6">
                         <div className="flex items-center gap-1.5 opacity-70">
