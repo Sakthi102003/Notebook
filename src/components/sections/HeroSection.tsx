@@ -329,10 +329,6 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                             <kbd className="px-1.5 py-0.5 border border-white/10 rounded bg-white/5 text-gray-400">CTRL \</kbd>
                             <span className="text-gray-600">TERMINAL</span>
                         </div>
-                        <div className="flex items-center gap-1.5 opacity-70">
-                            <kbd className="px-1.5 py-0.5 border border-white/10 rounded bg-white/5 text-gray-400">ALT D</kbd>
-                            <span className="text-gray-600">DIAGNOSTICS</span>
-                        </div>
                     </div>
                 </motion.div>
 

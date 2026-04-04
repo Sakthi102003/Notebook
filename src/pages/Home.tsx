@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
-import { Terminal as TerminalIcon, Activity } from 'lucide-react'
+import { Terminal as TerminalIcon } from 'lucide-react'
 
 import FlowingBlogRiver from '../components/sections/FlowingBlogRiver'
 import GearsSection from '../components/sections/GearsSection'
@@ -21,7 +21,6 @@ import SignalTransmission from '../components/sections/SignalTransmission'
 
 // New Feature Imports
 import Terminal from '../components/features/Terminal'
-import DiagnosticHUD from '../components/features/DiagnosticHUD'
 
 function Home() {
   const [activeFile, setActiveFile] = useState('home')
@@ -33,7 +32,6 @@ function Home() {
 
   // Feature State
   const [terminalOpen, setTerminalOpen] = useState(false)
-  const [hudOpen, setHudOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,11 +71,6 @@ function Home() {
       if (e.ctrlKey && e.key === '\\') {
         e.preventDefault()
         setTerminalOpen(prev => !prev)
-      }
-      // Alt + d to toggle HUD
-      if (e.altKey && e.key === 'd') {
-        e.preventDefault()
-        setHudOpen(prev => !prev)
       }
     }
     window.addEventListener('keydown', handleKeyDown)
@@ -177,19 +170,8 @@ function Home() {
       <Terminal
         isOpen={terminalOpen}
         onClose={() => setTerminalOpen(false)}
-        onCommand={(cmd) => {
-          if (cmd === 'status') {
-            setHudOpen(true)
-          }
-        }}
       />
 
-      <DiagnosticHUD
-        isOpen={hudOpen}
-        onClose={() => setHudOpen(false)}
-      />
-
-      {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
@@ -232,14 +214,6 @@ function Home() {
                 >
                   <TerminalIcon size={18} />
                   Terminal
-                </button>
-
-                <button
-                  onClick={() => { setHudOpen(true); setMobileMenuOpen(false); }}
-                  className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest text-gray-400 hover:text-electric-blue transition-all"
-                >
-                  <Activity size={18} />
-                  Diagnostics
                 </button>
               </div>
             </motion.div>

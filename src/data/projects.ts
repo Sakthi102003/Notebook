@@ -1,5 +1,20 @@
 export const projects = [
   {
+    title: 'OpenNote',
+    description: 'A beautiful, lightweight, and modern note-taking application designed for ultimate speed and simplicity. Inspired by high-end stationery, it features a warm "Highlighter & Sticky Note" aesthetic that makes writing feel like true paper.',
+    tech: ['React', 'TypeScript', 'Zustand', 'FastAPI', 'SQLite', 'TipTap'],
+    status: 'Completed',
+    link: 'https://github.com/Sakthi102003/OpenNote',
+    demoLink: 'https://opennote-s.vercel.app/',
+    highlights: [
+      'Stationery Design System',
+      'Live Search & Filtering',
+      'Markdown Import/Export',
+      'Public Notes & Forking',
+      'Auto-save Functionality'
+    ]
+  },
+  {
     title: 'Resu-AI',
     description: 'An intelligent chat-based resume builder that transforms natural conversation into professional, ATS-optimized resumes. Features real-time AI content enhancement, job matching analysis, and multi-format export capabilities.',
     tech: ['React', 'FastAPI', 'MongoDB', 'OpenAI/Gemini', 'Tailwind', 'Framer Motion'],
