@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { FILE_TREE } from '../../data/navigation'
 import EnvironmentWidget from '../features/EnvironmentWidget'
+import { useDefcon } from '../features/DefconProvider'
 
 interface StealthHeaderProps {
     isScrolled: boolean
@@ -28,6 +29,7 @@ export default function StealthHeader({
     setMobileMenuOpen
 }: StealthHeaderProps) {
     const tabsRef = useRef<HTMLDivElement>(null)
+    const { level: defconLevel, setLevel: setDefconLevel } = useDefcon()
 
     useEffect(() => {
         // Scroll active tab into view
@@ -67,6 +69,22 @@ export default function StealthHeader({
                     </div>
                 </div>
 
+                {/* UI Mode Switcher */}
+                <button
+                    onClick={() => setDefconLevel(defconLevel === 5 ? 1 : 5)}
+                    className={`flex items-center justify-center gap-2 border px-3 py-1 ml-auto mr-4 md:mr-0 font-mono tracking-widest text-[10px] transition-all duration-300 ${
+                        defconLevel === 1 
+                            ? 'bg-crimson/10 border-crimson/50 text-crimson animate-pulse'
+                            : 'bg-black/20 border-white/5 text-gray-500 hover:text-white hover:border-electric-blue/30'
+                    }`}
+                    title="Toggle UI Mode"
+                >
+                    <span className="hidden sm:inline opacity-70">UI:</span>
+                    <span className={`font-bold ${defconLevel === 1 ? 'text-crimson text-glow-crimson' : 'text-electric-blue'}`}>
+                        {defconLevel === 5 ? 'GHOST' : 'MATRIX'}
+                    </span>
+                </button>
+
                 {/* Mobile Menu Trigger */}
                 <button
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -83,33 +101,7 @@ export default function StealthHeader({
                     </div>
                 </div>
 
-                {/* Accent Theme Switcher */}
-                <div className="hidden lg:flex items-center gap-1 border border-white/5 bg-black/20 p-1">
-                    {[
-                        { id: 'blue', color: 'bg-electric-blue' },
-                        { id: 'crimson', color: 'bg-crimson' },
-                        { id: 'green', color: 'bg-green-500' },
-                    ].map((t) => (
-                        <button
-                            key={t.id}
-                            onClick={() => {
-                                document.documentElement.style.setProperty(
-                                    '--accent-color',
-                                    t.id === 'blue'
-                                        ? '0 229 255'
-                                        : t.id === 'crimson'
-                                            ? '255 0 60'
-                                            : '34 197 94'
-                                )
-                            }}
-                            className={`w-3 h-3 ${t.color} opacity-40 hover:opacity-100 transition-opacity`}
-                            title={`Switch to ${t.id} mode`}
-                        />
-                    ))}
-                    <div className="px-2 text-[8px] font-mono text-white/30 uppercase tracking-widest">
-                        Theme
-                    </div>
-                </div>
+{/* DEFCON Level Switcher (Removed from here, moved to be globally visible) */}
             </div>
 
             {/* Tabs Bar */}

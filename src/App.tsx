@@ -8,6 +8,7 @@ import LoadingScreen from './components/ui/LoadingScreen';
 import CommandPalette from './components/features/CommandPalette';
 import AudioProvider from './components/features/AudioProvider';
 import IdCardOverlay from './components/features/IdCardOverlay';
+import { DefconProvider } from './components/features/DefconProvider';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +23,7 @@ function App() {
       </AnimatePresence>
 
       {!isLoading && (
-        <>
+        <DefconProvider>
           <IdCardOverlay />
           <CommandPalette />
           <Routes>
@@ -30,7 +31,7 @@ function App() {
             <Route path='/projects' element={<AllProjectsPage />} />
           </Routes>
           <AudioProvider />
-        </>
+        </DefconProvider>
       )}
     </>
   );

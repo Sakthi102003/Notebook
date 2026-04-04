@@ -10,10 +10,47 @@
   }
 
   body {
-    @apply bg-stealth-900 text-gray-400 font-stealth selection:bg-electric-blue/30 selection:text-white;
+    @apply bg-stealth-900 text-gray-400 font-stealth selection:bg-electric-blue/30 selection:text-white transition-colors duration-700;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+  }
+
+  /* MATRIX Mode Styles (Formerly DEFCON 1) */
+  .defcon-1 body {
+    background-color: #0b0002 !important; /* Deep Crimson Dark */
+    color: #ff9999 !important; /* Slightly red-tinted text */
+  }
+
+  .defcon-1::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 0, 0, 0.05) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(255, 0, 0, 0.05) 3px
+    );
+    pointer-events: none;
+    z-index: 9999;
+    animation: defconAlarm 3s infinite alternate;
+  }
+
+  @keyframes defconAlarm {
+    0% { opacity: 0.7; }
+    10% { opacity: 0.9; }
+    20% { opacity: 0.8; }
+    100% { opacity: 0.2; }
+  }
+
+  /* Faster glitch/pulse animations in DEFCON 1 */
+  .defcon-1 .tactical-glitch-hover:hover {
+    animation-duration: 0.15s !important;
+  }
+  .defcon-1 .animate-pulse {
+    animation-duration: 1s !important;
   }
 
   body.loading-active #oneko {
