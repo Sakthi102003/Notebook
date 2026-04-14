@@ -25,6 +25,7 @@ import ScrambleText from '../ui/ScrambleText'
 import AgeCounter from '../features/AgeCounter'
 import SystemClock from '../features/SystemClock'
 import WakatimeStats from '../features/WakatimeStats'
+import LatestCommit from '../features/LatestCommit'
 import SocialProfileCard from '../ui/SocialProfileCard'
 
 interface HeroSectionProps {
@@ -267,6 +268,10 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                                 </div>
                             )}
                         </AnimatePresence>
+                    </div>
+
+                    <div className="w-full sm:w-auto flex-grow max-w-full sm:max-w-[300px]">
+                        <LatestCommit isSmall />
                     </div>
                 </motion.div>
 
