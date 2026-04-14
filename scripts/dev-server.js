@@ -3,6 +3,32 @@
 
 import http from 'http';
 import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Simple local .env loaded mapped to process.env
+try {
+  const envFiles = ['../.env.local', '../.env'];
+  for (const file of envFiles) {
+    const envPath = path.resolve(__dirname, file);
+    if (fs.existsSync(envPath)) {
+      const envFile = fs.readFileSync(envPath, 'utf8');
+      envFile.split('\n').forEach(line => {
+        const match = line.match(/^([^=]+)=(.*)$/);
+         if (match && !process.env[match[1].trim()]) {
+           process.env[match[1].trim()] = match[2].trim();
+         }
+      });
+      console.log(`Loaded environment variables from ${file}`);
+    }
+  }
+} catch (e) {
+  console.log("Could not load local .env:", e.message);
+}
 
 const PORT = 3000;
 
