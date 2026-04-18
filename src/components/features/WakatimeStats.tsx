@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Code, Clock, AlertTriangle } from 'lucide-react';
+import { Code, Clock } from 'lucide-react';
 
-const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/e3ca4b3b-a873-49bd-b770-c39a3f13638e.json";
+const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/8d9ab44d-9a0e-46c2-a7b4-a5e6872f5085.json";
 
 const WakatimeStats = () => {
     const [stats, setStats] = useState<any>(null);
@@ -168,12 +168,6 @@ const WakatimeStats = () => {
                 <div className="mt-4 text-[10px] text-gray-600 font-mono uppercase tracking-widest flex justify-between items-center">
                     <span>{dataType === 'editors' ? "Total Usage" : "7-Day Activity"}</span>
                     {dataType === 'editors' && editorStats && <span>{editorStats.text}</span>}
-                    {dataType === 'activity' && (
-                        <div className="flex items-center gap-1 text-yellow-500/80">
-                            <AlertTriangle size={10} />
-                            <span>For VS Code stats, switch shareable to 'Editors'</span>
-                        </div>
-                    )}
                 </div>
 
                 {/* Editor Breakdown Removed */}
