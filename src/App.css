@@ -78,18 +78,34 @@
    ============================================================ */
 
 /* Headings */
-[data-theme="corporate"] h1,
-[data-theme="corporate"] h2,
-[data-theme="corporate"] h3,
-[data-theme="corporate"] h4,
-[data-theme="corporate"] h5,
-[data-theme="corporate"] h6 {
+[data-theme="corporate"] h1:not(.loading-screen h1),
+[data-theme="corporate"] h2:not(.loading-screen h2),
+[data-theme="corporate"] h3:not(.loading-screen h3),
+[data-theme="corporate"] h4:not(.loading-screen h4),
+[data-theme="corporate"] h5:not(.loading-screen h5),
+[data-theme="corporate"] h6:not(.loading-screen h6) {
   color: var(--text-primary) !important;
+}
+
+[data-theme="corporate"] .loading-screen h1,
+[data-theme="corporate"] .loading-screen .text-\\[\\#ffffff\\] {
+  color: #ffffff !important;
 }
 
 /* Tailwind text-white utility */
 [data-theme="corporate"] .text-white {
   color: var(--text-primary) !important;
+}
+
+[data-theme="corporate"] .text-white\/40,
+[data-theme="corporate"] .text-white\/50 {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="corporate"] .text-white\/60,
+[data-theme="corporate"] .text-white\/70,
+[data-theme="corporate"] .text-white\/80 {
+  color: var(--text-secondary) !important;
 }
 
 /* Tailwind text-gray-* utilities that are too light on white bg */
@@ -129,4 +145,3 @@
 [data-theme="corporate"] .font-mono.tracking-widest {
   color: var(--text-secondary);
 }
-

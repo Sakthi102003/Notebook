@@ -87,11 +87,11 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
       onClick={onLoadingComplete}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden font-mono cursor-pointer group"
+      className="loading-screen fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden font-mono cursor-pointer group"
     >
       {/* Skip Hint */}
       <div className="absolute top-10 right-10 opacity-0 group-hover:opacity-40 transition-opacity duration-300">
-        <span className="text-[10px] text-white tracking-[0.4em] uppercase font-mono bg-white/5 border border-white/10 px-4 py-2 rounded-full">
+        <span className="text-[10px] text-[#ffffff] tracking-[0.4em] uppercase font-mono bg-white/5 border border-white/10 px-4 py-2 rounded-full">
           Click_to_Skip_Initialization
         </span>
       </div>
@@ -183,7 +183,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
               className="flex flex-col items-center relative"
             >
               <div className="relative">
-                <h1 className="text-6xl md:text-8xl font-black text-white tracking-[0.2em] relative z-10">
+                <h1 className="text-6xl md:text-8xl font-black text-[#ffffff] tracking-[0.2em] relative z-10">
                   {LANGUAGES[langIndex].text}
                 </h1>
 
@@ -191,7 +191,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
                 <div className="absolute inset-0 pointer-events-none opacity-20 overflow-visible">
                   <div
                     data-text={LANGUAGES[langIndex].text}
-                    className="animate-cyber-glitch text-white absolute inset-0 flex items-center justify-center text-6xl md:text-8xl font-black select-none"
+                    className="animate-cyber-glitch text-[#ffffff] absolute inset-0 flex items-center justify-center text-6xl md:text-8xl font-black select-none"
                   >
                     {LANGUAGES[langIndex].text}
                   </div>
@@ -207,9 +207,9 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
             <div className="flex justify-between items-end">
               <div className="flex flex-col">
                 <span className="text-[10px] text-electric-blue tracking-[0.3em] font-bold uppercase">System_Auth</span>
-                <span className="text-[10px] text-white/40 tracking-[0.1em]">{SECURITY_LOGS[activeLogIndex]}</span>
+                <span className="text-[10px] text-[#ffffff]/40 tracking-[0.1em]">{SECURITY_LOGS[activeLogIndex]}</span>
               </div>
-              <span className="text-3xl font-bold text-white tracking-tighter">
+              <span className="text-3xl font-bold text-[#ffffff] tracking-tighter">
                 {Math.floor(progress).toString().padStart(3, '0')}<span className="text-electric-blue/50 text-sm ml-1">%</span>
               </span>
             </div>
@@ -232,14 +232,14 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white/5 border border-white/10 p-4 relative group overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-electric-blue/50 to-transparent" />
-              <span className="text-[8px] text-white/30 uppercase tracking-widest block mb-2">Core_Status</span>
+              <span className="text-[8px] text-[#ffffff]/30 uppercase tracking-widest block mb-2">Core_Status</span>
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-electric-blue animate-pulse shadow-[0_0_8px_#00E5FF]" />
-                <span className="text-[10px] text-white font-bold opacity-80 uppercase tracking-tighter">Active_Node</span>
+                <span className="text-[10px] text-[#ffffff] font-bold opacity-80 uppercase tracking-tighter">Active_Node</span>
               </div>
             </div>
             <div className="bg-white/5 border border-white/10 p-4 relative overflow-hidden">
-              <span className="text-[8px] text-white/30 uppercase tracking-widest block mb-2">Environment</span>
+              <span className="text-[8px] text-[#ffffff]/30 uppercase tracking-widest block mb-2">Environment</span>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] text-electric-blue font-bold uppercase tracking-tighter">Production_V2</span>
               </div>
@@ -251,7 +251,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
       {/* Footer Branding */}
       <div className="absolute bottom-10 flex flex-col items-center gap-2 opacity-30">
         <div className="h-[1px] w-12 bg-electric-blue/50" />
-        <span className="text-[8px] text-white uppercase tracking-[0.8em]">Sakthi_Archive_2026</span>
+        <span className="text-[8px] text-[#ffffff] uppercase tracking-[0.8em]">Sakthi_Archive_2026</span>
       </div>
 
       {/* Noise Overlay */}

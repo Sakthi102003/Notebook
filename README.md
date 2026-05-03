@@ -1,8 +1,8 @@
-# 🕵️ SAKTHI_MURUGAN // STEALTH_PORTFOLIO v2.0
+# 🕵️ SAKTHI_MURUGAN // STEALTH & CORPORATE PORTFOLIO v3.0
 
-> "Based in the digital shadows, building the future of the web."
+> "Based in the digital shadows, operating in the corporate light. Building the future of the web."
 
-A high-performance, security-themed developer portfolio built like an IDE. Merging tactical aesthetics with modern web technologies, this workspace simulates a developer's environment (Visual Studio Code) with a "Stealth" visual language.
+A high-performance, dual-themed developer portfolio. Merging tactical aesthetics with modern web technologies, this workspace simulates a developer's environment (Visual Studio Code) in "Stealth" mode, while offering a completely distinct, pristine "Corporate Espionage" intelligence dashboard for a more sterile, professional viewing experience.
 
 ![Status](https://img.shields.io/badge/STATUS-OPERATIONAL-00E5FF?style=for-the-badge&logo=react)
 ![Security](https://img.shields.io/badge/SECURITY-MAXIMUM-FF003C?style=for-the-badge&logo=kalilinux)
@@ -10,20 +10,15 @@ A high-performance, security-themed developer portfolio built like an IDE. Mergi
 
 ## ⚡ Core Systems
 
-### 🖥️ **The Interface (IDE Simulation)**
-- **Visual Studio Code Layout**: Sidebar navigation (`index.tsx`, `bio.md`, `ops/`, etc.) mimicking a real code editor.
-- **Glassmorphism & Neon**: A "Stealth" dark mode with razor-sharp edges, electric blue accents/glows, and deep semi-transparent layers.
-- **Tactical Typography**: Uses **JetBrains Mono** and **Space Grotesk** for that authentic terminal/developer feel.
-
-### 🎭 **Dynamic Identity**
-- **Decryption Hero**: The main identity (`SAKTHIMURUGAN S`) isn't just text—it's a cryptographic sequence that decrypts itself on load.
-- **Scramble Effects**: Titles and headers feature a matrix-style character scrambling effect.
-- **Stealth Pointer**: A custom-engineered cursor that trails and snaps to interactive elements like a tactical HUD.
+### 🌗 **Dual-Theme Architecture**
+- **Stealth Mode (Hacker IDE)**: A dark, neon-lit interface mirroring VS Code. Features a cryptographic decryption hero sequence, custom tactical cursor, and matrix-style scrolling feeds.
+- **Corporate Mode (Intelligence Dashboard)**: A completely distinct, bright, sterile layout mimicking a high-level government or corporate surveillance dashboard. Features frosted glassmorphism, clean sans-serif typography (Inter), and entirely unique component layouts for the exact same underlying data.
+- **Seamless State Switching**: Uses a global Context API `ThemeProvider` with CSS variable tokenization for instant swapping between the two architectural identities.
 
 ### 🎛️ **Interactive Modules**
-- **Theme War Room**: valid global accents—switch between **Electric Blue** (Default), **Crimson** (Red Alert), and **Matrix Green** (Legacy).
-- **Service Project Viewer**: Projects aren't just links; they are "deployed services." Clicking one opens a simulated terminal log showing the build process before revealing the app.
-- **Signal Channels**: Integrated social command center (GitHub, LinkedIn, Instagram, Medium) with kinetic hover effects.
+- **Live Intelligence Feed**: Fetches real-time Medium articles using an RSS-to-JSON proxy, displayed dynamically based on the active theme (scrolling ticker vs. internal memos).
+- **Service Project Viewer**: Projects aren't just links; they are "deployed services" with status indicators and technology pills.
+- **Signal Channels**: Integrated secure communication forms and social channels.
 
 ---
 

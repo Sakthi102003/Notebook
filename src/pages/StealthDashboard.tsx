@@ -1,0 +1,231 @@
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState, useRef } from 'react'
+import { Terminal as TerminalIcon } from 'lucide-react'
+import ThemeToggle from '../components/ui/ThemeToggle'
+
+import FlowingBlogRiver from '../components/sections/FlowingBlogRiver'
+import GearsSection from '../components/sections/GearsSection'
+import QuotesSection from '../components/sections/QuotesSection'
+
+import StealthSidebar from '../components/layout/StealthSidebar'
+import StealthHeader from '../components/layout/StealthHeader'
+import StealthStatusBar from '../components/layout/StealthStatusBar'
+import ContentFooter from '../components/layout/ContentFooter'
+import { FILE_TREE } from '../data/navigation'
+
+// Imported Sections
+import HeroSection from '../components/sections/HeroSection'
+import MissionParams from '../components/sections/MissionParams'
+import TechCapability from '../components/sections/TechCapability'
+import DeployedAssets from '../components/sections/DeployedAssets'
+import SignalTransmission from '../components/sections/SignalTransmission'
+
+// New Feature Imports
+import Terminal from '../components/features/Terminal'
+
+export default function StealthDashboard() {
+  const [activeFile, setActiveFile] = useState('home')
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const [isScrolled, setIsScrolled] = useState(false)
+  const mainContentRef = useRef<HTMLDivElement>(null)
+
+  // Feature State
+  const [terminalOpen, setTerminalOpen] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (mainContentRef.current) {
+        setIsScrolled(mainContentRef.current.scrollTop > 20)
+      }
+    }
+
+    const observerOptions = {
+      root: mainContentRef.current,
+      rootMargin: '-10% 0px -40% 0px',
+      threshold: 0
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveFile(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    // Track all sections in the file tree
+    FILE_TREE.forEach((file) => {
+      const el = document.getElementById(file.id)
+      if (el) observer.observe(el)
+    })
+
+    const contentArea = mainContentRef.current
+    contentArea?.addEventListener('scroll', handleScroll)
+
+    // Keyboard Shortcuts
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl + \ to toggle terminal
+      if (e.ctrlKey && e.key === '\\') {
+        e.preventDefault()
+        setTerminalOpen(prev => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      contentArea?.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('keydown', handleKeyDown)
+      observer.disconnect()
+    }
+  }, [])
+
+  const scrollToSection = (id: string) => {
+    setActiveFile(id)
+    const element = document.getElementById(id)
+    if (element && mainContentRef.current) {
+      const offset = element.offsetTop - 100
+      mainContentRef.current.scrollTo({ top: offset, behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <div className="flex flex-col h-screen overflow-hidden" style={{ background: 'var(--bg-base)', color: 'var(--text-secondary)', fontFamily: 'var(--font-ui)' }}>
+      <div className="flex flex-1 min-h-0 overflow-hidden relative">
+        {/* Visual Accents - Glowing Vertical Lines */}
+        <div className="fixed left-0 top-0 w-[1px] h-full pointer-events-none vertical-glow-left" />
+        <div className="fixed right-0 top-0 w-[1px] h-full pointer-events-none vertical-glow-right" />
+
+        {/* IDE Sidebar (File Tree) */}
+        <StealthSidebar
+          isOpen={sidebarOpen}
+          activeFile={activeFile}
+          onNavigate={scrollToSection}
+        />
+
+        {/* Main Content Area */}
+        <main className="flex-1 flex flex-col relative h-full overflow-hidden">
+          {/* IDE Header / Breadcrumbs */}
+          <StealthHeader
+            isScrolled={isScrolled}
+            activeFile={activeFile}
+            onNavigate={scrollToSection}
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            mobileMenuOpen={mobileMenuOpen}
+            setMobileMenuOpen={setMobileMenuOpen}
+          />
+
+          {/* Scrollable Content */}
+          <div
+            ref={mainContentRef}
+            className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-8 md:py-12 space-y-16 md:space-y-32"
+          >
+            {/* Section: Home (index.tsx) */}
+            <HeroSection scrollToSection={scrollToSection} />
+
+            {/* Section: About (bio.md) */}
+            <MissionParams />
+
+            {/* Section: Quotes (quotes.log) */}
+            <section id="quotes">
+              <QuotesSection />
+            </section>
+
+            {/* Section: Skills (stack.json) */}
+            <TechCapability />
+
+            {/* Section: Projects (ops/) */}
+            <DeployedAssets />
+
+            {/* Section: Gears (gears.cfg) */}
+            <section id="gears">
+              <GearsSection />
+            </section>
+
+            {/* Section: Contact (relay.log) */}
+            <SignalTransmission />
+
+            {/* Flowing Blog Feed */}
+            <section className="pt-20">
+              <FlowingBlogRiver />
+            </section>
+
+            {/* Content Footer */}
+            <ContentFooter />
+          </div>
+        </main>
+      </div>
+
+      {/* IDE Footer / Status Bar - Full Width Sticky */}
+      <StealthStatusBar />
+
+      {/* Global Features */}
+      <Terminal
+        isOpen={terminalOpen}
+        onClose={() => setTerminalOpen(false)}
+      />
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-stealth-900/80 backdrop-blur-sm z-[90] md:hidden"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              className="fixed inset-y-0 left-0 w-64 z-[100] md:hidden flex flex-col"
+              style={{ background: 'var(--mobile-menu-bg)', borderRight: '1px solid var(--mobile-menu-border)' }}
+            >
+              <div className="p-6" style={{ borderBottom: '1px solid var(--mobile-menu-border)' }}>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>Navigation</h2>
+                  <ThemeToggle />
+                </div>
+              </div>
+              <div className="flex-1 p-4 space-y-2">
+                {FILE_TREE.map(file => (
+                  <button
+                    key={`mob-${file.id}`}
+                    onClick={() => { scrollToSection(file.id); setMobileMenuOpen(false); }}
+                    className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all"
+                    style={{
+                      background: activeFile === file.id ? 'rgba(var(--accent-color) / 0.08)' : 'transparent',
+                      color: activeFile === file.id ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                      borderLeft: activeFile === file.id ? '2px solid var(--accent-cyan)' : '2px solid transparent',
+                    }}
+                  >
+                    <file.icon size={18} />
+                    {file.label}
+                  </button>
+                ))}
+
+                {/* System Tools for Mobile */}
+                <div className="h-px my-4" style={{ background: 'var(--border-subtle)' }} />
+                <div className="px-4 text-xs font-mono uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>System Tools</div>
+
+                <button
+                  onClick={() => { setTerminalOpen(true); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  <TerminalIcon size={18} />
+                  Terminal
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}

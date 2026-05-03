@@ -7,7 +7,6 @@ import {
 } from 'lucide-react'
 import { FILE_TREE } from '../../data/navigation'
 import EnvironmentWidget from '../features/EnvironmentWidget'
-import { useDefcon } from '../features/DefconProvider'
 import ThemeToggle from '../ui/ThemeToggle'
 
 interface StealthHeaderProps {
@@ -30,7 +29,6 @@ export default function StealthHeader({
     setMobileMenuOpen
 }: StealthHeaderProps) {
     const tabsRef = useRef<HTMLDivElement>(null)
-    const { level: defconLevel, setLevel: setDefconLevel } = useDefcon()
 
     useEffect(() => {
         if (tabsRef.current) {
@@ -73,27 +71,6 @@ export default function StealthHeader({
                     </div>
                 </div>
 
-                {/* DEFCON UI Mode Switcher */}
-                <button
-                    onClick={() => setDefconLevel(defconLevel === 5 ? 1 : 5)}
-                    className={`flex items-center justify-center gap-2 border px-3 py-1 ml-auto mr-3 md:mr-2 font-mono tracking-widest text-[10px] transition-all duration-300 ${
-                        defconLevel === 1
-                            ? 'bg-crimson/10 border-crimson/50 text-crimson animate-pulse'
-                            : ''
-                    }`}
-                    style={defconLevel !== 1 ? {
-                        background: 'var(--bg-overlay)',
-                        borderColor: 'var(--border-subtle)',
-                        color: 'var(--text-muted)',
-                    } : {}}
-                    title="Toggle UI Mode"
-                >
-                    <span className="hidden sm:inline opacity-70">UI:</span>
-                    <span className={`font-bold ${defconLevel === 1 ? 'text-crimson text-glow-crimson' : ''}`}
-                        style={defconLevel !== 1 ? { color: 'var(--accent-cyan)' } : {}}>
-                        {defconLevel === 5 ? 'GHOST' : 'MATRIX'}
-                    </span>
-                </button>
 
                 {/* Theme Toggle */}
                 <div className="hidden md:flex items-center mr-4">
