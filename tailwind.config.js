@@ -11,6 +11,7 @@ export default {
         'stealth': ['"Space Grotesk"', 'sans-serif'],
         'mono': ['"JetBrains Mono"', 'monospace'],
         'sans': ['"Space Grotesk"', 'sans-serif'],
+        'inter': ['"Inter"', 'sans-serif'],
       },
       colors: {
         stealth: {

@@ -25,7 +25,6 @@ export default function StealthSidebar({
     const sidebarRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        // Scroll active sidebar item into view
         if (sidebarRef.current) {
             const activeItem = sidebarRef.current.querySelector('[data-active="true"]')
             if (activeItem) {
@@ -36,18 +35,26 @@ export default function StealthSidebar({
 
     return (
         <aside
-            className={`${isOpen ? 'w-64' : 'w-0'
-                } transition-all duration-300 border-r border-white/5 bg-stealth-800/20 backdrop-blur-md hidden md:flex flex-col h-full overflow-hidden`}
+            className={`${isOpen ? 'w-64' : 'w-0'} transition-all duration-300 hidden md:flex flex-col h-full overflow-hidden`}
+            style={{
+                background: 'var(--sidebar-bg)',
+                borderRight: '1px solid var(--sidebar-border)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+            }}
         >
-            <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                <span className="text-[10px] font-mono tracking-[0.3em] text-white/40 uppercase">
+            <div className="p-4 flex items-center justify-between"
+                style={{ borderBottom: '1px solid var(--sidebar-border)' }}>
+                <span className="text-[10px] font-mono tracking-[0.3em] uppercase"
+                    style={{ color: 'var(--text-muted)' }}>
                     Explorer
                 </span>
-                <TerminalIcon size={14} className="text-white/20" />
+                <TerminalIcon size={14} style={{ color: 'var(--text-faint)' }} />
             </div>
 
             <div ref={sidebarRef} className="flex-1 overflow-y-auto p-2 space-y-1">
-                <div className="flex items-center gap-2 px-2 py-1 text-[10px] font-mono text-white/30 uppercase tracking-widest mb-2">
+                <div className="flex items-center gap-2 px-2 py-1 text-[10px] font-mono uppercase tracking-widest mb-2"
+                    style={{ color: 'var(--text-faint)' }}>
                     <ChevronDown size={12} /> Root
                 </div>
 
@@ -56,77 +63,69 @@ export default function StealthSidebar({
                         key={file.id}
                         onClick={() => onNavigate(file.id)}
                         data-active={activeFile === file.id}
-                        className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-all group tactical-glitch-hover ${activeFile === file.id
-                            ? 'bg-electric-blue/10 text-electric-blue'
-                            : 'hover:bg-white/5 text-gray-500 hover:text-white'
-                            }`}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-sm transition-all group tactical-glitch-hover"
+                        style={{
+                            background: activeFile === file.id ? 'rgba(var(--accent-color) / 0.08)' : 'transparent',
+                            color: activeFile === file.id ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                        }}
                     >
                         <file.icon
                             size={16}
-                            className={
-                                activeFile === file.id
-                                    ? 'text-electric-blue'
-                                    : 'text-gray-600 group-hover:text-gray-400'
-                            }
+                            style={{
+                                color: activeFile === file.id ? 'var(--accent-cyan)' : 'var(--text-faint)',
+                            }}
                         />
                         <span className="truncate">{file.label}</span>
                         {activeFile === file.id && (
                             <motion.div
                                 layoutId="file-active"
-                                className="ml-auto w-1 h-4 bg-electric-blue shadow-[0_0_8px_#00E5FF]"
+                                className="ml-auto w-1 h-4"
+                                style={{
+                                    background: 'var(--accent-cyan)',
+                                    boxShadow: '0 0 8px var(--accent-cyan)',
+                                }}
                             />
                         )}
                     </button>
                 ))}
             </div>
 
-            <div className="p-4 border-t border-white/5 bg-stealth-900/50">
+            <div className="p-4" style={{ borderTop: '1px solid var(--sidebar-border)', background: 'var(--bg-base)' }}>
                 <div className="flex items-center gap-3 mb-4">
                     <img
                         src="/images/blue avatar.png"
                         alt="Profile"
-                        className="w-8 h-8 rounded-none border border-electric-blue/50"
+                        className="w-8 h-8 rounded-none"
+                        style={{ border: '1px solid rgba(var(--accent-color) / 0.5)' }}
                     />
                     <div className="flex flex-col">
-                        <span className="text-[10px] text-white font-bold leading-none">
+                        <span className="text-[10px] font-bold leading-none" style={{ color: 'var(--text-primary)' }}>
                             SAKTHI_MURUGAN
                         </span>
-                        <span className="text-[8px] text-gray-500 uppercase tracking-tighter">
+                        <span className="text-[8px] uppercase tracking-tighter" style={{ color: 'var(--text-muted)' }}>
                             Stealth Dev v2.0
                         </span>
                     </div>
                 </div>
                 <div className="flex justify-between px-2">
-                    <a
-                        href="https://github.com/Sakthi102003"
-                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
-                    >
-                        <Github size={14} />
-                    </a>
-                    <a
-                        href="https://www.linkedin.com/in/sakthimurugan-s/"
-                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
-                    >
-                        <Linkedin size={14} />
-                    </a>
-                    <a
-                        href="mailto:sakthimurugan102003@gmail.com"
-                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
-                    >
-                        <Mail size={14} />
-                    </a>
-                    <a
-                        href="https://www.instagram.com/sakthiii_techh/"
-                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
-                    >
-                        <Instagram size={14} />
-                    </a>
-                    <a
-                        href="https://medium.com/@sakthimurugan102003"
-                        className="text-gray-600 hover:text-electric-blue transition-all tactical-glitch-hover p-1"
-                    >
-                        <SiMedium size={14} />
-                    </a>
+                    {[
+                        { href: 'https://github.com/Sakthi102003', Icon: Github },
+                        { href: 'https://www.linkedin.com/in/sakthimurugan-s/', Icon: Linkedin },
+                        { href: 'mailto:sakthimurugan102003@gmail.com', Icon: Mail },
+                        { href: 'https://www.instagram.com/sakthiii_techh/', Icon: Instagram },
+                        { href: 'https://medium.com/@sakthimurugan102003', Icon: SiMedium },
+                    ].map(({ href, Icon }) => (
+                        <a
+                            key={href}
+                            href={href}
+                            className="tactical-glitch-hover p-1 transition-all"
+                            style={{ color: 'var(--text-muted)' }}
+                            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
+                            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+                        >
+                            <Icon size={14} />
+                        </a>
+                    ))}
                 </div>
             </div>
         </aside>

@@ -9,12 +9,13 @@ import CommandPalette from './components/features/CommandPalette';
 import AudioProvider from './components/features/AudioProvider';
 import IdCardOverlay from './components/features/IdCardOverlay';
 import { DefconProvider } from './components/features/DefconProvider';
+import { ThemeProvider } from './components/features/ThemeProvider';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <>
+    <ThemeProvider>
       <CustomCursor />
       <AnimatePresence>
         {isLoading && (
@@ -33,7 +34,7 @@ function App() {
           <AudioProvider />
         </DefconProvider>
       )}
-    </>
+    </ThemeProvider>
   );
 }
 

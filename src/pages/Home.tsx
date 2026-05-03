@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { Terminal as TerminalIcon } from 'lucide-react'
+import ThemeToggle from '../components/ui/ThemeToggle'
 
 import FlowingBlogRiver from '../components/sections/FlowingBlogRiver'
 import GearsSection from '../components/sections/GearsSection'
@@ -96,11 +97,11 @@ function Home() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-stealth-900 text-gray-400 font-stealth overflow-hidden selection:bg-electric-blue/30 selection:text-white">
+    <div className="flex flex-col h-screen overflow-hidden" style={{ background: 'var(--bg-base)', color: 'var(--text-secondary)', fontFamily: 'var(--font-ui)' }}>
       <div className="flex flex-1 min-h-0 overflow-hidden relative">
         {/* Visual Accents - Glowing Vertical Lines */}
-        <div className="fixed left-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-electric-blue/10 to-transparent pointer-events-none" />
-        <div className="fixed right-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-crimson/10 to-transparent pointer-events-none" />
+        <div className="fixed left-0 top-0 w-[1px] h-full pointer-events-none vertical-glow-left" />
+        <div className="fixed right-0 top-0 w-[1px] h-full pointer-events-none vertical-glow-right" />
 
         {/* IDE Sidebar (File Tree) */}
         <StealthSidebar
@@ -186,18 +187,26 @@ function Home() {
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              className="fixed inset-y-0 left-0 w-64 bg-stealth-800 border-r border-white/10 z-[100] md:hidden flex flex-col"
+              className="fixed inset-y-0 left-0 w-64 z-[100] md:hidden flex flex-col"
+              style={{ background: 'var(--mobile-menu-bg)', borderRight: '1px solid var(--mobile-menu-border)' }}
             >
-              <div className="p-6 border-b border-white/10">
-                <h2 className="text-xl font-bold text-white uppercase tracking-widest">Navigation</h2>
+              <div className="p-6" style={{ borderBottom: '1px solid var(--mobile-menu-border)' }}>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>Navigation</h2>
+                  <ThemeToggle />
+                </div>
               </div>
               <div className="flex-1 p-4 space-y-2">
                 {FILE_TREE.map(file => (
                   <button
                     key={`mob-${file.id}`}
                     onClick={() => { scrollToSection(file.id); setMobileMenuOpen(false); }}
-                    className={`w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all ${activeFile === file.id ? 'bg-electric-blue/10 text-electric-blue border-l-2 border-electric-blue' : 'text-gray-400'
-                      }`}
+                    className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all"
+                    style={{
+                      background: activeFile === file.id ? 'rgba(var(--accent-color) / 0.08)' : 'transparent',
+                      color: activeFile === file.id ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                      borderLeft: activeFile === file.id ? '2px solid var(--accent-cyan)' : '2px solid transparent',
+                    }}
                   >
                     <file.icon size={18} />
                     {file.label}
@@ -205,12 +214,13 @@ function Home() {
                 ))}
 
                 {/* System Tools for Mobile */}
-                <div className="h-px bg-white/10 my-4" />
-                <div className="px-4 text-xs font-mono text-gray-500 uppercase tracking-widest mb-2">System Tools</div>
+                <div className="h-px my-4" style={{ background: 'var(--border-subtle)' }} />
+                <div className="px-4 text-xs font-mono uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>System Tools</div>
 
                 <button
                   onClick={() => { setTerminalOpen(true); setMobileMenuOpen(false); }}
-                  className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest text-gray-400 hover:text-electric-blue transition-all"
+                  className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
                   <TerminalIcon size={18} />
                   Terminal
