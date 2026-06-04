@@ -29,20 +29,6 @@ export const projects = [
     ]
   },
   {
-    title: 'CertPath',
-    description: 'A comprehensive certification navigator that helps learners and professionals make smarter career choices. Features role-based roadmaps, detailed side-by-side comparisons, and a personalized dashboard for tracking progress across domains like AI, Cloud, and Cybersecurity.',
-    tech: ['React', 'TypeScript', 'Tailwind', 'ShadCN UI', 'Firebase', 'PostgreSQL'],
-    status: 'In Progress',
-    link: 'https://github.com/Sakthi102003/CertPath',
-    highlights: [
-      'Smart Certification Discovery',
-      'Side-by-side Comparison',
-      'Role-based Roadmaps',
-      'Secure User Dashboard',
-      'Firebase Authentication'
-    ]
-  },
-  {
     title: 'Cybersecurity Deep Trench',
     description: 'A deep dive into cybersecurity concepts, visualized as an ocean trench exploration. This project organizes security topics by complexity and depth, from fundamental principles at the surface to theoretical and advanced cryptographic concepts in the abyss.',
     tech: ['React 19', 'Vite', 'CSS Modules', 'Custom Animations'],
