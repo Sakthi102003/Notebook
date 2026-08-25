@@ -86,7 +86,7 @@ const WakatimeStats = () => {
 
     if (loading) {
         return (
-            <div className="stealth-card p-6 animate-pulse">
+            <div className="portfolio-card p-6 animate-pulse">
                 <div className="h-4 bg-white/5 w-1/3 mb-4 rounded"></div>
                 <div className="h-8 bg-white/10 w-1/2 rounded"></div>
             </div>
@@ -95,7 +95,7 @@ const WakatimeStats = () => {
 
     if (error) {
         return (
-            <div className="stealth-card p-6 border border-crimson/20 text-crimson font-mono text-sm">
+            <div className="portfolio-card p-6 border border-crimson/20 text-crimson font-mono text-sm">
                 {error}
             </div>
         );
@@ -109,7 +109,7 @@ const WakatimeStats = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="stealth-card p-6 group relative overflow-hidden h-full"
+            className="portfolio-card p-6 group relative overflow-hidden h-full"
         >
             {/* Background Glitch Effect */}
             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">

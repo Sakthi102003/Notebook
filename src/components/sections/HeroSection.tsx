@@ -20,10 +20,7 @@ import {
 } from 'react-icons/si'
 import { useRef, useState, useEffect } from 'react'
 
-import RansomNoteText from '../ui/RansomNoteText'
-import ScrambleText from '../ui/ScrambleText'
 import AgeCounter from '../features/AgeCounter'
-import SystemClock from '../features/SystemClock'
 import WakatimeStats from '../features/WakatimeStats'
 import LatestCommit from '../features/LatestCommit'
 import SocialProfileCard from '../ui/SocialProfileCard'
@@ -174,7 +171,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
     ];
 
     return (
-        <section id="home" className="min-h-[80vh] flex flex-col justify-center max-w-4xl mx-auto relative">
+        <section id="home" className="min-h-[80vh] flex flex-col justify-center max-w-6xl mx-auto relative">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -183,38 +180,36 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
             >
                 {/* Avatar Feature from New Design */}
                 <div className="relative w-24 h-24 mb-6 z-50">
-                    <img src="/images/blue avatar.png" alt="Sakthi" className="w-full h-full rounded-full border-2 border-white/10 shadow-2xl transition-all duration-500" />
+                    <img src="/images/blue avatar.png" alt="Sakthi" className="w-full h-full rounded-full border-2 shadow-2xl transition-all duration-500" style={{ borderColor: 'var(--border-subtle)' }} />
                     <div
                         ref={iconRef}
                         onMouseEnter={handleMouseEnterIcon}
                         onMouseLeave={() => setShowWakatimeModal(false)}
-                        className="absolute -bottom-1 -right-1 bg-stealth-900 rounded-xl p-1.5 border border-white/10 shadow-lg group hover:border-electric-blue/50 transition-colors cursor-help"
+                        className="absolute -bottom-1 -right-1 rounded-xl p-1.5 shadow-lg transition-colors cursor-help"
+                        style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-soft)' }}
                     >
                         <img src="/images/vscode.png" alt="VS Code Stats" className="w-4 h-4 object-contain group-hover:scale-110 transition-transform" />
                     </div>
                 </div>
 
-                <SystemClock />
-
                 <div className="flex flex-wrap items-center gap-4">
-                    <div className="inline-block px-3 py-1 bg-electric-blue/5 border border-electric-blue/20 text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">
-                        System Initialization // Online
+                    <div className="inline-block px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] rounded-full" style={{ background: 'rgba(var(--accent-color) / 0.1)', border: '1px solid var(--border-soft)', color: 'var(--accent-cyan)' }}>
+                        Welcome to my corner of the web
                     </div>
-                    <div className="flex items-center gap-2 px-3 py-1 bg-green-500/5 border border-green-500/20 text-[10px] font-mono text-green-500 uppercase tracking-[0.3em] animate-pulse-slow">
+                    <div className="flex items-center gap-2 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] rounded-full animate-pulse-slow" style={{ background: 'rgba(34, 197, 94, 0.08)', border: '1px solid rgba(34, 197, 94, 0.2)', color: 'var(--accent-green)' }}>
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                        Freelance_Work // Available
+                        Available for Freelance
                     </div>
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-white">
-                    <div className="flex flex-wrap items-end gap-2 md:gap-4 mb-2">
-                        <RansomNoteText text="SAKTHIMURUGAN S" className="justify-start gap-2 max-w-full" />
-                        <div className="text-xs md:text-sm font-mono text-electric-blue mb-1.5 md:mb-3 opacity-70">
-                            <AgeCounter />
-                        </div>
+                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none" style={{ color: 'var(--text-primary)' }}>
+                    <span className="block text-lg sm:text-xl font-medium mb-2" style={{ color: 'var(--accent-red)' }}>Hi, I’m</span>
+                    <div className="flex flex-wrap items-end gap-3 md:gap-4">
+                        <span className="font-display">Sakthimurugan</span>
+                        <div className="text-xs md:text-sm font-mono mb-1.5 md:mb-3 opacity-70" style={{ color: 'var(--accent-cyan)' }}><AgeCounter /></div>
                     </div>
-                    <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-500 mt-2 md:mt-4 font-mono font-light tracking-widest uppercase break-words">
-                        <ScrambleText text="Dev & Security Enthusiast" delay={1.5} />
+                    <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-4 font-display font-medium tracking-tight break-words" style={{ color: 'var(--text-muted)' }}>
+                        I make thoughtful digital experiences and secure tools.
                     </span>
                 </h1>
 
@@ -227,9 +222,9 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     {/* Social Links with App Icon Style */}
                     <div className="flex flex-wrap gap-3 md:gap-6 relative justify-start">
                         {[
-                            { id: 'X' as const, icon: SiX, href: 'https://x.com/sakthimurugans_', label: 'X', color: 'text-white' },
+                            { id: 'X' as const, icon: SiX, href: 'https://x.com/sakthimurugans_', label: 'X', color: 'text-current' },
                             { id: 'LINKEDIN' as const, icon: SiLinkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN', color: 'text-[#0077b5]' },
-                            { id: 'GITHUB' as const, icon: SiGithub, href: 'https://github.com/Sakthi102003', label: 'GITHUB', color: 'text-white' },
+                            { id: 'GITHUB' as const, icon: SiGithub, href: 'https://github.com/Sakthi102003', label: 'GITHUB', color: 'text-current' },
                             { id: 'MAIL' as const, icon: SiGmail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL', color: 'text-[#EA4335]' },
                             { id: 'DISCORD' as const, icon: SiDiscord, href: 'https://discord.com/users/1074201854143123560', label: 'DISCORD', color: 'text-[#5865F2]' }
                         ].map((social) => (
@@ -243,7 +238,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                                 onMouseEnter={(e) => handleSocialEnter(social.id, e)}
                                 onMouseLeave={() => setHoveredSocial(null)}
                             >
-                                <div className="w-12 h-12 md:w-14 md:h-14 bg-black rounded-xl md:rounded-2xl flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-110 group-hover:border-white/30 transition-all duration-300 relative overflow-hidden">
+                                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border shadow-lg group-hover:scale-110 transition-all duration-300 relative overflow-hidden" style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}>
                                     {/* Gloss reflection */}
                                     <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-50" />
 
@@ -277,60 +272,42 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
 
                 <div className="glow-line-blue opacity-50 max-w-md" />
 
-                <div className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed font-sans">
-                    <span className="inline">Specializing in razor-sharp web experiences using </span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-electric-blue hover:border-electric-blue/50 transition-colors cursor-default whitespace-nowrap">
+                <div className="text-base md:text-lg max-w-2xl leading-relaxed font-sans" style={{ color: 'var(--text-secondary)' }}>
+                    <span className="inline">I turn ideas into friendly, useful web experiences with </span>
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline rounded-md text-sm font-mono transition-colors cursor-default whitespace-nowrap" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', color: 'var(--accent-cyan)' }}>
                         <SiTypescript size={12} /> TypeScript
                     </span>
                     <span className="inline">, </span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-cyan-400 hover:border-cyan-400/50 transition-colors cursor-default whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline rounded-md text-sm font-mono transition-colors cursor-default whitespace-nowrap" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', color: 'var(--accent-cyan)' }}>
                         <SiReact size={12} /> React
                     </span>
                     <span className="inline"> and </span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-teal-400 hover:border-teal-400/50 transition-colors cursor-default whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline rounded-md text-sm font-mono transition-colors cursor-default whitespace-nowrap" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', color: 'var(--accent-cyan)' }}>
                         <SiTailwindcss size={12} /> Tailwind
                     </span>
-                    <span className="inline">. Focused on security research with </span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline bg-stealth-800 border border-white/10 rounded-md text-sm font-mono text-yellow-400 hover:border-yellow-400/50 transition-colors cursor-default whitespace-nowrap">
+                    <span className="inline">. I also explore security research with </span>
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 align-baseline rounded-md text-sm font-mono transition-colors cursor-default whitespace-nowrap" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', color: 'var(--accent-red)' }}>
                         <SiPython size={12} /> Python
                     </span>
-                    <span className="inline">, and high-performance development. Based in the digital shadows, building the future of the web.</span>
+                    <span className="inline">, plus high-performance development. Always curious, always building.</span>
                 </div>
 
                 <div className="flex flex-wrap gap-4 pt-4">
                     <button
-                        onClick={() => scrollToSection('about')}
-                        className="px-8 py-4 bg-electric-blue text-stealth-900 font-bold hover:shadow-[0_0_30px_#00E5FF] transition-all flex items-center gap-2 group uppercase tracking-widest text-xs tactical-glitch-hover"
+                        onClick={() => scrollToSection('projects')}
+                        className="btn-primary rounded-xl"
                     >
-                        INITIALIZE_RECON <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        Explore my work <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                     <a
                         href="https://drive.google.com/file/d/1XP0eR-HanWD3CqGtO9ZeTe6enXxylaSk/view?usp=sharing"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-8 py-4 border border-white/10 text-white font-bold hover:bg-white/5 transition-all flex items-center gap-2 uppercase tracking-widest text-xs tactical-glitch-hover"
+                        className="btn-ghost rounded-xl"
                     >
-                        EXTRACT_IDENT.PDF <Monitor size={16} />
+                        Download Resume <Monitor size={16} />
                     </a>
                 </div>
-
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5, duration: 1 }}
-                    className="hidden md:flex pt-8 flex-col gap-4 text-[10px] text-gray-500 font-mono uppercase tracking-widest"
-                >
-                    <div className="flex flex-wrap items-center gap-6">
-                        <div className="flex items-center gap-1.5 opacity-70">
-                            <kbd className="px-1.5 py-0.5 border border-white/10 rounded bg-white/5 text-gray-400">CTRL K</kbd>
-                            <span className="text-gray-600">COMMANDS</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 opacity-70">
-                            <kbd className="px-1.5 py-0.5 border border-white/10 rounded bg-white/5 text-gray-400">CTRL \</kbd>
-                            <span className="text-gray-600">TERMINAL</span>
-                        </div>
-                    </div>
-                </motion.div>
 
                 {showWakatimeModal && (
                     <div
@@ -342,7 +319,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                         }}
                         className="pointer-events-none"
                     >
-                        <div className="w-80 bg-stealth-900/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+                        <div className="w-80 backdrop-blur-md rounded-xl shadow-2xl overflow-hidden" style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
                             <WakatimeStats />
                         </div>
                     </div>

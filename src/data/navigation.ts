@@ -9,11 +9,11 @@ import {
 } from 'lucide-react'
 
 export const FILE_TREE = [
-    { id: 'home', label: 'index.tsx', icon: FileCode, category: 'src' },
-    { id: 'about', label: 'bio.md', icon: FileText, category: 'src/identity' },
-    { id: 'quotes', label: 'quotes.log', icon: MessageSquare, category: 'src/data' },
-    { id: 'skills', label: 'stack.json', icon: Settings, category: 'src/capability' },
-    { id: 'projects', label: 'ops/', icon: Folder, category: 'src/deployments', isFolder: true },
-    { id: 'gears', label: 'gears.cfg', icon: Monitor, category: 'src/sys' },
-    { id: 'contact', label: 'relay.log', icon: TerminalIcon, category: 'src/comm' },
+    { id: 'home', label: 'Home', icon: FileCode, category: 'Overview' },
+    { id: 'about', label: 'About', icon: FileText, category: 'Profile' },
+    { id: 'quotes', label: 'Quotes', icon: MessageSquare, category: 'Inspiration' },
+    { id: 'skills', label: 'Skills', icon: Settings, category: 'Stack' },
+    { id: 'projects', label: 'Projects', icon: Folder, category: 'Work' },
+    { id: 'gears', label: 'Gear', icon: Monitor, category: 'Setup' },
+    { id: 'contact', label: 'Contact', icon: TerminalIcon, category: 'Connect' },
 ]

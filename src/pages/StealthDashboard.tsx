@@ -1,231 +1,77 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState, useRef } from 'react'
-import { Terminal as TerminalIcon } from 'lucide-react'
-import ThemeToggle from '../components/ui/ThemeToggle'
-
-import FlowingBlogRiver from '../components/sections/FlowingBlogRiver'
-import GearsSection from '../components/sections/GearsSection'
-import QuotesSection from '../components/sections/QuotesSection'
-
-import StealthSidebar from '../components/layout/StealthSidebar'
-import StealthHeader from '../components/layout/StealthHeader'
-import StealthStatusBar from '../components/layout/StealthStatusBar'
-import ContentFooter from '../components/layout/ContentFooter'
-import { FILE_TREE } from '../data/navigation'
-
-// Imported Sections
-import HeroSection from '../components/sections/HeroSection'
-import MissionParams from '../components/sections/MissionParams'
-import TechCapability from '../components/sections/TechCapability'
-import DeployedAssets from '../components/sections/DeployedAssets'
-import SignalTransmission from '../components/sections/SignalTransmission'
-
-// New Feature Imports
-import Terminal from '../components/features/Terminal'
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { FILE_TREE } from '../data/navigation';
+import FlowingBlogRiver from '../components/sections/FlowingBlogRiver';
+import GearsSection from '../components/sections/GearsSection';
+import QuotesSection from '../components/sections/QuotesSection';
+import HeroSection from '../components/sections/HeroSection';
+import MissionParams from '../components/sections/MissionParams';
+import TechCapability from '../components/sections/TechCapability';
+import DeployedAssets from '../components/sections/DeployedAssets';
+import SignalTransmission from '../components/sections/SignalTransmission';
+import ContentFooter from '../components/layout/ContentFooter';
 
 export default function StealthDashboard() {
-  const [activeFile, setActiveFile] = useState('home')
-  const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const [isScrolled, setIsScrolled] = useState(false)
-  const mainContentRef = useRef<HTMLDivElement>(null)
-
-  // Feature State
-  const [terminalOpen, setTerminalOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('home');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (mainContentRef.current) {
-        setIsScrolled(mainContentRef.current.scrollTop > 20)
-      }
-    }
-
-    const observerOptions = {
-      root: mainContentRef.current,
-      rootMargin: '-10% 0px -40% 0px',
-      threshold: 0
-    }
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveFile(entry.target.id)
-        }
-      })
-    }
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-
-    // Track all sections in the file tree
-    FILE_TREE.forEach((file) => {
-      const el = document.getElementById(file.id)
-      if (el) observer.observe(el)
-    })
-
-    const contentArea = mainContentRef.current
-    contentArea?.addEventListener('scroll', handleScroll)
-
-    // Keyboard Shortcuts
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Ctrl + \ to toggle terminal
-      if (e.ctrlKey && e.key === '\\') {
-        e.preventDefault()
-        setTerminalOpen(prev => !prev)
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      contentArea?.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('keydown', handleKeyDown)
-      observer.disconnect()
-    }
-  }, [])
+    const sections = FILE_TREE.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && setActiveSection(entry.target.id)),
+      { rootMargin: '-30% 0px -55% 0px' },
+    );
+    sections.forEach((section) => observer.observe(section));
+    const handleScroll = () => setIsScrolled(window.scrollY > 16);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => { observer.disconnect(); window.removeEventListener('scroll', handleScroll); };
+  }, []);
 
   const scrollToSection = (id: string) => {
-    setActiveFile(id)
-    const element = document.getElementById(id)
-    if (element && mainContentRef.current) {
-      const offset = element.offsetTop - 100
-      mainContentRef.current.scrollTo({ top: offset, behavior: 'smooth' })
-    }
-  }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setActiveSection(id);
+    setMenuOpen(false);
+  };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden" style={{ background: 'var(--bg-base)', color: 'var(--text-secondary)', fontFamily: 'var(--font-ui)' }}>
-      <div className="flex flex-1 min-h-0 overflow-hidden relative">
-        {/* Visual Accents - Glowing Vertical Lines */}
-        <div className="fixed left-0 top-0 w-[1px] h-full pointer-events-none vertical-glow-left" />
-        <div className="fixed right-0 top-0 w-[1px] h-full pointer-events-none vertical-glow-right" />
+    <div className="feel-good-shell min-h-screen overflow-x-hidden" style={{ background: 'var(--bg-base)', color: 'var(--text-secondary)' }}>
+      <header className="sticky top-0 z-40 transition-all duration-300" style={{ background: isScrolled ? 'var(--header-bg)' : 'transparent', borderBottom: isScrolled ? '1px solid var(--header-border)' : '1px solid transparent', backdropFilter: isScrolled ? 'blur(16px)' : 'none' }}>
+        <div className="max-w-6xl mx-auto h-20 px-5 sm:px-8 flex items-center justify-between">
+          <button onClick={() => scrollToSection('home')} className="text-left" aria-label="Go to home">
+            <span className="block font-display text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Sakthimurugan S</span>
+            <span className="block text-[10px] tracking-[0.18em] uppercase" style={{ color: 'var(--text-muted)' }}>Developer & security researcher</span>
+          </button>
+          <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full" style={{ background: 'rgb(255 255 255 / 0.58)', border: '1px solid var(--border-subtle)' }}>
+            {FILE_TREE.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="px-3 py-2 rounded-full text-xs transition-colors" style={{ background: activeSection === item.id ? 'var(--accent-cyan)' : 'transparent', color: activeSection === item.id ? 'var(--btn-primary-text)' : 'var(--text-secondary)' }}>{item.label}</button>)}
+          </nav>
+          <button onClick={() => setMenuOpen(true)} className="lg:hidden p-3 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' }} aria-label="Open navigation"><Menu size={19} /></button>
+        </div>
+      </header>
 
-        {/* IDE Sidebar (File Tree) */}
-        <StealthSidebar
-          isOpen={sidebarOpen}
-          activeFile={activeFile}
-          onNavigate={scrollToSection}
-        />
-
-        {/* Main Content Area */}
-        <main className="flex-1 flex flex-col relative h-full overflow-hidden">
-          {/* IDE Header / Breadcrumbs */}
-          <StealthHeader
-            isScrolled={isScrolled}
-            activeFile={activeFile}
-            onNavigate={scrollToSection}
-            sidebarOpen={sidebarOpen}
-            setSidebarOpen={setSidebarOpen}
-            mobileMenuOpen={mobileMenuOpen}
-            setMobileMenuOpen={setMobileMenuOpen}
-          />
-
-          {/* Scrollable Content */}
-          <div
-            ref={mainContentRef}
-            className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-12 py-8 md:py-12 space-y-16 md:space-y-32"
-          >
-            {/* Section: Home (index.tsx) */}
-            <HeroSection scrollToSection={scrollToSection} />
-
-            {/* Section: About (bio.md) */}
-            <MissionParams />
-
-            {/* Section: Quotes (quotes.log) */}
-            <section id="quotes">
-              <QuotesSection />
-            </section>
-
-            {/* Section: Skills (stack.json) */}
-            <TechCapability />
-
-            {/* Section: Projects (ops/) */}
-            <DeployedAssets />
-
-            {/* Section: Gears (gears.cfg) */}
-            <section id="gears">
-              <GearsSection />
-            </section>
-
-            {/* Section: Contact (relay.log) */}
-            <SignalTransmission />
-
-            {/* Flowing Blog Feed */}
-            <section className="pt-20">
-              <FlowingBlogRiver />
-            </section>
-
-            {/* Content Footer */}
-            <ContentFooter />
-          </div>
-        </main>
-      </div>
-
-      {/* IDE Footer / Status Bar - Full Width Sticky */}
-      <StealthStatusBar />
-
-      {/* Global Features */}
-      <Terminal
-        isOpen={terminalOpen}
-        onClose={() => setTerminalOpen(false)}
-      />
+      <main className="relative z-10 px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto space-y-24 sm:space-y-32 pb-8">
+          <HeroSection scrollToSection={scrollToSection} />
+          <MissionParams />
+          <QuotesSection />
+          <TechCapability />
+          <DeployedAssets />
+          <GearsSection />
+          <SignalTransmission />
+          <FlowingBlogRiver />
+          <ContentFooter />
+        </div>
+      </main>
 
       <AnimatePresence>
-        {mobileMenuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-stealth-900/80 backdrop-blur-sm z-[90] md:hidden"
-            />
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              className="fixed inset-y-0 left-0 w-64 z-[100] md:hidden flex flex-col"
-              style={{ background: 'var(--mobile-menu-bg)', borderRight: '1px solid var(--mobile-menu-border)' }}
-            >
-              <div className="p-6" style={{ borderBottom: '1px solid var(--mobile-menu-border)' }}>
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>Navigation</h2>
-                  <ThemeToggle />
-                </div>
-              </div>
-              <div className="flex-1 p-4 space-y-2">
-                {FILE_TREE.map(file => (
-                  <button
-                    key={`mob-${file.id}`}
-                    onClick={() => { scrollToSection(file.id); setMobileMenuOpen(false); }}
-                    className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all"
-                    style={{
-                      background: activeFile === file.id ? 'rgba(var(--accent-color) / 0.08)' : 'transparent',
-                      color: activeFile === file.id ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                      borderLeft: activeFile === file.id ? '2px solid var(--accent-cyan)' : '2px solid transparent',
-                    }}
-                  >
-                    <file.icon size={18} />
-                    {file.label}
-                  </button>
-                ))}
-
-                {/* System Tools for Mobile */}
-                <div className="h-px my-4" style={{ background: 'var(--border-subtle)' }} />
-                <div className="px-4 text-xs font-mono uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>System Tools</div>
-
-                <button
-                  onClick={() => { setTerminalOpen(true); setMobileMenuOpen(false); }}
-                  className="w-full flex items-center gap-4 px-4 py-3 text-sm font-mono uppercase tracking-widest transition-all"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  <TerminalIcon size={18} />
-                  Terminal
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
+        {menuOpen && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] lg:hidden p-5" style={{ background: 'rgb(43 38 67 / 0.22)', backdropFilter: 'blur(10px)' }} onClick={() => setMenuOpen(false)}>
+          <motion.nav initial={{ y: -18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -18, opacity: 0 }} className="rounded-[2rem] p-5" style={{ background: 'var(--bg-overlay)', border: '1px solid var(--border-soft)', boxShadow: 'var(--card-shadow)' }} onClick={(event) => event.stopPropagation()}>
+            <div className="flex items-center justify-between mb-5"><span className="font-display text-xl" style={{ color: 'var(--text-primary)' }}>Explore</span><button onClick={() => setMenuOpen(false)} className="p-2 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)' }} aria-label="Close navigation"><X size={18} /></button></div>
+            <div className="grid grid-cols-2 gap-2">{FILE_TREE.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="flex items-center gap-2 p-3 rounded-xl text-left text-sm" style={{ background: activeSection === item.id ? 'rgb(var(--accent-color) / 0.1)' : 'var(--bg-surface)', color: activeSection === item.id ? 'var(--accent-cyan)' : 'var(--text-secondary)' }}><item.icon size={15} />{item.label}</button>)}</div>
+          </motion.nav>
+        </motion.div>}
       </AnimatePresence>
     </div>
-  )
+  );
 }

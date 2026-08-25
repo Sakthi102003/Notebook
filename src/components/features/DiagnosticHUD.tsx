@@ -105,7 +105,7 @@ const DiagnosticHUD: React.FC<HUDProps> = ({ isOpen, onClose }) => {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">Architecture</span>
-                                    <span className="text-white">x86_64 Stealth</span>
+                                    <span className="text-white">x86_64 Portfolio</span>
                                 </div>
                             </div>
                         </StealthCard>
@@ -207,7 +207,7 @@ const DiagnosticHUD: React.FC<HUDProps> = ({ isOpen, onClose }) => {
                                 <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-crimson">Threat_Vector</h3>
                             </div>
                             <div className="font-mono text-[9px] text-crimson/80 leading-relaxed uppercase">
-                                Active monitoring enabled. All incoming requests filtered via stealth-protocol. Encryption layer: V3-PROXIMA.
+                                Active monitoring enabled. All incoming requests filtered via portfolio-protocol. Encryption layer: V3-PROXIMA.
                             </div>
                         </StealthCard>
                     </div>

@@ -27,7 +27,8 @@ const SocialProfileCard = ({ name, handle, avatar, banner, bio, isVerified = tru
                 initial={{ opacity: 0, x: -20, scale: 0.9 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: -20, scale: 0.9 }}
-                className="flex items-center gap-4 p-3 pr-6 bg-[#0a0f1d] border border-white/5 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.5)] min-w-[320px] relative overflow-hidden"
+                className="flex items-center gap-4 p-3 pr-6 border rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.15)] min-w-[320px] relative overflow-hidden"
+                style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)' }}
             >
                 {/* Background Glow */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#5865F2]/20 via-transparent to-transparent pointer-events-none" />
@@ -38,7 +39,7 @@ const SocialProfileCard = ({ name, handle, avatar, banner, bio, isVerified = tru
                         <img src={avatar} alt={name} className="w-full h-full object-cover" />
                     </div>
                     {/* Status Dot */}
-                    <div className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-[3px] border-[#0a0f1d] flex items-center justify-center
+                    <div className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-[3px] border-[var(--card-bg)] flex items-center justify-center
                         ${status === 'dnd' ? 'bg-red-500' :
                             status === 'idle' ? 'bg-yellow-500' :
                                 status === 'offline' ? 'bg-gray-500' : 'bg-green-500'}`
@@ -50,13 +51,13 @@ const SocialProfileCard = ({ name, handle, avatar, banner, bio, isVerified = tru
                 {/* Content */}
                 <div className="relative z-10 flex flex-col">
                     <div className="flex items-center gap-2">
-                        <span className="text-white font-bold text-sm tracking-wide">{name}</span>
+                        <span className="font-bold text-sm tracking-wide" style={{ color: 'var(--text-primary)' }}>{name}</span>
                         {/* Custom Status Pill */}
-                        <div className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-[10px] text-gray-300 font-mono">
+                        <div className="px-2 py-0.5 border rounded-full text-[10px] font-mono" style={{ background: 'var(--bg-elevated)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}>
                             {customStatus}
                         </div>
                     </div>
-                    <span className="text-gray-500 text-xs font-mono">@{handle}</span>
+                    <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>@{handle}</span>
                 </div>
             </motion.div>
         );

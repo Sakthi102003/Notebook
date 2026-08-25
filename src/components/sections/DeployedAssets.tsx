@@ -21,10 +21,10 @@ export default function DeployedAssets() {
         <>
             <section id="projects" className="max-w-6xl mx-auto">
                 <div className="flex items-center gap-4 mb-12">
-                    <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4">
-                        <span className="text-electric-blue font-mono opacity-50">03.</span> DEPLOYED_ASSETS
+                    <h2 className="text-3xl font-bold uppercase tracking-widest flex items-center gap-4" style={{ color: 'var(--text-primary)' }}>
+                    <span className="font-mono opacity-50" style={{ color: 'var(--accent-cyan)' }}>03.</span> FEATURED PROJECTS
                     </h2>
-                    <div className="flex-1 h-[1px] bg-gradient-to-r from-electric-blue/30 to-transparent" />
+                    <div className="flex-1 h-[1px]" style={{ background: 'linear-gradient(90deg, var(--accent-cyan), transparent)' }} />
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-8">
@@ -36,39 +36,39 @@ export default function DeployedAssets() {
                             viewport={{ once: true }}
                         >
                             <HoloCard
-                                className="stealth-card p-8 group flex flex-col h-full cursor-pointer hover:border-electric-blue/30 transition-all font-stealth"
+                                className="portfolio-card p-8 group flex flex-col h-full cursor-pointer transition-all"
                                 onClick={() => handleProjectClick(project)}
                             >
                                 <div className="flex justify-between items-start mb-6">
-                                    <div className="p-3 bg-electric-blue/5 border border-white/5 text-electric-blue">
+                                    <div className="p-3 rounded-lg" style={{ background: 'rgba(var(--accent-color)/0.1)', color: 'var(--accent-cyan)' }}>
                                         <Folder size={24} />
                                     </div>
                                 </div>
 
-                                <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide group-hover:text-electric-blue transition-colors">
+                                    <h3 className="text-2xl font-bold mb-2 tracking-wide transition-colors" style={{ color: 'var(--text-primary)' }}>
                                     {project.title}
                                 </h3>
 
                                 <div className="flex items-center gap-2 mb-4">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-electric-blue shadow-[0_0_5px_#00E5FF]" />
-                                    <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{project.status}</span>
+                                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--accent-cyan)' }} />
+                                    <span className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{project.status}</span>
                                 </div>
 
-                                <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-mono uppercase tracking-tighter">
+                                <p className="text-sm leading-relaxed mb-6 flex-grow" style={{ color: 'var(--text-secondary)' }}>
                                     {project.description}
                                 </p>
 
-                                <div className="flex flex-wrap gap-2 mt-auto pt-6 border-t border-white/5">
+                                <div className="flex flex-wrap gap-2 mt-auto pt-6 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                                     {project.tech.map((t) => (
-                                        <span key={t} className="text-[9px] font-mono text-white/30 px-2 py-0.5 border border-white/5 bg-white/5 uppercase">
+                                        <span key={t} className="text-[9px] font-mono px-2 py-0.5 border rounded uppercase" style={{ background: 'var(--bg-elevated)', borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }}>
                                             {t}
                                         </span>
                                     ))}
                                 </div>
 
-                                <div className="mt-4 pt-2 text-[10px] font-mono text-electric-blue/50 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div className="mt-4 pt-2 text-[10px] flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: 'var(--accent-cyan)' }}>
                                     <TerminalIcon size={12} />
-                                    CLICK_TO_VIEW_LOGS
+                                    View project details
                                 </div>
                             </HoloCard>
                         </motion.div>
@@ -78,7 +78,7 @@ export default function DeployedAssets() {
                 <div className="flex justify-center mt-12">
                     <Link
                         to="/projects"
-                        className="group flex items-center gap-3 px-8 py-4 border border-white/10 hover:border-electric-blue text-white transition-all uppercase tracking-[0.3em] text-xs"
+                        className="btn-ghost rounded-xl"
                     >
                         View_Project_Archives <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </Link>

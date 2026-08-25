@@ -1,147 +1,83 @@
-/* App-level global theme overrides */
+/* App-level adaptive overrides for hardcoded utility classes. */
 
-/* --- Corporate: Social icon tiles use surface bg instead of black --- */
-[data-theme="corporate"] .social-app-tile {
+.social-app-tile,
+.bg-black {
   background: var(--bg-surface) !important;
   border-color: var(--border-soft) !important;
   box-shadow: var(--card-shadow);
 }
-[data-theme="corporate"] .social-app-tile:hover {
+
+.social-app-tile:hover {
   border-color: var(--border-focus) !important;
 }
 
-/* --- Corporate: Force dark-bg social icons to use theme surface --- */
-[data-theme="corporate"] .bg-black {
-  background: var(--bg-surface) !important;
-  border-color: var(--border-soft) !important;
-}
-
-/* --- Corporate: LatestCommit / any inline dark panels --- */
-[data-theme="corporate"] .bg-stealth-900\/95,
-[data-theme="corporate"] .bg-stealth-900\/80,
-[data-theme="corporate"] .bg-stealth-800,
-[data-theme="corporate"] .bg-stealth-900 {
+.bg-stealth-900\/95,
+.bg-stealth-900\/80,
+.bg-stealth-900\/50,
+.bg-stealth-900,
+.bg-stealth-800,
+.bg-stealth-800\/20,
+.bg-stealth-800\/30,
+.bg-stealth-800\/40,
+.bg-stealth-800\/50 {
   background: var(--card-bg) !important;
 }
 
-/* --- Corporate: inputs & forms --- */
-[data-theme="corporate"] input,
-[data-theme="corporate"] textarea {
+.text-white {
+  color: var(--text-primary) !important;
+}
+
+.text-white\/40,
+.text-white\/50,
+.text-gray-500,
+.text-gray-600 {
+  color: var(--text-muted) !important;
+}
+
+.text-white\/60,
+.text-white\/70,
+.text-white\/80,
+.text-gray-300,
+.text-gray-400 {
+  color: var(--text-secondary) !important;
+}
+
+.border-white\/5 {
+  border-color: var(--border-subtle) !important;
+}
+
+.border-white\/10 {
+  border-color: var(--border-soft) !important;
+}
+
+input,
+textarea,
+kbd {
   background: var(--bg-elevated) !important;
   border-color: var(--border-soft) !important;
   color: var(--text-primary) !important;
 }
-[data-theme="corporate"] input::placeholder,
-[data-theme="corporate"] textarea::placeholder {
+
+input::placeholder,
+textarea::placeholder {
   color: var(--text-muted) !important;
 }
-[data-theme="corporate"] input:focus,
-[data-theme="corporate"] textarea:focus {
+
+input:focus,
+textarea:focus {
   border-color: var(--border-focus) !important;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(0,229,255,0.12);
+  box-shadow: 0 0 0 2px rgb(var(--accent-color) / 0.14);
 }
 
-/* --- Corporate: kbd shortcut hints --- */
-[data-theme="corporate"] kbd {
-  background: var(--bg-elevated) !important;
-  border-color: var(--border-soft) !important;
-  color: var(--text-secondary) !important;
-}
-
-/* --- Corporate: RansomNoteText decrypted chars - remove chromatic glitch shadow --- */
-[data-theme="corporate"] .ransom-note-decrypted {
-  text-shadow: none !important;
-}
-
-/* --- Corporate: WakaTime / floating modals --- */
-[data-theme="corporate"] .wakatime-popup {
-  background: var(--bg-surface) !important;
-  border-color: var(--border-soft) !important;
-  border-radius: 14px;
-  box-shadow: var(--card-shadow);
-}
-
-/* --- Corporate: Suppress all text-shadows (glows) --- */
-[data-theme="corporate"] * {
-  text-shadow: none !important;
-}
-
-/* --- Corporate: GearsSection full-screen overlay --- */
-[data-theme="corporate"] .fixed.inset-0.z-\\[100\\] {
-  background: var(--bg-base) !important;
-}
-
-/* ============================================================
-   CORPORATE: CONTRAST FIXES
-   All text that was hardcoded white must use --text-primary
-   ============================================================ */
-
-/* Headings */
-[data-theme="corporate"] h1:not(.loading-screen h1),
-[data-theme="corporate"] h2:not(.loading-screen h2),
-[data-theme="corporate"] h3:not(.loading-screen h3),
-[data-theme="corporate"] h4:not(.loading-screen h4),
-[data-theme="corporate"] h5:not(.loading-screen h5),
-[data-theme="corporate"] h6:not(.loading-screen h6) {
+a.tactical-glitch-hover,
+button.tactical-glitch-hover,
+a[href*="drive.google"],
+a[href*="drive.google"] * {
   color: var(--text-primary) !important;
+  border-color: var(--border-soft) !important;
 }
 
-[data-theme="corporate"] .loading-screen h1,
-[data-theme="corporate"] .loading-screen .text-\\[\\#ffffff\\] {
-  color: #ffffff !important;
-}
-
-/* Tailwind text-white utility */
-[data-theme="corporate"] .text-white {
-  color: var(--text-primary) !important;
-}
-
-[data-theme="corporate"] .text-white\/40,
-[data-theme="corporate"] .text-white\/50 {
-  color: var(--text-muted) !important;
-}
-
-[data-theme="corporate"] .text-white\/60,
-[data-theme="corporate"] .text-white\/70,
-[data-theme="corporate"] .text-white\/80 {
-  color: var(--text-secondary) !important;
-}
-
-/* Tailwind text-gray-* utilities that are too light on white bg */
-[data-theme="corporate"] .text-gray-300,
-[data-theme="corporate"] .text-gray-400 {
-  color: var(--text-secondary) !important;
-}
-[data-theme="corporate"] .text-gray-500,
-[data-theme="corporate"] .text-gray-600 {
-  color: var(--text-muted) !important;
-}
-
-/* Ghost / outline button fix */
-[data-theme="corporate"] a.tactical-glitch-hover,
-[data-theme="corporate"] button.tactical-glitch-hover {
-  color: var(--text-primary);
-}
-
-/* Primary CTA button text stays light (white) since its bg is red */
-[data-theme="corporate"] .btn-primary {
+.btn-primary {
   color: var(--btn-primary-text) !important;
-}
-
-/* The resume link uses border/white text — force dark in corporate */
-[data-theme="corporate"] a[href*="drive.google"],
-[data-theme="corporate"] a[href*="drive.google"] * {
-  color: var(--text-primary) !important;
-  border-color: var(--border-soft) !important;
-}
-
-/* ScrambleText default text color */
-[data-theme="corporate"] .text-gray-500.font-mono {
-  color: var(--text-secondary) !important;
-}
-
-/* Breadcrumb text in header */
-[data-theme="corporate"] .font-mono.tracking-widest {
-  color: var(--text-secondary);
 }

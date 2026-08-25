@@ -5,7 +5,6 @@ import {
     Linkedin,
     Mail,
     Instagram,
-    Terminal as TerminalIcon,
     ChevronDown
 } from 'lucide-react'
 import { SiMedium } from 'react-icons/si'
@@ -45,17 +44,16 @@ export default function StealthSidebar({
         >
             <div className="p-4 flex items-center justify-between"
                 style={{ borderBottom: '1px solid var(--sidebar-border)' }}>
-                <span className="text-[10px] font-mono tracking-[0.3em] uppercase"
-                    style={{ color: 'var(--text-muted)' }}>
-                    Explorer
+                <span className="text-[10px] font-mono tracking-[0.3em] uppercase font-bold"
+                    style={{ color: 'var(--text-secondary)' }}>
+                    Explore
                 </span>
-                <TerminalIcon size={14} style={{ color: 'var(--text-faint)' }} />
             </div>
 
             <div ref={sidebarRef} className="flex-1 overflow-y-auto p-2 space-y-1">
                 <div className="flex items-center gap-2 px-2 py-1 text-[10px] font-mono uppercase tracking-widest mb-2"
-                    style={{ color: 'var(--text-faint)' }}>
-                    <ChevronDown size={12} /> Root
+                    style={{ color: 'var(--text-muted)' }}>
+                    <ChevronDown size={12} /> Around here
                 </div>
 
                 {FILE_TREE.map((file) => (
@@ -100,10 +98,10 @@ export default function StealthSidebar({
                     />
                     <div className="flex flex-col">
                         <span className="text-[10px] font-bold leading-none" style={{ color: 'var(--text-primary)' }}>
-                            SAKTHI_MURUGAN
+                            Sakthi Murugan
                         </span>
-                        <span className="text-[8px] uppercase tracking-tighter" style={{ color: 'var(--text-muted)' }}>
-                            Stealth Dev v2.0
+                        <span className="text-[8px] tracking-tighter" style={{ color: 'var(--text-muted)' }}>
+                            Developer • Security Researcher
                         </span>
                     </div>
                 </div>

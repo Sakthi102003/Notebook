@@ -38,24 +38,24 @@ const FlowingBlogRiver = () => {
   }, [])
 
   return (
-    <div className="py-12 bg-stealth-900 border-t border-b border-white/5 relative overflow-hidden">
+    <div className="py-12 relative overflow-hidden" style={{ background: 'var(--bg-surface)', borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
       {/* Background Pulse */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(0,229,255,0.05)_0%,transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgb(var(--accent-color)/0.05)_0%,transparent_50%)]" />
 
       <div className="max-w-6xl mx-auto px-4 mb-12">
         <div className="flex items-center gap-4">
-          <h3 className="text-xl font-bold uppercase tracking-widest flex items-center gap-3 text-white">
+          <h3 className="text-xl font-bold uppercase tracking-widest flex items-center gap-3" style={{ color: 'var(--text-primary)' }}>
             <Radio size={18} className="text-crimson animate-pulse" />
             INTEL_STREAM
           </h3>
-          <div className="flex-1 h-[1px] bg-white/5" />
+          <div className="flex-1 h-[1px]" style={{ background: 'var(--border-subtle)' }} />
         </div>
       </div>
 
       <div className="relative">
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="w-8 h-8 border-2 border-electric-blue border-t-transparent animate-spin" />
+            <div className="w-8 h-8 border-2 border-t-transparent animate-spin" style={{ borderColor: 'var(--accent-cyan)' }} />
           </div>
         ) : (
           <div className="flex gap-6 animate-flow">
@@ -63,14 +63,14 @@ const FlowingBlogRiver = () => {
               <div key={i} className="w-80 shrink-0">
                 <StealthCard className="p-6 h-48 group">
                   <div className="flex justify-between items-start mb-4">
-                    <span className="text-[9px] font-mono text-electric-blue/50 uppercase tracking-widest">{post.pubDate}</span>
-                    <FaMedium className="text-gray-700 group-hover:text-white transition-colors" />
+                    <span className="text-[9px] font-mono uppercase tracking-widest" style={{ color: 'var(--accent-cyan)' }}>{post.pubDate}</span>
+                    <FaMedium style={{ color: 'var(--text-muted)' }} className="transition-colors" />
                   </div>
                   <a href={post.link} target="_blank" rel="noopener noreferrer" className="block cursor-none">
-                    <h4 className="text-white font-bold text-sm mb-3 uppercase tracking-wide group-hover:text-electric-blue transition-colors line-clamp-2">
+                    <h4 className="font-bold text-sm mb-3 uppercase tracking-wide transition-colors line-clamp-2" style={{ color: 'var(--text-primary)' }}>
                       {post.title}
                     </h4>
-                    <p className="text-[10px] text-gray-500 font-mono uppercase tracking-tighter line-clamp-3">
+                    <p className="text-[10px] font-mono uppercase tracking-tighter line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
                       {post.content}
                     </p>
                   </a>
@@ -86,7 +86,8 @@ const FlowingBlogRiver = () => {
           href="https://medium.com/@sakthimurugan102003"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[10px] font-mono text-gray-400 hover:text-electric-blue uppercase tracking-[0.3em] transition-all flex items-center gap-2 cursor-pointer pointer-events-auto"
+          className="text-[10px] font-mono uppercase tracking-[0.3em] transition-all flex items-center gap-2 cursor-pointer pointer-events-auto"
+          style={{ color: 'var(--text-muted)' }}
         >
           <Activity size={14} /> View_Full_Data_Stream
         </a>

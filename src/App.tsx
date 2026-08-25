@@ -5,10 +5,7 @@ import Home from './pages/Home';
 import AllProjectsPage from './pages/AllProjectsPage';
 import CustomCursor from './components/ui/CustomCursor';
 import LoadingScreen from './components/ui/LoadingScreen';
-import CommandPalette from './components/features/CommandPalette';
 import AudioProvider from './components/features/AudioProvider';
-import IdCardOverlay from './components/features/IdCardOverlay';
-import { DefconProvider } from './components/features/DefconProvider';
 import { ThemeProvider } from './components/features/ThemeProvider';
 
 function App() {
@@ -24,15 +21,13 @@ function App() {
       </AnimatePresence>
 
       {!isLoading && (
-        <DefconProvider>
-          <IdCardOverlay />
-          <CommandPalette />
+        <>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/projects' element={<AllProjectsPage />} />
           </Routes>
           <AudioProvider />
-        </DefconProvider>
+        </>
       )}
     </ThemeProvider>
   );

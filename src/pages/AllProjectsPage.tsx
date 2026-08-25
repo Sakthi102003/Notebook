@@ -1,108 +1,40 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink, FolderOpen, Github, Terminal } from 'lucide-react';
+import { ArrowLeft, ExternalLink, FolderOpen, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import StealthCard from '../components/ui/StealthCard';
 import { projects } from '../data/projects';
 
-const AllProjectsPage = () => {
-  return (
-    <div className="min-h-screen bg-stealth-900 text-gray-400 p-6 sm:p-12 font-stealth selection:bg-electric-blue/30 selection:text-white">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-20 gap-8">
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-white font-bold hover:text-electric-blue transition-all uppercase tracking-[0.2em] text-[10px] border border-white/10 px-4 py-2 bg-white/5"
-          >
-            <ArrowLeft size={14} />
-            <span>RETURN_TO_BASE</span>
-          </Link>
-
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-electric-blue/5 border border-white/5 text-electric-blue">
-              <FolderOpen size={32} />
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-3xl sm:text-5xl font-bold text-white uppercase tracking-[0.2em]">
-                Project_Archives
-              </h1>
-              <div className="glow-line-blue w-full opacity-50" />
-            </div>
-          </div>
+const AllProjectsPage = () => (
+  <main className="min-h-screen p-6 sm:p-12" style={{ background: 'var(--bg-base)', color: 'var(--text-secondary)' }}>
+    <div className="max-w-6xl mx-auto">
+      <header className="flex flex-col sm:flex-row items-center justify-between mb-16 gap-8">
+        <Link to="/" className="btn-ghost"><ArrowLeft size={15} />Back to home</Link>
+        <div className="flex items-center gap-4 text-center sm:text-left">
+          <div className="p-3 rounded-2xl" style={{ background: 'rgb(var(--accent-color) / 0.1)', color: 'var(--accent-cyan)' }}><FolderOpen size={30} /></div>
+          <div><p className="text-sm mb-1" style={{ color: 'var(--accent-red)' }}>A collection of things I’ve made</p><h1 className="text-3xl sm:text-5xl">Selected projects</h1></div>
         </div>
-
-        {/* Status Bar */}
-        <div className="mb-12 flex items-center justify-between border-b border-white/5 pb-4 text-[10px] font-mono text-white/30 tracking-widest uppercase">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-2"><Terminal size={12} /> STATUS: ACTIVE</span>
-            <span>COUNT: {projects.length} RECORDS</span>
-          </div>
-          <div className="hidden sm:block">ENCRYPTION: AES_256_STABLE</div>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              className="h-full"
-            >
-              <StealthCard className="p-8 h-full flex flex-col group">
-                <div className="flex justify-between items-start mb-6">
-                  <div>
-                    <h3 className="font-bold text-2xl text-white mb-2 uppercase tracking-wider group-hover:text-electric-blue transition-colors">
-                      {project.title}
-                    </h3>
-                    <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${project.status === 'Completed' ? 'bg-electric-blue shadow-[0_0_8px_#00E5FF]' : 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]'}`} />
-                      <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">{project.status}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 border border-white/10 text-gray-600 hover:text-white transition-all">
-                      <Github size={18} />
-                    </a>
-                    {project.demoLink && (
-                      <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="p-2 bg-electric-blue/10 border border-electric-blue/20 text-electric-blue hover:bg-electric-blue hover:text-stealth-900 transition-all">
-                        <ExternalLink size={18} />
-                      </a>
-                    )}
-                  </div>
+      </header>
+      <p className="mb-10" style={{ color: 'var(--text-muted)' }}>{projects.length} projects, each built to solve a real problem or explore a new idea.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projects.map((project, index) => (
+          <motion.div key={project.title} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} className="h-full">
+            <StealthCard className="p-8 h-full flex flex-col">
+              <div className="flex justify-between items-start mb-6 gap-4">
+                <div><p className="text-sm mb-2" style={{ color: 'var(--accent-green)' }}>{project.status}</p><h2 className="text-2xl" style={{ color: 'var(--text-primary)' }}>{project.title}</h2></div>
+                <div className="flex gap-2">
+                  <a aria-label={`View ${project.title} source`} href={project.link} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)' }}><Github size={18} /></a>
+                  {project.demoLink && <a aria-label={`Visit ${project.title}`} href={project.demoLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full" style={{ background: 'rgb(var(--accent-color) / 0.1)', color: 'var(--accent-cyan)' }}><ExternalLink size={18} /></a>}
                 </div>
-
-                <p className="text-gray-400 text-sm leading-relaxed mb-8 font-mono uppercase tracking-tighter flex-grow">
-                  {project.description}
-                </p>
-
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 gap-2">
-                    {project.highlights.slice(0, 3).map((h, i) => (
-                      <div key={i} className="flex items-center gap-3 text-[10px] text-gray-500 tracking-wider font-mono">
-                        <span className="text-electric-blue/50 opacity-50">&gt;</span>
-                        <span className="uppercase">{h}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 pt-6 border-t border-white/5">
-                    {project.tech.map(t => (
-                      <span key={t} className="text-[9px] font-mono text-white/20 px-2 py-0.5 border border-white/5 bg-white/5 uppercase">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </StealthCard>
-            </motion.div>
-          ))}
-        </div>
+              </div>
+              <p className="text-sm leading-relaxed mb-7 flex-grow">{project.description}</p>
+              <ul className="space-y-2 mb-6 text-sm">{project.highlights.slice(0, 3).map((highlight) => <li key={highlight} className="flex gap-2"><span style={{ color: 'var(--accent-red)' }}>✦</span>{highlight}</li>)}</ul>
+              <div className="flex flex-wrap gap-2 pt-5 border-t" style={{ borderColor: 'var(--border-subtle)' }}>{project.tech.map((tech) => <span key={tech} className="text-xs px-3 py-1 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)' }}>{tech}</span>)}</div>
+            </StealthCard>
+          </motion.div>
+        ))}
       </div>
     </div>
-  );
-};
+  </main>
+);
 
 export default AllProjectsPage;

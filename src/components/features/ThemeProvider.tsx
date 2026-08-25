@@ -1,47 +1,48 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
+import {
+    applyTimeTheme,
+    getNextManualOverride,
+    getThemeOverride,
+    setThemeOverride,
+    subscribeTimeTheme,
+    type EffectiveScheme,
+    type ThemeOverride,
+} from '../../utils/timeTheme';
 
-export type Theme = 'stealth' | 'corporate';
+export type Theme = ThemeOverride;
 
 interface ThemeContextType {
     theme: Theme;
+    scheme: EffectiveScheme;
     toggleTheme: () => void;
-    setTheme: (t: Theme) => void;
+    setTheme: (t: ThemeOverride) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'portfolio-theme';
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>(() => {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY) as Theme | null;
-            if (saved === 'stealth' || saved === 'corporate') return saved;
-        } catch { /* ignore */ }
-        return 'stealth';
-    });
+    const [theme, setThemeState] = useState<Theme>(() => getThemeOverride());
+    const [scheme, setScheme] = useState<EffectiveScheme>('light');
 
     useEffect(() => {
-        const root = document.documentElement;
-        if (theme === 'corporate') {
-            root.setAttribute('data-theme', 'corporate');
-        } else {
-            root.removeAttribute('data-theme');
-        }
-        try {
-            localStorage.setItem(STORAGE_KEY, theme);
-        } catch { /* ignore */ }
+        setThemeOverride(theme);
+        setScheme(applyTimeTheme(theme));
     }, [theme]);
 
-    const setTheme = useCallback((t: Theme) => setThemeState(t), []);
+    useEffect(() => subscribeTimeTheme(() => theme, setScheme), [theme]);
+
+    const setTheme = useCallback((t: ThemeOverride) => setThemeState(t), []);
 
     const toggleTheme = useCallback(() => {
-        setThemeState(prev => prev === 'stealth' ? 'corporate' : 'stealth');
-    }, []);
+        setThemeState(prev => {
+            const activeScheme = prev === 'auto' ? scheme : prev;
+            return getNextManualOverride(activeScheme);
+        });
+    }, [scheme]);
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+        <ThemeContext.Provider value={{ theme, scheme, toggleTheme, setTheme }}>
             {children}
         </ThemeContext.Provider>
     );

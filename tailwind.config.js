@@ -8,9 +8,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'stealth': ['"Space Grotesk"', 'sans-serif'],
-        'mono': ['"JetBrains Mono"', 'monospace'],
-        'sans': ['"Space Grotesk"', 'sans-serif'],
+        'stealth': ['"Fraunces"', 'serif'],
+        'mono': ['"IBM Plex Mono"', 'monospace'],
+        'sans': ['"Inter"', 'sans-serif'],
         'inter': ['"Inter"', 'sans-serif'],
       },
       colors: {

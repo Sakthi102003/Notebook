@@ -12,7 +12,8 @@ const SkillsMarquee = () => {
                 {items.map((skill, idx) => (
                     <div
                         key={`${skill.name}-${idx}`}
-                        className="bg-stealth-800/50 border border-white/5 rounded-full px-6 py-3 flex items-center gap-3 backdrop-blur-sm hover:border-electric-blue/50 transition-colors"
+                        className="border rounded-full px-6 py-3 flex items-center gap-3 backdrop-blur-sm transition-colors"
+                        style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)' }}
                     >
                         <skill.icon size={20} className="text-gray-400 group-hover:text-electric-blue transition-colors" />
                         <span className="text-sm font-mono text-gray-300 uppercase tracking-wider">{skill.name}</span>
@@ -23,7 +24,8 @@ const SkillsMarquee = () => {
                 {items.map((skill, idx) => (
                     <div
                         key={`${skill.name}-dup-${idx}`}
-                        className="bg-stealth-800/50 border border-white/5 rounded-full px-6 py-3 flex items-center gap-3 backdrop-blur-sm hover:border-electric-blue/50 transition-colors"
+                        className="border rounded-full px-6 py-3 flex items-center gap-3 backdrop-blur-sm transition-colors"
+                        style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)' }}
                     >
                         <skill.icon size={20} className="text-gray-400 group-hover:text-electric-blue transition-colors" />
                         <span className="text-sm font-mono text-gray-300 uppercase tracking-wider">{skill.name}</span>
@@ -36,8 +38,8 @@ const SkillsMarquee = () => {
     return (
         <div className="w-full py-12 overflow-hidden space-y-8 relative max-w-[100vw]">
             {/* Fade Edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-stealth-900 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-stealth-900 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--bg-base)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-base)] to-transparent z-10 pointer-events-none" />
 
             <MarqueeRow items={topRow} />
             <MarqueeRow items={bottomRow} reverse />

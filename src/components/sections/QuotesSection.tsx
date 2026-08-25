@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Quote, Terminal } from 'lucide-react'
+import { Quote } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import StealthCard from '../ui/StealthCard'
 
@@ -16,37 +16,23 @@ const QuotesSection = () => {
   ]
 
   useEffect(() => {
-    const today = new Date().toDateString()
-    const lastVisitDate = localStorage.getItem('lastVisitDate')
-    let quoteIndex = 0
-
-    if (!lastVisitDate || lastVisitDate !== today) {
-      quoteIndex = Math.floor(Math.random() * quotes.length)
-      localStorage.setItem('lastVisitDate', today)
-      localStorage.setItem('lastQuoteIndex', quoteIndex.toString())
-    } else {
-      const storedIndex = parseInt(localStorage.getItem('lastQuoteIndex') || '0')
-      // Ensure stored index is within current bounds
-      quoteIndex = storedIndex < quotes.length ? storedIndex : 0
-    }
-
-    setCurrentQuote(quotes[quoteIndex] || quotes[0])
+    const previousIndex = Number(localStorage.getItem('portfolio-last-quote'))
+    let quoteIndex = Math.floor(Math.random() * quotes.length)
+    if (quotes.length > 1 && quoteIndex === previousIndex) quoteIndex = (quoteIndex + 1) % quotes.length
+    localStorage.setItem('portfolio-last-quote', quoteIndex.toString())
+    setCurrentQuote(quotes[quoteIndex])
   }, [])
 
   return (
     <section className="py-20">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <StealthCard className="p-12 md:p-16 text-center relative overflow-hidden group">
-            {/* Terminal Header Decoration */}
-            <div className="absolute top-0 left-0 px-4 py-1 bg-white/5 border-b border-r border-white/5 text-[10px] font-mono tracking-widest text-electric-blue flex items-center gap-2">
-              <Terminal size={12} />
-              DECRYPTED_LOG_v2.0
-            </div>
+            <div className="absolute top-0 left-0 px-5 py-2 text-xs tracking-wide rounded-br-2xl" style={{ background: 'rgb(var(--accent-color) / 0.08)', color: 'var(--accent-cyan)' }}>A thought to keep</div>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -56,13 +42,13 @@ const QuotesSection = () => {
             >
               <Quote className="text-electric-blue mx-auto mb-8 opacity-20 group-hover:opacity-100 transition-opacity" size={32} />
 
-              <blockquote className="font-mono text-xl md:text-2xl text-gray-300 leading-relaxed mb-8 italic">
+              <blockquote className="text-xl md:text-2xl leading-relaxed mb-8 italic" style={{ color: 'var(--text-secondary)' }}>
                 "{currentQuote.text}"
               </blockquote>
 
               <div className="flex items-center justify-center gap-4">
                 <div className="h-[1px] bg-gradient-to-r from-transparent via-electric-blue/30 to-transparent flex-1 max-w-[100px]" />
-                <cite className="font-bold text-white uppercase tracking-[0.3em] not-italic text-sm">
+                <cite className="font-bold tracking-wide not-italic text-sm" style={{ color: 'var(--text-primary)' }}>
                   {currentQuote.author}
                 </cite>
                 <div className="h-[1px] bg-gradient-to-r from-transparent via-electric-blue/30 to-transparent flex-1 max-w-[100px]" />

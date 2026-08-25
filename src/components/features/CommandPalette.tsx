@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from './ThemeProvider';
 
 interface CommandOption {
     id: string;
@@ -25,6 +26,7 @@ const CommandPalette = () => {
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const navigate = useNavigate();
+    const { setTheme } = useTheme();
 
     // Define Commands
     const commands: CommandOption[] = [
@@ -47,27 +49,27 @@ const CommandPalette = () => {
         },
         // System
         {
-            id: 'sys-theme-blue',
-            label: 'System Theme: Electric Blue',
-            subLabel: 'Set accent color',
+            id: 'sys-theme-auto',
+            label: 'System Theme: Auto Cycle',
+            subLabel: 'Follow local time',
             icon: Zap,
-            action: () => document.documentElement.style.setProperty('--accent-color', '0 229 255'),
+            action: () => setTheme('auto'),
             category: 'System'
         },
         {
-            id: 'sys-theme-crimson',
-            label: 'System Theme: Crimson Alert',
-            subLabel: 'Set accent color',
+            id: 'sys-theme-light',
+            label: 'System Theme: Light Override',
+            subLabel: 'Force daytime palette',
             icon: Zap,
-            action: () => document.documentElement.style.setProperty('--accent-color', '255 0 60'),
+            action: () => setTheme('light'),
             category: 'System'
         },
         {
-            id: 'sys-theme-green',
-            label: 'System Theme: Bio-Hazard Green',
-            subLabel: 'Set accent color',
+            id: 'sys-theme-dark',
+            label: 'System Theme: Dark Override',
+            subLabel: 'Force nighttime palette',
             icon: Zap,
-            action: () => document.documentElement.style.setProperty('--accent-color', '34 197 94'),
+            action: () => setTheme('dark'),
             category: 'System'
         },
         // External

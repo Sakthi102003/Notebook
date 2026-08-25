@@ -16,7 +16,7 @@ const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/4e314795-4465-47a
 const GithubHeatmap = () => {
   const [currentTheme, setCurrentTheme] = useState(THEMES.blue);
   const [wakaStats, setWakaStats] = useState<string>('Initializing...');
-  const [wakaLabel, setWakaLabel] = useState<string>('System Status');
+  const [wakaLabel, setWakaLabel] = useState<string>('Coding activity');
 
   useEffect(() => {
     const updateTheme = () => {
@@ -88,7 +88,7 @@ const GithubHeatmap = () => {
               setWakaStats('No Recent Activity');
             }
           } else {
-            setWakaLabel('System Status');
+            setWakaLabel('Coding activity');
             setWakaStats('Unknown Data Format');
           }
         } else {
@@ -99,7 +99,7 @@ const GithubHeatmap = () => {
       .catch((error) => {
         console.error("Wakatime Error:", error);
         setWakaStats('Offline');
-        setWakaLabel('Signal Lost');
+        setWakaLabel('Activity unavailable');
       });
 
     return () => observer.disconnect();
@@ -117,7 +117,7 @@ const GithubHeatmap = () => {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 border-b border-white/5 bg-stealth-800/20 backdrop-blur-sm">
             <div className="space-y-1">
               <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-electric-blue/70">
-                Featured System
+                GitHub activity
               </div>
               <h3 className="text-xl font-bold flex items-center gap-3 text-white">
                 <Activity size={20} className="text-electric-blue" />

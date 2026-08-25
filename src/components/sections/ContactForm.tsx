@@ -27,7 +27,7 @@ export default function ContactForm() {
       if (data.success) {
         setStatus({
           type: 'success',
-          message: 'Transmission received. Signal stable.'
+          message: 'Thanks! Your message has been received.'
         })
         const form = e.currentTarget
         if (form) {
@@ -36,13 +36,13 @@ export default function ContactForm() {
       } else {
         setStatus({
           type: 'error',
-          message: 'Signal failure. Re-trying transmission.'
+          message: 'Something went wrong. Please try again.'
         })
       }
     } catch (error) {
       setStatus({
         type: 'error',
-        message: 'Endpoint unreachable. Check network status.'
+          message: 'I couldn’t send that message. Please check your connection and try again.'
       })
     } finally {
       setLoading(false)
@@ -52,38 +52,41 @@ export default function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="space-y-2">
-        <label htmlFor="name" className="block text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">Identification</label>
+        <label htmlFor="name" className="block text-[10px] font-mono uppercase tracking-[0.3em]" style={{ color: 'var(--accent-cyan)' }}>Your name</label>
         <input
           id="name"
           name="name"
           type="text"
           required
-          className="w-full p-4 bg-stealth-900/50 border border-white/5 text-white focus:outline-none focus:border-electric-blue/50 transition-all font-mono uppercase text-xs"
-          placeholder="Enter_Subject_Name"
+          className="w-full p-4 rounded-xl transition-all font-mono uppercase text-xs"
+          style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-soft)', color: 'var(--text-primary)' }}
+          placeholder="Your name"
         />
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="email" className="block text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">Relay_Address</label>
+        <label htmlFor="email" className="block text-[10px] font-mono uppercase tracking-[0.3em]" style={{ color: 'var(--accent-cyan)' }}>Email</label>
         <input
           id="email"
           name="email"
           type="email"
           required
-          className="w-full p-4 bg-stealth-900/50 border border-white/5 text-white focus:outline-none focus:border-electric-blue/50 transition-all font-mono uppercase text-xs"
-          placeholder="Secure_Email_Channel"
+          className="w-full p-4 rounded-xl transition-all font-mono uppercase text-xs"
+          style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-soft)', color: 'var(--text-primary)' }}
+          placeholder="you@example.com"
         />
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="message" className="block text-[10px] font-mono text-electric-blue uppercase tracking-[0.3em]">Payload_Description</label>
+        <label htmlFor="message" className="block text-[10px] font-mono uppercase tracking-[0.3em]" style={{ color: 'var(--accent-cyan)' }}>Message</label>
         <textarea
           id="message"
           name="message"
           rows={4}
           required
-          className="w-full p-4 bg-stealth-900/50 border border-white/5 text-white focus:outline-none focus:border-electric-blue/50 transition-all font-mono uppercase text-xs resize-none"
-          placeholder="Detail_Mission_Objectives..."
+          className="w-full p-4 rounded-xl transition-all font-mono uppercase text-xs resize-none"
+          style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-soft)', color: 'var(--text-primary)' }}
+          placeholder="How can I help?"
         />
       </div>
 
@@ -91,9 +94,9 @@ export default function ContactForm() {
         <motion.div
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          className={`text-[10px] font-mono p-3 border ${status.type === 'success'
-            ? 'bg-electric-blue/10 border-electric-blue/20 text-electric-blue'
-            : 'bg-crimson/10 border-crimson/20 text-crimson'
+          className={`text-[10px] font-mono p-3 border rounded-xl ${status.type === 'success'
+            ? 'text-green-500 border-green-500/20 bg-green-500/10'
+            : 'text-red-500 border-red-500/20 bg-red-500/10'
             }`}
         >
           {status.message.toUpperCase()}
@@ -104,10 +107,10 @@ export default function ContactForm() {
         whileTap={{ scale: 0.98 }}
         disabled={loading}
         type="submit"
-        className="w-full bg-electric-blue text-stealth-900 py-4 font-bold hover:shadow-[0_0_20px_#00E5FF] transition-all duration-300 flex items-center justify-center space-x-3 disabled:opacity-50 uppercase tracking-[0.2em] text-xs"
+        className="w-full btn-primary rounded-xl justify-center py-4 text-xs disabled:opacity-50"
       >
         <Send size={16} />
-        <span>{loading ? 'Transmitting...' : 'Execute_Relay'}</span>
+          <span>{loading ? 'Sending...' : 'Send message'}</span>
       </motion.button>
     </form>
   )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { GitCommit, Github, Terminal } from 'lucide-react';
+import { GitCommit, Github } from 'lucide-react';
 
 interface CommitData {
     message: string;
@@ -76,16 +76,16 @@ const LatestCommit = ({ isSmall = false }: LatestCommitProps) => {
     };
 
     if (loading) return (
-        <div className={`w-full ${isSmall ? 'max-w-xs h-16' : 'max-w-md h-24'} bg-stealth-800/40 border border-white/5 rounded-2xl flex items-center justify-center animate-pulse`}>
-             <span className="text-[10px] font-mono text-green-500 uppercase tracking-[0.3em]">Decrypting_Git_Logs...</span>
+        <div className={`w-full ${isSmall ? 'max-w-xs h-16' : 'max-w-md h-24'} border rounded-2xl flex items-center justify-center animate-pulse`} style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)' }}>
+             <span className="text-[10px] font-mono uppercase tracking-[0.3em]" style={{ color: 'var(--accent-green)' }}>Loading latest work...</span>
         </div>
     );
 
     if (!commit) return (
-        <div className={`w-full ${isSmall ? 'max-w-xs p-3' : 'max-w-md p-4'} bg-stealth-800/20 border border-white/5 rounded-2xl flex items-center justify-center opacity-50`}>
+        <div className={`w-full ${isSmall ? 'max-w-xs p-3' : 'max-w-md p-4'} border rounded-2xl flex items-center justify-center opacity-50`} style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)' }}>
              <div className="flex items-center gap-2">
-                 <Terminal size={14} className="text-gray-500" />
-                 <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">No_Recent_Commits_Found</span>
+                 <GitCommit size={14} style={{ color: 'var(--text-muted)' }} />
+                 <span className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>No recent commits found</span>
              </div>
         </div>
     );
@@ -97,33 +97,34 @@ const LatestCommit = ({ isSmall = false }: LatestCommitProps) => {
             rel="noopener noreferrer"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`block w-full ${isSmall ? 'max-w-xs p-3' : 'max-w-md p-4'} bg-stealth-800/40 backdrop-blur-md border border-white/5 rounded-2xl group hover:bg-stealth-800/60 hover:border-green-500/30 transition-all duration-300 font-mono relative overflow-hidden`}
+            className={`block w-full ${isSmall ? 'max-w-xs p-3' : 'max-w-md p-4'} backdrop-blur-md border rounded-2xl group transition-all duration-300 font-mono relative overflow-hidden`}
+            style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)' }}
         >
             {/* Background scanning line effect on hover */}
-            <div className="absolute inset-0 bg-green-500/5 translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 ease-linear opacity-0 group-hover:opacity-100" />
+            <div className="absolute inset-0 translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 ease-linear opacity-0 group-hover:opacity-100" style={{ background: 'rgba(var(--accent-color)/0.05)' }} />
             
             <div className="relative z-10 flex flex-col h-full justify-between gap-2">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <Terminal size={isSmall ? 10 : 12} className="text-green-500" />
-                        <span className="text-[9px] text-green-500 font-bold tracking-widest uppercase">Live_Commit</span>
+                        <GitCommit size={isSmall ? 10 : 12} style={{ color: 'var(--accent-green)' }} />
+                        <span className="text-[9px] font-bold tracking-widest uppercase" style={{ color: 'var(--accent-green)' }}>Latest commit</span>
                     </div>
                     <div className="flex items-center gap-1 opacity-60">
-                        <Github size={isSmall ? 8 : 10} className="text-gray-400" />
-                        <span className="text-[8px] text-gray-400 uppercase tracking-wider">{timeAgo(commit.timestamp)}</span>
+                        <Github size={isSmall ? 8 : 10} style={{ color: 'var(--text-muted)' }} />
+                        <span className="text-[8px] uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{timeAgo(commit.timestamp)}</span>
                     </div>
                 </div>
 
                 <div className="flex items-start gap-2.5">
-                    <GitCommit size={isSmall ? 14 : 16} className="text-gray-500 mt-0.5 flex-shrink-0 group-hover:text-green-400 transition-colors" />
+                    <GitCommit size={isSmall ? 14 : 16} className="mt-0.5 flex-shrink-0 transition-colors" style={{ color: 'var(--text-muted)' }} />
                     <div className="min-w-0">
-                        <p className={`${isSmall ? 'text-xs' : 'text-sm'} text-gray-300 truncate font-semibold group-hover:text-white transition-colors`}>
+                        <p className={`${isSmall ? 'text-xs' : 'text-sm'} truncate font-semibold transition-colors`} style={{ color: 'var(--text-primary)' }}>
                             {commit.message.split('\n')[0]}
                         </p>
-                        <p className={`text-[10px] text-gray-500 truncate mt-1 flex items-center gap-1.5`}>
-                            <span className="text-electric-blue/70">/{commit.repo}</span>
-                            <span className="text-white/20">@</span>
-                            <span className="text-green-500/70">{commit.sha}</span>
+                        <p className={`text-[10px] truncate mt-1 flex items-center gap-1.5`}>
+                            <span style={{ color: 'var(--accent-cyan)' }}>/{commit.repo}</span>
+                            <span style={{ color: 'var(--text-faint)' }}>@</span>
+                            <span style={{ color: 'var(--accent-green)' }}>{commit.sha}</span>
                         </p>
                     </div>
                 </div>
