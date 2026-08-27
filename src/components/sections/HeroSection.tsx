@@ -52,7 +52,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                         ref={iconRef}
                         onMouseEnter={handleMouseEnterIcon}
                         onMouseLeave={() => setShowWakatimeModal(false)}
-                        className="absolute -bottom-1 -right-1 rounded-xl p-1.5 shadow-lg transition-colors cursor-help"
+                        className="absolute -bottom-1 -right-1 rounded-xl p-1.5 shadow-lg transition-colors cursor-pointer"
                         style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-soft)' }}
                     >
                         <img src="/images/vscode.png" alt="VS Code Stats" className="w-4 h-4 object-contain group-hover:scale-110 transition-transform" />
