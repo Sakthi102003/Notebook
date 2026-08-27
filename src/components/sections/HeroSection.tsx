@@ -1,8 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
-    Github,
-    Linkedin,
-    Mail,
     ChevronRight,
     Monitor,
 } from 'lucide-react'
@@ -11,139 +8,26 @@ import {
     SiReact,
     SiTailwindcss,
     SiPython,
-    SiMedium,
     SiDiscord,
     SiGithub,
     SiLinkedin,
     SiGmail,
     SiX
 } from 'react-icons/si'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 
 import AgeCounter from '../features/AgeCounter'
 import WakatimeStats from '../features/WakatimeStats'
 import LatestCommit from '../features/LatestCommit'
-import SocialProfileCard from '../ui/SocialProfileCard'
 
 interface HeroSectionProps {
     scrollToSection: (id: string) => void
 }
 
-const INITIAL_SOCIALS_DATA = {
-    GITHUB: {
-        name: "Sakthimurugan S",
-        handle: "Sakthi102003",
-        bio: "Cybersecurity • Python • Full-Stack Building secure & practical tools",
-        avatar: "https://avatars.githubusercontent.com/u/114235143?v=4",
-        banner: "linear-gradient(90deg, #0d1117 0%, #161b22 100%)",
-        stats: [] as { label: string; value: string }[]
-    },
-    LINKEDIN: {
-        name: "Sakthimurugan S",
-        handle: "sakthimurugan-s",
-        bio: "Cybersecurity Researcher | Full Stack Developer | Building secure digital infrastructure",
-        avatar: "/images/profile.jpg",
-        banner: "/images/linkedin-banner.png",
-        platform: 'LINKEDIN',
-        stats: [
-            { label: "connections", value: "500+" }
-        ]
-    },
-    MAIL: {
-        name: "Sakthimurugan S",
-        handle: "sakthimurugan102003@gmail.com",
-        bio: "Available for high-impact collaborations and secure freelance architecture.",
-        avatar: "/images/blue avatar.png",
-        banner: "linear-gradient(135deg, #4285f4 0%, #34a853 33%, #fbbc05 66%, #ea4335 100%)",
-        isEmail: true,
-        stats: [] as { label: string; value: string }[]
-    },
-    DISCORD: {
-        name: "Sakthi",
-        handle: "sakthi102003",
-        bio: "Chat, collaborate, and discuss security research.",
-        avatar: "https://cdn.discordapp.com/avatars/1074201854143123560/046bffa764f10d06a65dcbce5c6e5b5a.png",
-        banner: "linear-gradient(135deg, #5865F2 0%, #404EED 100%)",
-        platform: 'DISCORD',
-        stats: [
-            { label: 'custom_status', value: 'A Normal Sec Dev' }
-        ]
-    },
-    X: {
-        name: "Sakthi",
-        handle: "sakthimurugans_",
-        bio: "22 | Frontend | Security | Python | Cricket | Tech Content Writer | ICT | MI 💙",
-        avatar: "/images/x-avatar.png",
-        banner: "/images/x-banner.png",
-        platform: 'X',
-        stats: [] as { label: string; value: string }[]
-    }
-};
-
 export default function HeroSection({ scrollToSection }: HeroSectionProps) {
-    const [socialsData, setSocialsData] = useState(INITIAL_SOCIALS_DATA)
     const [showWakatimeModal, setShowWakatimeModal] = useState(false)
-    const [hoveredSocial, setHoveredSocial] = useState<keyof typeof INITIAL_SOCIALS_DATA | null>(null)
     const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
     const iconRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        // Fetch GitHub stats and profile
-        fetch('https://api.github.com/users/Sakthi102003')
-            .then(res => res.json())
-            .then(data => {
-                if (data) {
-                    setSocialsData(prev => ({
-                        ...prev,
-                        GITHUB: {
-                            ...prev.GITHUB,
-                            name: data.name || prev.GITHUB.name,
-                            avatar: data.avatar_url || prev.GITHUB.avatar,
-                            bio: data.bio || prev.GITHUB.bio,
-                            stats: [
-                                { label: 'followers', value: data.followers ? `${data.followers}` : '0' },
-                                { label: 'public_repos', value: data.public_repos ? `${data.public_repos}` : '0' }
-                            ]
-                        }
-                    }))
-                }
-            })
-            .catch(err => console.error("GitHub fetch failed", err));
-
-
-
-        // Fetch Discord stats via Lanyard
-        // Fetch Discord stats via Lanyard
-        fetch('https://api.lanyard.rest/v1/users/1074201854143123560')
-            .then(res => res.json())
-            .then(data => {
-                if (data.data) {
-                    const user = data.data.discord_user;
-                    const discordStatus = data.data.discord_status || 'offline';
-
-                    // Try to find a custom status activity (usually type 4)
-                    const activities = data.data.activities || [];
-                    const customStatusActivity = activities.find((a: any) => a.type === 4);
-                    const customStatusText = customStatusActivity?.state || 'keep shipping!';
-
-                    setSocialsData(prev => ({
-                        ...prev,
-                        DISCORD: {
-                            ...prev.DISCORD,
-                            name: user.display_name || user.username,
-                            handle: user.username,
-                            avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`,
-                            stats: [
-                                { label: 'status', value: discordStatus },
-                                { label: 'custom_status', value: customStatusText }
-                            ]
-                        }
-                    }))
-                }
-            })
-            .catch(err => console.error("Discord fetch failed", err));
-
-    }, []);
 
     const handleMouseEnterIcon = () => {
         if (iconRef.current) {
@@ -152,23 +36,6 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
             setShowWakatimeModal(true)
         }
     }
-
-    const handleSocialEnter = (id: keyof typeof INITIAL_SOCIALS_DATA, e: React.MouseEvent) => {
-        // Disable hover preview on mobile to prevent layout issues
-        if (window.innerWidth < 768) return;
-        
-        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-        setPopupPosition({ x: rect.left, y: rect.bottom + 10 });
-        setHoveredSocial(id);
-    };
-
-    const SOCIAL_LINKS = [
-        { id: 'GITHUB' as const, icon: Github, href: 'https://github.com/Sakthi102003', label: 'GITHUB' },
-        { id: 'LINKEDIN' as const, icon: Linkedin, href: 'https://www.linkedin.com/in/sakthimurugan-s/', label: 'LINKEDIN' },
-        { id: 'MAIL' as const, icon: Mail, href: 'mailto:sakthimurugan102003@gmail.com', label: 'MAIL' },
-        { id: 'DISCORD' as const, icon: SiDiscord, href: 'https://discord.com/users/1074201854143123560', label: 'DISCORD' },
-        { id: 'MEDIUM' as const, icon: SiMedium, href: 'https://medium.com/@sakthimurugan102003', label: 'MEDIUM' }
-    ];
 
     return (
         <section id="home" className="min-h-[80vh] flex flex-col justify-center max-w-6xl mx-auto relative">
@@ -235,8 +102,6 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                                 rel="noopener noreferrer"
                                 className="group relative"
                                 title={social.label}
-                                onMouseEnter={(e) => handleSocialEnter(social.id, e)}
-                                onMouseLeave={() => setHoveredSocial(null)}
                             >
                                 <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border shadow-lg group-hover:scale-110 transition-all duration-300 relative overflow-hidden" style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}>
                                     {/* Gloss reflection */}
@@ -246,23 +111,6 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                                 </div>
                             </a>
                         ))}
-
-                        <AnimatePresence>
-                            {hoveredSocial && socialsData[hoveredSocial] && (
-                                <div
-                                    className="fixed z-[100] pointer-events-none"
-                                    style={{
-                                        left: popupPosition.x,
-                                        top: popupPosition.y,
-                                    }}
-                                >
-                                    <SocialProfileCard
-                                        {...socialsData[hoveredSocial]}
-                                        PlatformIcon={SOCIAL_LINKS.find(s => s.id === hoveredSocial)?.icon}
-                                    />
-                                </div>
-                            )}
-                        </AnimatePresence>
                     </div>
 
                     <div className="w-full sm:w-auto flex-grow max-w-full sm:max-w-[300px]">
