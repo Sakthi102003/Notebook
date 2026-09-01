@@ -15,19 +15,19 @@ export default {
       },
       colors: {
         stealth: {
-          900: '#0A0A0B',
-          800: '#0F0F11',
-          700: '#161618',
-          600: '#1C1C1E',
-          500: '#2A2A2E',
+          900: '#000000',
+          800: '#000000',
+          700: '#000000',
+          600: '#000000',
+          500: '#000000',
         },
         electric: {
           blue: 'rgb(var(--accent-color) / <alpha-value>)',
           glow: 'rgba(var(--accent-color), 0.4)',
         },
         crimson: {
-          DEFAULT: '#FF003C',
-          glow: 'rgba(255, 0, 60, 0.4)',
+          DEFAULT: 'var(--accent)',
+          glow: 'rgb(226 163 61 / 0.4)',
         },
       },
       backgroundImage: {
@@ -39,7 +39,7 @@ export default {
         'fade-in': 'fadeIn 0.6s ease-in-out',
         'slide-up': 'slideUp 0.8s ease-out',
         'module-init': 'moduleInit 1s ease-out',
-        'highlight': 'highlight 0.3s ease-in-out',
+          'highlight': 'highlight 0.3s ease-in-out',
         'ink-flow': 'inkFlow 2s ease-in-out infinite',
         'blob': 'blob 7s infinite',
         'scanline': 'scanline 6s linear infinite',
@@ -96,7 +96,7 @@ export default {
         },
         highlight: {
           '0%': { backgroundColor: 'transparent' },
-          '50%': { backgroundColor: 'rgba(0, 242, 255, 0.2)' },
+          '50%': { backgroundColor: 'rgb(226 163 61 / 0.2)' },
           '100%': { backgroundColor: 'transparent' },
         },
         inkFlow: {
@@ -105,9 +105,9 @@ export default {
         }
       },
       boxShadow: {
-        'module': '0 0 20px rgba(0, 242, 255, 0.15)',
-        'node': '0 0 15px rgba(0, 242, 255, 0.1)',
-        'polaroid': '0 0 25px rgba(0, 242, 255, 0.1)',
+        'module': '0 0 20px rgb(226 163 61 / 0.15)',
+        'node': '0 0 15px rgb(226 163 61 / 0.1)',
+        'polaroid': '0 0 25px rgb(226 163 61 / 0.1)',
         'cyber': '0 0 10px var(--color-primary), inset 0 0 5px var(--color-primary)',
       }
     },

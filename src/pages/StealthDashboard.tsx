@@ -11,6 +11,7 @@ import TechCapability from '../components/sections/TechCapability';
 import DeployedAssets from '../components/sections/DeployedAssets';
 import SignalTransmission from '../components/sections/SignalTransmission';
 import ContentFooter from '../components/layout/ContentFooter';
+import ThemeToggle from '../components/ui/ThemeToggle';
 
 export default function StealthDashboard() {
   const [activeSection, setActiveSection] = useState('home');
@@ -46,7 +47,10 @@ export default function StealthDashboard() {
           <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full" style={{ background: 'rgb(255 255 255 / 0.58)', border: '1px solid var(--border-subtle)' }}>
             {FILE_TREE.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="px-3 py-2 rounded-full text-xs transition-colors" style={{ background: activeSection === item.id ? 'var(--accent-cyan)' : 'transparent', color: activeSection === item.id ? 'var(--btn-primary-text)' : 'var(--text-secondary)' }}>{item.label}</button>)}
           </nav>
-          <button onClick={() => setMenuOpen(true)} className="lg:hidden p-3 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' }} aria-label="Open navigation"><Menu size={19} /></button>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button onClick={() => setMenuOpen(true)} className="lg:hidden p-3 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' }} aria-label="Open navigation"><Menu size={19} /></button>
+          </div>
         </div>
       </header>
 
@@ -65,7 +69,7 @@ export default function StealthDashboard() {
       </main>
 
       <AnimatePresence>
-        {menuOpen && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] lg:hidden p-5" style={{ background: 'rgb(43 38 67 / 0.22)', backdropFilter: 'blur(10px)' }} onClick={() => setMenuOpen(false)}>
+        {menuOpen && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] lg:hidden p-5" style={{ background: 'rgb(0 0 0 / 0.22)', backdropFilter: 'blur(10px)' }} onClick={() => setMenuOpen(false)}>
           <motion.nav initial={{ y: -18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -18, opacity: 0 }} className="rounded-[2rem] p-5" style={{ background: 'var(--bg-overlay)', border: '1px solid var(--border-soft)', boxShadow: 'var(--card-shadow)' }} onClick={(event) => event.stopPropagation()}>
             <div className="flex items-center justify-between mb-5"><span className="font-display text-xl" style={{ color: 'var(--text-primary)' }}>Explore</span><button onClick={() => setMenuOpen(false)} className="p-2 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)' }} aria-label="Close navigation"><X size={18} /></button></div>
             <div className="grid grid-cols-2 gap-2">{FILE_TREE.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="flex items-center gap-2 p-3 rounded-xl text-left text-sm" style={{ background: activeSection === item.id ? 'rgb(var(--accent-color) / 0.1)' : 'var(--bg-surface)', color: activeSection === item.id ? 'var(--accent-cyan)' : 'var(--text-secondary)' }}><item.icon size={15} />{item.label}</button>)}</div>

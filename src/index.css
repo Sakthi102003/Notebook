@@ -1,72 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..800&family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300..800&family=Noto+Sans:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+KR:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&family=Noto+Sans+Hebrew:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300..800&family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300..800&family=Kavivanar&family=Noto+Sans:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+KR:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&family=Noto+Sans+Hebrew:wght@400;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================================
-   DESIGN TOKENS — RUNTIME FALLBACKS
-   Values are overwritten by src/utils/timeTheme.ts at runtime.
-   ============================================================ */
+  DESIGN TOKENS
+  ============================================================ */
 :root {
-  --accent-color: 24 117 111;
+  --bg: #000000;
+  --text: #FFFFFF;
+  --accent: #E2A33D;
+  --accent-color: 226 163 61;
 
-  /* Backgrounds */
-  --bg-base:        rgb(252 248 238);
-  --bg-surface:     rgb(253 249 241);
-  --bg-elevated:    rgb(254 250 244);
-  --bg-overlay:     rgb(255 252 246);
-
-  /* Text */
-  --text-primary:   rgb(30 24 21);
-  --text-secondary: rgb(30 24 21);
-  --text-muted:     rgb(30 24 21);
-  --text-faint:     rgb(30 24 21);
-
-  /* Accents */
-  --accent-cyan:    rgb(24 117 111);
-  --accent-red:     rgb(184 151 86);
-  --accent-green:   rgb(69 140 125);
-
-  /* Borders */
-  --border-subtle:  rgb(30 24 21 / 0.12);
-  --border-soft:    rgb(30 24 21 / 0.2);
-  --border-focus:   rgb(24 117 111 / 0.55);
-
-  /* Cards */
-  --card-bg:        rgb(253 249 241 / 0.68);
-  --card-bg-hover:  rgb(255 252 246 / 0.78);
-  --card-shadow:    0 10px 30px rgb(68 43 22 / 0.14);
-
-  /* Sidebar */
-  --sidebar-bg:     rgb(253 249 241 / 0.72);
-  --sidebar-border: rgb(30 24 21 / 0.18);
-
-  /* Header */
-  --header-bg:      rgb(253 249 241 / 0.88);
-  --header-border:  rgb(30 24 21 / 0.18);
-
-  /* Status bar */
-  --statusbar-bg:   rgb(24 117 111);
-  --statusbar-text: rgb(255 250 242);
-
-  /* Tab */
-  --tab-active-bg:  rgb(255 252 246 / 0.78);
-  --tab-active-indicator: rgb(24 117 111);
-
-  /* Buttons */
-  --btn-primary-bg:   rgb(24 117 111);
-  --btn-primary-text: rgb(255 250 242);
-  --btn-primary-glow: rgb(24 117 111 / 0.38);
-  --btn-ghost-border: rgb(30 24 21 / 0.24);
-  --btn-ghost-text:   rgb(30 24 21);
-
-  /* Code block */
-  --code-bg:        rgb(254 250 244 / 0.82);
-  --code-border:    rgb(30 24 21 / 0.2);
-
-  /* Glow line */
-  --glow-line-via:  rgb(24 117 111 / 0.5);
+  --bg-base: var(--bg);
+  --bg-surface: var(--bg);
+  --bg-elevated: var(--bg);
+  --bg-overlay: var(--bg);
+  --text-primary: var(--text);
+  --text-secondary: var(--text);
+  --text-muted: var(--text);
+  --text-faint: var(--text);
+  --accent-cyan: var(--accent);
+  --accent-red: var(--accent);
+  --accent-green: var(--accent);
+  --border-subtle: rgb(255 255 255 / 0.14);
+  --border-soft: rgb(255 255 255 / 0.28);
+  --border-focus: var(--accent);
+  --card-bg: rgb(0 0 0 / 0.92);
+  --card-bg-hover: rgb(0 0 0 / 1);
+  --card-shadow: 0 18px 50px rgb(0 0 0 / 0.5);
+  --sidebar-bg: var(--bg);
+  --sidebar-border: var(--border-subtle);
+  --header-bg: rgb(0 0 0 / 0.88);
+  --header-border: var(--border-subtle);
+  --statusbar-bg: var(--accent);
+  --statusbar-text: #000000;
+  --tab-active-bg: rgb(226 163 61 / 0.14);
+  --tab-active-indicator: var(--accent);
+  --btn-primary-bg: var(--accent);
+  --btn-primary-text: #000000;
+  --btn-primary-glow: rgb(226 163 61 / 0.38);
+  --btn-ghost-border: var(--border-soft);
+  --btn-ghost-text: var(--text);
+  --code-bg: var(--bg);
+  --code-border: var(--border-soft);
+  --glow-line-via: rgb(226 163 61 / 0.5);
 
   /* Typography */
   --font-display:   'Fraunces', serif;
@@ -76,20 +55,35 @@
   --font-tracking:  0em;
 
   /* Scrollbar */
-  --scrollbar-thumb: rgb(30 24 21 / 0.2);
-  --scrollbar-hover: rgb(30 24 21 / 0.3);
+  --scrollbar-thumb: rgb(255 255 255 / 0.28);
+  --scrollbar-hover: var(--accent);
 
   /* Transition */
   --theme-transition: 420ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Interactive glow */
-  --interactive-glow-shadow: 0 0 18px rgb(24 117 111 / 0.28);
-  --interactive-glow-border: rgb(24 117 111 / 0.52);
-  --interactive-glow-bg:     rgb(24 117 111 / 0.07);
+  --interactive-glow-shadow: 0 0 18px rgb(226 163 61 / 0.28);
+  --interactive-glow-border: rgb(226 163 61 / 0.52);
+  --interactive-glow-bg: rgb(226 163 61 / 0.07);
+  --mobile-menu-bg: var(--bg);
+  --mobile-menu-border: var(--border-soft);
+}
 
-  /* Mobile menu */
-  --mobile-menu-bg:     rgb(253 249 241);
-  --mobile-menu-border: rgb(30 24 21 / 0.2);
+:root.light {
+  --bg: #FFFFFF;
+  --text: #000000;
+  --border-subtle: rgb(0 0 0 / 0.14);
+  --border-soft: rgb(0 0 0 / 0.28);
+  --card-bg: rgb(255 255 255 / 0.92);
+  --card-bg-hover: rgb(255 255 255 / 1);
+  --card-shadow: 0 18px 50px rgb(0 0 0 / 0.14);
+  --header-bg: rgb(255 255 255 / 0.88);
+  --sidebar-border: var(--border-subtle);
+  --header-border: var(--border-subtle);
+  --statusbar-text: #000000;
+  --code-border: var(--border-soft);
+  --scrollbar-thumb: rgb(0 0 0 / 0.28);
+  --mobile-menu-border: var(--border-soft);
 }
 
 /* ============================================================
@@ -474,16 +468,16 @@
 
   /* Vignette overlay */
   .vignette-overlay {
-    background: radial-gradient(circle, transparent 45%, rgb(109 92 246 / 0.06) 150%);
+    background: radial-gradient(circle, transparent 45%, rgb(var(--accent-color) / 0.06) 150%);
     pointer-events: none;
   }
 
   /* Vertical glow lines */
   .vertical-glow-left {
-    background: linear-gradient(to bottom, transparent, rgb(246 139 113 / 0.2), transparent);
+    background: linear-gradient(to bottom, transparent, rgb(var(--accent-color) / 0.2), transparent);
   }
   .vertical-glow-right {
-    background: linear-gradient(to bottom, transparent, rgb(109 92 246 / 0.2), transparent);
+    background: linear-gradient(to bottom, transparent, rgb(var(--accent-color) / 0.2), transparent);
   }
 }
 

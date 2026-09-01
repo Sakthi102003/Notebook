@@ -6,7 +6,8 @@ import {
     Folder,
     Github,
     Linkedin,
-    Zap
+    Sun,
+    Moon
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -49,26 +50,18 @@ const CommandPalette = () => {
         },
         // System
         {
-            id: 'sys-theme-auto',
-            label: 'System Theme: Auto Cycle',
-            subLabel: 'Follow local time',
-            icon: Zap,
-            action: () => setTheme('auto'),
-            category: 'System'
-        },
-        {
             id: 'sys-theme-light',
-            label: 'System Theme: Light Override',
-            subLabel: 'Force daytime palette',
-            icon: Zap,
+            label: 'Theme: Light Mode',
+            subLabel: 'Black text on white',
+            icon: Sun,
             action: () => setTheme('light'),
             category: 'System'
         },
         {
             id: 'sys-theme-dark',
-            label: 'System Theme: Dark Override',
-            subLabel: 'Force nighttime palette',
-            icon: Zap,
+            label: 'Theme: Dark Mode',
+            subLabel: 'White text on black',
+            icon: Moon,
             action: () => setTheme('dark'),
             category: 'System'
         },

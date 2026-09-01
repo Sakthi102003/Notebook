@@ -8,7 +8,7 @@ const ProjectLogViewer = ({ project, onClose }: ProjectLogViewerProps) => {
   if (!project) return null;
   return (
     <AnimatePresence>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] backdrop-blur-sm flex items-center justify-center p-4" style={{ background: 'rgb(43 38 67 / 0.28)' }} onClick={onClose}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] backdrop-blur-sm flex items-center justify-center p-4" style={{ background: 'rgb(0 0 0 / 0.28)' }} onClick={onClose}>
         <motion.article initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }} className="w-full max-w-2xl rounded-[2rem] overflow-hidden max-h-[80vh] overflow-y-auto" style={{ background: 'var(--bg-overlay)', border: '1px solid var(--border-soft)', boxShadow: 'var(--card-shadow)' }} onClick={(event) => event.stopPropagation()}>
           <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="flex items-center gap-3" style={{ color: 'var(--accent-cyan)' }}><Sparkles size={18} /><span className="text-sm font-semibold">Project spotlight</span></div>

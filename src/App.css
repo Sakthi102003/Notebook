@@ -81,3 +81,64 @@ a[href*="drive.google"] * {
 .btn-primary {
   color: var(--btn-primary-text) !important;
 }
+
+.unlock-intro-screen,
+.unlock-intro-panel {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* Keep legacy utility classes on the shared monochrome token system. */
+[class*="bg-[#f5f5f7]"],
+[class*="bg-[#f8f8fa]"],
+[class*="bg-white"],
+[class*="bg-[#e8e8ec]"] {
+  background-color: var(--bg) !important;
+}
+
+[class*="border-[#e8e8ec]"],
+[class*="border-white"] {
+  border-color: var(--border-soft) !important;
+}
+
+[class*="text-[#0a0a0b]"],
+[class*="text-white"] {
+  color: var(--text-primary) !important;
+}
+
+[class*="text-[#9ca3af]"],
+[class*="text-[#4b5563]"],
+[class*="text-gray-"] {
+  color: var(--text-secondary) !important;
+}
+
+[class*="#00e5ff"],
+[class*="electric-blue"],
+[class*="crimson"],
+[class*="text-red-500"],
+[class*="bg-red-500"],
+[class*="green-500"],
+[class*="text-[#0077b5]"],
+[class*="text-[#EA4335]"] {
+  color: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+
+[class*="bg-electric-blue"],
+[class*="bg-green-500"],
+[class*="bg-[#00e5ff]"],
+[class*="bg-red-500"] {
+  background-color: var(--accent) !important;
+}
+
+.unlock-intro-screen,
+.unlock-intro-screen .text-white,
+.unlock-intro-screen .text-white\/60,
+.unlock-intro-screen .text-white\/70 {
+  color: #FFFFFF !important;
+}
+
+.unlock-intro-screen,
+.unlock-intro-panel {
+  background-color: #000000 !important;
+}

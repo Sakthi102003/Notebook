@@ -3,7 +3,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '../features/ThemeProvider'
 
 export default function ThemeToggle() {
-    const { theme, scheme, toggleTheme } = useTheme()
+    const { scheme, toggleTheme } = useTheme()
     const isDark = scheme === 'dark'
     const reduceMotion = useReducedMotion()
 
@@ -12,14 +12,14 @@ export default function ThemeToggle() {
             {/* Mode label */}
             <AnimatePresence mode="wait" initial={false}>
                 <motion.span
-                    key={`${theme}-${scheme}`}
+                    key={scheme}
                     initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
                     animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
                     exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
                     transition={{ duration: reduceMotion ? 0 : 0.2 }}
                     className="theme-toggle-label"
                 >
-                    {theme === 'auto' ? `AUTO ${scheme.toUpperCase()}` : `MANUAL ${scheme.toUpperCase()}`}
+                    {scheme.toUpperCase()} MODE
                 </motion.span>
             </AnimatePresence>
 

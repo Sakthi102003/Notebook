@@ -5,43 +5,15 @@ import { motion } from 'framer-motion';
 import { Activity, Box } from 'lucide-react';
 import StealthCard from '../ui/StealthCard';
 
-const THEMES = {
-  blue: ['#1C1C1E', '#00424D', '#007080', '#00A8BF', '#00E5FF'],
-  crimson: ['#1C1C1E', '#4A0011', '#8B0022', '#CC0030', '#FF003C'],
-  green: ['#1C1C1E', '#063816', '#0E6025', '#168935', '#22C55E']
-};
+const HEATMAP_THEME = ['#000000', '#E2A33D', '#E2A33D', '#E2A33D', '#E2A33D'];
 
 const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/4e314795-4465-47a7-a931-aa60be4cd4db.json";
 
 const GithubHeatmap = () => {
-  const [currentTheme, setCurrentTheme] = useState(THEMES.blue);
   const [wakaStats, setWakaStats] = useState<string>('Initializing...');
   const [wakaLabel, setWakaLabel] = useState<string>('Coding activity');
 
   useEffect(() => {
-    const updateTheme = () => {
-      const style = getComputedStyle(document.documentElement);
-      const accentColor = style.getPropertyValue('--accent-color').trim();
-
-      if (accentColor === '255 0 60') {
-        setCurrentTheme(THEMES.crimson);
-      } else if (accentColor === '34 197 94') {
-        setCurrentTheme(THEMES.green);
-      } else {
-        setCurrentTheme(THEMES.blue);
-      }
-    };
-
-    updateTheme();
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-          updateTheme();
-        }
-      });
-    });
-    observer.observe(document.documentElement, { attributes: true });
-
     // Fetch Wakatime
     fetch(WAKATIME_URL)
       .then(res => res.json())
@@ -102,7 +74,6 @@ const GithubHeatmap = () => {
         setWakaLabel('Activity unavailable');
       });
 
-    return () => observer.disconnect();
   }, []);
 
   return (
@@ -150,7 +121,7 @@ const GithubHeatmap = () => {
                   blockMargin={4}
                   fontSize={12}
                   theme={{
-                    dark: currentTheme,
+                    dark: HEATMAP_THEME,
                   }}
                   renderBlock={(block: any, activity: any) =>
                     React.cloneElement(block, {
