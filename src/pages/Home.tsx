@@ -29,6 +29,7 @@ export default function Home() {
   const { theme } = useTheme();
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const [showWakatime, setShowWakatime] = useState(false);
+  const [brandHovered, setBrandHovered] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -60,14 +61,74 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-32 transition-colors duration-500" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
-      {/* Header just for Theme Toggle */}
-      <header className="fixed top-0 right-0 p-6 z-50">
-        <ThemeToggle />
+      <header className="fixed top-0 left-0 right-0 p-4 sm:p-6 z-50 flex items-center justify-between pointer-events-none">
+        <button
+          type="button"
+          onClick={() => scrollTo('home')}
+          onMouseEnter={() => setBrandHovered(true)}
+          onMouseLeave={() => setBrandHovered(false)}
+          onFocus={() => setBrandHovered(true)}
+          onBlur={() => setBrandHovered(false)}
+          className="pointer-events-auto inline-flex items-center rounded-full border backdrop-blur-md shadow-lg overflow-hidden transition-[width,padding,transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{
+            background: 'var(--bg-elevated)',
+            borderColor: 'var(--border-subtle)',
+            width: brandHovered ? '12.5rem' : '2.75rem',
+            height: '2.75rem',
+            padding: brandHovered ? '0.45rem 0.8rem 0.45rem 0.45rem' : '0.45rem',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            gap: '0.45rem',
+            boxShadow: brandHovered ? '0 10px 28px rgba(15, 23, 42, 0.18)' : '0 6px 18px rgba(15, 23, 42, 0.12)',
+          }}
+          aria-label="Go to homepage"
+        >
+          <div
+            className="flex items-center justify-center rounded-xl shrink-0"
+            style={{
+              width: '2.1rem',
+              height: '2.1rem',
+              background: 'linear-gradient(135deg, #111827 0%, #0f172a 100%)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              boxShadow: '0 6px 18px rgba(15, 23, 42, 0.24)',
+            }}
+          >
+            <img
+              src="/images/logo.png"
+              alt="Sakthi Murugan logo"
+              className="h-4.5 w-4.5 object-contain"
+              style={{ filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.7))' }}
+            />
+          </div>
+          <span
+            className="whitespace-nowrap transition-[opacity,transform,max-width,margin] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{
+              display: 'inline-block',
+              color: 'var(--text-primary)',
+              opacity: brandHovered ? 1 : 0,
+              transform: brandHovered ? 'translateX(0)' : 'translateX(-12px)',
+              maxWidth: brandHovered ? '9rem' : '0',
+              overflow: 'hidden',
+              fontFamily: '"Caveat", "Segoe Print", cursive',
+              fontSize: '1.45rem',
+              lineHeight: 1,
+              letterSpacing: '0.03em',
+              fontWeight: 700,
+              marginLeft: brandHovered ? '0.15rem' : '0',
+            }}
+          >
+            Sakthimurugan
+          </span>
+        </button>
+
+        <div className="pointer-events-auto">
+          <ThemeToggle />
+        </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 sm:px-10 pt-24 space-y-32">
         {/* 1. HERO */}
-        <section className="space-y-8 pt-10">
+        <section id="home" className="space-y-8 pt-10">
           
           {/* Avatar Feature */}
           <div className="relative w-20 h-20 sm:w-24 sm:h-24 z-50">
@@ -85,7 +146,6 @@ export default function Home() {
             >
               <img src="/images/vscode.png" alt="VS Code Stats" className="w-4 h-4 object-contain transition-transform hover:scale-110" />
             </div>
-
             {showWakatime && (
               <div
                 className="absolute left-[-30px] top-[90px] z-[60] w-[min(90vw,440px)]"
