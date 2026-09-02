@@ -8,6 +8,7 @@ import ContactForm from '../components/sections/ContactForm';
 import SkillsMarquee from '../components/sections/SkillsMarquee';
 import WakatimeStats from '../components/features/WakatimeStats';
 import VisitorCounter from '../components/features/VisitorCounter';
+import AgeCounter from '../components/features/AgeCounter';
 import FlowingBlogRiver from '../components/sections/FlowingBlogRiver';
 import { useTheme } from '../components/features/ThemeProvider';
 import { Mail, Github, Linkedin, Instagram, Monitor } from 'lucide-react';
@@ -177,8 +178,13 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="font-display text-[2.8rem] sm:text-[5rem] md:text-[6.5rem] leading-[1.1] tracking-tight">
-            Sakthimurugan S
+          <h1 className="leading-none tracking-tight">
+            <span className="typewriter-text inline-flex items-end flex-nowrap gap-2 sm:gap-3 whitespace-nowrap text-[2rem] sm:text-[3rem] md:text-[4rem]">
+              <span className="font-display">Sakthimurugan S</span>
+              <span className="inline-block pb-1 text-[0.62rem] sm:text-[0.9rem] md:text-[1.25rem] font-mono tracking-[0.2em] whitespace-nowrap" style={{ color: 'var(--accent)' }}>
+                <AgeCounter />
+              </span>
+            </span>
           </h1>
 
           <p className="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl" style={{ color: 'var(--text-secondary)' }}>
