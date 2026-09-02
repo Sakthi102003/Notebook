@@ -10,8 +10,8 @@
 :root {
   --bg: #000000;
   --text: #FFFFFF;
-  --accent: #E2A33D;
-  --accent-color: 226 163 61;
+  --accent: #22C55E;
+  --accent-color: 34 197 94;
 
   --bg-base: var(--bg);
   --bg-surface: var(--bg);
@@ -68,6 +68,8 @@
 :root.light {
   --bg: #FFFFFF;
   --text: #000000;
+  --accent: #1D4ED8;
+  --accent-color: 29 78 216;
   --text-secondary: rgb(0 0 0 / 0.8);
   --text-muted: rgb(0 0 0 / 0.6);
   --text-faint: rgb(0 0 0 / 0.4);

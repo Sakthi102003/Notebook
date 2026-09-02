@@ -6,7 +6,7 @@ import { Activity, Box } from 'lucide-react';
 import StealthCard from '../ui/StealthCard';
 import { useTheme } from './ThemeProvider';
 
-const HEATMAP_THEME = ['#000000', '#E2A33D', '#E2A33D', '#E2A33D', '#E2A33D'];
+const HEATMAP_THEME = ['#000000', '#22C55E', '#22C55E', '#22C55E', '#22C55E'];
 
 const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/4e314795-4465-47a7-a931-aa60be4cd4db.json";
 
@@ -123,7 +123,7 @@ const GithubHeatmap = () => {
                   blockMargin={4}
                   fontSize={12}
                   theme={{
-                    light: ['#ebedf0', '#fbdca6', '#f6c373', '#e8a838', '#E2A33D'],
+                    light: ['#ebedf0', '#dfeaff', '#bfd5ff', '#8aa9f5', '#1D4ED8'],
                     dark: HEATMAP_THEME,
                   }}
                   renderBlock={(block: any, activity: any) =>

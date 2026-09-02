@@ -26,8 +26,8 @@ export default function SignalTransmission() {
                                 Have an idea, a project, or simply want to say hello?
                                 I’d love to hear from you.
                             </p>
-                            <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest px-3 py-1.5 w-fit rounded-full" style={{ background: 'rgba(34, 197, 94, 0.08)', border: '1px solid rgba(34, 197, 94, 0.2)', color: 'var(--accent-green)' }}>
-                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                            <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest px-3 py-1.5 w-fit rounded-full" style={{ background: 'rgba(var(--accent-color) / 0.08)', border: '1px solid rgba(var(--accent-color) / 0.2)', color: 'var(--accent-green)' }}>
+                                <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'var(--accent)', boxShadow: '0 0 8px rgba(var(--accent-color) / 0.4)' }} />
                                 Available for freelance work
                             </div>
                         </div>

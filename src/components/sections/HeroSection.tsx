@@ -63,8 +63,8 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     <div className="inline-block px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] rounded-full" style={{ background: 'rgba(var(--accent-color) / 0.1)', border: '1px solid var(--border-soft)', color: 'var(--accent-cyan)' }}>
                         Welcome to my corner of the web
                     </div>
-                    <div className="flex items-center gap-2 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] rounded-full animate-pulse-slow" style={{ background: 'rgba(34, 197, 94, 0.08)', border: '1px solid rgba(34, 197, 94, 0.2)', color: 'var(--accent-green)' }}>
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                    <div className="flex items-center gap-2 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] rounded-full animate-pulse-slow" style={{ background: 'rgba(var(--accent-color) / 0.08)', border: '1px solid rgba(var(--accent-color) / 0.2)', color: 'var(--accent-green)' }}>
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--accent)', boxShadow: '0 0 8px rgba(var(--accent-color) / 0.6)' }} />
                         Available for Freelance
                     </div>
                 </div>
