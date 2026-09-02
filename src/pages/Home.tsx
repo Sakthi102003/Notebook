@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { SiX, SiLinkedin, SiGithub, SiGmail, SiDiscord } from 'react-icons/si';
 import { projects } from '../data/projects';
 import ThemeToggle from '../components/ui/ThemeToggle';
@@ -7,6 +7,9 @@ import GithubHeatmap from '../components/features/GithubHeatmap';
 import ContactForm from '../components/sections/ContactForm';
 import SkillsMarquee from '../components/sections/SkillsMarquee';
 import WakatimeStats from '../components/features/WakatimeStats';
+import VisitorCounter from '../components/features/VisitorCounter';
+import FlowingBlogRiver from '../components/sections/FlowingBlogRiver';
+import { useTheme } from '../components/features/ThemeProvider';
 import { Mail, Github, Linkedin, Instagram, Monitor } from 'lucide-react';
 
 // Components
@@ -23,18 +26,9 @@ const Tag = ({ label }: { label: string }) => (
 );
 
 export default function Home() {
+  const { theme } = useTheme();
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
-  const [showWakatimeModal, setShowWakatimeModal] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const iconRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseEnterIcon = () => {
-    if (iconRef.current) {
-      const rect = iconRef.current.getBoundingClientRect();
-      setPopupPosition({ x: rect.right + 20, y: rect.top });
-      setShowWakatimeModal(true);
-    }
-  };
+  const [showWakatime, setShowWakatime] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -77,16 +71,41 @@ export default function Home() {
           
           {/* Avatar Feature */}
           <div className="relative w-20 h-20 sm:w-24 sm:h-24 z-50">
-            <img src="/images/blue avatar.png" alt="Sakthi" className="w-full h-full rounded-full border-2 shadow-2xl transition-all duration-500" style={{ borderColor: 'var(--border-subtle)' }} />
+            <img
+              src={theme === 'dark' ? '/images/red avatar.png' : '/images/blue avatar.png'}
+              alt="Sakthi"
+              className="w-full h-full rounded-full border-2 shadow-2xl transition-all duration-500"
+              style={{ borderColor: 'var(--border-subtle)' }}
+            />
             <div
-              ref={iconRef}
-              onMouseEnter={handleMouseEnterIcon}
-              onMouseLeave={() => setShowWakatimeModal(false)}
+              onMouseEnter={() => setShowWakatime(true)}
+              onMouseLeave={() => setShowWakatime(false)}
               className="absolute -bottom-1 -right-1 rounded-xl p-1.5 shadow-lg transition-colors cursor-pointer"
               style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-soft)' }}
             >
               <img src="/images/vscode.png" alt="VS Code Stats" className="w-4 h-4 object-contain transition-transform hover:scale-110" />
             </div>
+
+            {showWakatime && (
+              <div
+                className="absolute left-[-30px] top-[90px] z-[60] w-[min(90vw,440px)]"
+                onMouseEnter={() => setShowWakatime(true)}
+                onMouseLeave={() => setShowWakatime(false)}
+              >
+                <div
+                  className="rounded-[18px] border p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_12px_30px_rgba(0,0,0,0.7)] backdrop-blur-sm"
+                  style={{
+                    background: theme === 'dark' ? 'rgba(10, 10, 10, 0.96)' : 'rgba(255, 255, 255, 0.96)',
+                    borderColor: theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.10)',
+                    boxShadow: theme === 'dark'
+                      ? '0 0 0 1px rgba(255,255,255,0.04), 0 12px 30px rgba(0,0,0,0.7)'
+                      : '0 0 0 1px rgba(0,0,0,0.04), 0 12px 30px rgba(17,24,39,0.08)'
+                  }}
+                >
+                  <WakatimeStats />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="font-mono text-sm tracking-wide flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
@@ -134,6 +153,7 @@ export default function Home() {
               <LatestCommit isSmall />
             </div>
           </div>
+
         </section>
 
         {/* 2. WHAT I DO */}
@@ -218,19 +238,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 5. ABOUT */}
         <section className="space-y-10">
-          <h2 className="font-display text-4xl sm:text-5xl">About</h2>
-          <p className="text-lg sm:text-xl leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-            I specialize in cybersecurity research and modern web engineering, bringing a dual perspective to everything I build. Based in India, I constantly experiment with machine learning, thoughtful product design, and practical security architecture to turn messy ideas into reliable tools. Staying ahead isn't just work&mdash;it's how I keep this workspace full of breakthroughs.
-          </p>
           <div className="pt-8">
             <GithubHeatmap />
           </div>
         </section>
 
-        {/* 6. CONTACT */}
-        <section id="contact" className="space-y-10 pb-32">
+        {/* 5. CONTACT */}
+        <section id="contact" className="space-y-10 pb-16">
           <h2 className="font-display text-4xl sm:text-5xl">Contact</h2>
           
           <div className="p-8 sm:p-12 relative overflow-hidden rounded-2xl" style={{ border: '1px solid var(--border-subtle)', background: 'var(--bg-surface)' }}>
@@ -280,6 +295,14 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <div className="pb-8">
+          <FlowingBlogRiver />
+        </div>
+
+        <div className="flex justify-center pb-16">
+          <VisitorCounter />
+        </div>
       </main>
     </div>
   );

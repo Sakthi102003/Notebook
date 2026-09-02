@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Code, Clock } from 'lucide-react';
 
 const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/8d9ab44d-9a0e-46c2-a7b4-a5e6872f5085.json";
 
@@ -86,16 +85,16 @@ const WakatimeStats = () => {
 
     if (loading) {
         return (
-            <div className="portfolio-card p-6 animate-pulse">
-                <div className="h-4 bg-white/5 w-1/3 mb-4 rounded"></div>
-                <div className="h-8 bg-white/10 w-1/2 rounded"></div>
+            <div className="w-full max-w-[780px] animate-pulse px-0 py-0">
+                <div className="mb-3 h-3 w-28 bg-white/10"></div>
+                <div className="h-14 w-56 bg-white/10" />
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="portfolio-card p-6 border border-crimson/20 text-crimson font-mono text-sm">
+            <div className="w-full max-w-[780px] font-mono text-sm text-white/60">
                 {error}
             </div>
         );
@@ -104,73 +103,31 @@ const WakatimeStats = () => {
     const editorStats = getTotalEditorStats();
     const activityStats = getActivityStats();
 
+    const displayText = dataType === 'activity' && activityStats ? activityStats.text : (editorStats?.text ?? 'No Data');
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="portfolio-card p-6 group relative overflow-hidden h-full"
+            className="group relative w-full max-w-[320px] overflow-hidden px-0 py-0"
         >
-            {/* Background Glitch Effect */}
-            <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">
-                <Code size={100} />
-            </div>
-
-            <div className="relative z-10 flex flex-col h-full justify-between">
-                <div>
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="p-2 bg-electric-blue/10 rounded-sm">
-                            <Clock size={16} className="text-electric-blue" />
-                        </div>
-                        <h3 className="text-sm font-bold text-white uppercase tracking-widest">
-                            {dataType === 'editors' ? "7-Day Activity" : "Coding Activity"}
-                        </h3>
-                    </div>
-
-                    <div className="flex items-baseline gap-2">
-                        {dataType === 'editors' && editorStats ? (
-                            <>
-                                <span className="text-4xl font-bold text-white hover:text-electric-blue transition-colors font-mono">
-                                    {editorStats.text}
-                                </span>
-                                <span className="text-xs text-gray-500 font-mono uppercase">
-                                    {editorStats.isPercentageOnly ? ` / ${editorStats.name}` : '/ Total'}
-                                </span>
-                            </>
-                        ) : dataType === 'editors' ? (
-                            <span className="text-xl text-gray-500 font-mono">No Data</span>
-                        ) : dataType === 'activity' && activityStats ? (
-                            <div className="flex flex-col">
-                                <span className="text-4xl font-bold text-white hover:text-electric-blue transition-colors font-mono">
-                                    {activityStats.text}
-                                </span>
-                                <span className="text-[10px] text-gray-500 font-mono uppercase mt-1">
-                                    Last 7 Days
-                                </span>
-                            </div>
-                        ) : (
-                            <span className="text-xl text-gray-500 font-mono">No Data</span>
-                        )}
-                    </div>
-
-                    {dataType === 'editors' && editorStats && (
-                        <div className="mt-4 w-full bg-white/5 h-1 rounded-full overflow-hidden">
-                            <motion.div
-                                initial={{ width: 0 }}
-                                whileInView={{ width: `100%` }}
-                                transition={{ duration: 1, ease: "easeOut" }}
-                                className="h-full bg-electric-blue shadow-[0_0_10px_#00E5FF]"
-                            />
-                        </div>
-                    )}
+            <div className="min-w-0">
+                <div className="mb-1 font-mono text-[8px] uppercase tracking-[0.25em] sm:text-[9px]" style={{ color: 'var(--text-muted)' }}>
+                    {dataType === 'editors' ? '7-Day Activity' : 'Coding Activity'}
                 </div>
 
-                <div className="mt-4 text-[10px] text-gray-600 font-mono uppercase tracking-widest flex justify-between items-center">
-                    <span>{dataType === 'editors' ? "Total Usage" : "7-Day Activity"}</span>
-                    {dataType === 'editors' && editorStats && <span>{editorStats.text}</span>}
+                <div className="flex flex-wrap items-end leading-none" style={{ color: 'var(--accent)' }}>
+                    <span className="font-display text-[1.8rem] font-bold tracking-[-0.06em] sm:text-[2.5rem]">
+                        {displayText}
+                    </span>
                 </div>
 
-                {/* Editor Breakdown Removed */}
+                <div className="mt-2 flex flex-wrap items-center gap-2 font-mono text-[7px] uppercase tracking-[0.2em] sm:text-[8px]" style={{ color: 'var(--text-muted)' }}>
+                    <span>Last 7 Days</span>
+                    <span style={{ opacity: 0.3 }}>/</span>
+                    <span>7-Day Activity</span>
+                </div>
             </div>
         </motion.div>
     );

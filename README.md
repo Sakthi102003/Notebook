@@ -1,8 +1,6 @@
-# 🌅 SAKTHI MURUGAN // PORTFOLIO
+# Sakthi Murugan | Digital Notebook Portfolio
 
-> "The same room, lit differently — morning to midnight."
-
-A personal developer portfolio built around one idea: **light, not identity, should change with the hour.** Instead of forcing visitors to pick between two unrelated looks, the entire palette flows continuously across a time-of-day gradient — morning, midday, golden hour, evening, and night each carry their own mood, while layout, typography, and structure stay exactly the same.
+A sleek single-page developer portfolio with a notebook-inspired interface, a dark/light theme toggle, and a cyberpunk-style personal brand. The experience blends portfolio content, project showcases, social links, GitHub activity insights, and a live Medium-style intelligence stream into one cohesive landing page.
 
 ![Status](https://img.shields.io/badge/STATUS-LIVE-3F6C5D?style=for-the-badge&logo=vercel&logoColor=white)
 ![Build](https://img.shields.io/badge/BUILD-VITE-E2A33D?style=for-the-badge&logo=vite&logoColor=white)
@@ -10,110 +8,137 @@ A personal developer portfolio built around one idea: **light, not identity, sho
 
 ---
 
-## ⚡ Core Systems
+## Highlights
 
-### 🕰️ **Time-Aware Theme Engine**
-- **Continuous day cycle**: Background and accent colors interpolate smoothly across five anchor moods — morning, midday, golden hour, evening, night — based on the visitor's local time. No hard-coded presets, no jarring snaps between states.
-- **One identity, not two**: Layout, shapes, and typography never change — only color temperature and brightness shift, so the site always reads as the same design at any hour.
-- **Smooth transitions**: Every color shift crossfades over 300–500ms, and gracefully falls back to an instant swap for visitors with `prefers-reduced-motion` enabled.
-
-### 👋 **Multilingual Greeting Loader**
-- The loading screen cycles through *"Hello"* in over a dozen languages and scripts — Tamil, Hindi, Japanese, Korean, Arabic, and more — before smoothly revealing the page.
-- Font fallbacks ensure every script renders cleanly, with the sequence closing back on English right before reveal for a natural handoff into the site.
-
-### 🎛️ **Interactive Modules**
-- **Live Writing Feed**: Pulls real-time articles from Medium via an RSS-to-JSON proxy.
-- **Project Showcase**: Each project presented as a case-study card with tech stack chips and live/source links.
-- **Visitor Insights**: Lightweight real-time visitor tracking with graceful fallback if the backend is unreachable.
+- Notebook/futuristic portfolio aesthetic with warm accent styling
+- Dark and light mode support with theme-aware avatar switching
+- Hover-activated WakaTime panel on the avatar
+- GitHub contribution heatmap section
+- Medium-style Intel stream / blog feed section
+- Real-time visitor counter integration
+- Contact form and social channel links
+- Responsive layout for desktop and mobile views
 
 ---
 
-## 🎨 Design System
+## Current experience
 
-| Layer | Choice |
-|---|---|
-| **Display font** | Fraunces — warm serif for headings & hero |
-| **Body font** | Inter — clean sans for readable text |
-| **Accent font** | IBM Plex Mono — tags & small labels |
-| **Color model** | Continuous time-of-day interpolation via CSS custom properties |
-| **Motion** | Smooth crossfades, scroll reveals, reduced-motion aware |
+### Theme system
+- Uses a theme provider to toggle between dark and light modes
+- The main avatar swaps between red and blue depending on the active theme
+- UI styling is consistent while keeping the design language intact
 
----
+### Profile features
+- Hero section with intro, CTA buttons, and social icons
+- WakaTime stats preview displayed in a compact hover popup
+- GitHub heatmap for coding activity visibility
+- Selected projects and writing sections
+- Contact area with direct links and form
+- Visitor counter to surface traffic metrics
 
-## 🛠️ Technical Stack
-
-| Category | Technology | Usage |
-|----------|------------|-------|
-| **Core** | React 19 + TypeScript | High-performance component architecture |
-| **System** | Vite | Lightning-fast build tool |
-| **Design** | Tailwind CSS | Utility-first styling with custom theme tokens |
-| **Motion** | Framer Motion | Transitions, scroll reveals, and sequences |
-| **Icons** | Lucide React | High-fidelity vector system icons |
-| **Data** | Firebase Realtime DB | Live visitor traffic analysis |
+### Interactive panels
+- Intel stream for recent Medium updates
+- WakaTime panel activated from the VS Code badge on the avatar
+- Visitor count added near the end of the page
 
 ---
 
-## 🚀 Getting Started
+## Stack
 
-### 1. Clone the Repository
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+- React Icons
+- Firebase Realtime Database
+
+---
+
+## Project structure
+
 ```bash
-git clone https://github.com/Sakthi102003/Stealth-Portfolio.git
-cd Stealth-Portfolio
+src/
+├── App.tsx
+├── main.tsx
+├── index.css
+├── components/
+│   ├── features/
+│   │   ├── ThemeProvider.tsx
+│   │   ├── WakatimeStats.tsx
+│   │   ├── VisitorCounter.tsx
+│   │   ├── GithubHeatmap.tsx
+│   │   └── LatestCommit.tsx
+│   ├── layout/
+│   ├── sections/
+│   └── ui/
+├── data/
+│   ├── navigation.ts
+│   ├── projects.ts
+│   └── techStack.ts
+├── pages/
+│   ├── Home.tsx
+│   ├── AllProjectsPage.tsx
+│   └── CorporateDashboard.tsx
+├── services/
+│   ├── firebase.ts
+│   └── openai.ts
+└── utils/
 ```
 
-### 2. Install Dependencies
+---
+
+## Local setup
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/Sakthi102003/Repo-name.git
+cd Repo-Name
+```
+
+### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
-### 3. Environment Configuration
-Create a `.env` file in the root directory:
+### 3. Set up environment variables
+
+Create a `.env` file in the root folder:
+
 ```env
-# Firebase Configuration (Visitor Counter)
 VITE_FIREBASE_API_KEY=your_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 VITE_FIREBASE_DATABASE_URL=https://your_database_url
 VITE_FIREBASE_PROJECT_ID=your_project_id
 ```
 
-### 4. Run Locally
+### 4. Start the app
+
 ```bash
 npm run dev
 ```
-Visit `http://localhost:5173`.
 
----
-
-## 📂 Project Structure (`src/`)
+Then open:
 
 ```bash
-src/
-├── components/
-│   ├── ThemeProvider/     # Time-of-day color interpolation
-│   ├── LoadingScreen/     # Multilingual "Hello" sequence + reveal
-│   ├── ProjectCard/       # Project showcase cards
-│   └── ...
-├── pages/
-│   ├── Home.tsx           # Main landing page
-│   └── ...
-├── services/               # Firebase connection & fallback handling
-└── index.css                # Theme tokens & CSS custom properties
+http://localhost:5173
 ```
 
 ---
 
-## 🛡️ Reliability & Performance
+## Notes
 
-- **Graceful degradation**: If Firebase is unreachable, the site falls back to read-only mode instead of breaking.
-- **Type safety**: Strict TypeScript across all modules to prevent runtime errors.
-- **Accessible by default**: Contrast checked across every point in the color cycle; motion respects user preferences.
-- **Optimized assets**: Zero-bloat SVG icons and code-split bundles.
+- The WakaTime panel uses the public WakaTime share URL and is designed as a compact hover detail.
+- The visitor counter depends on Firebase for live counting and falls back gracefully when unavailable.
+- The portfolio is intentionally styled with a journal-like, tech-forward look rather than a conventional corporate template.
 
 ---
 
 <div align="center">
-  <p>Designed & built by <b>Sakthi Murugan</b></p>
-  <p><i>"Same room, different light."</i></p>
+  <p>Designed and built by <b>Sakthi Murugan</b></p>
+  <p><i>Notebook — code, craft, and curiosity.</i></p>
 
   [Email](mailto:sakthimurugan102003@gmail.com) • [LinkedIn](https://www.linkedin.com/in/sakthimurugan-s/) • [GitHub](https://github.com/Sakthi102003)
 </div>
