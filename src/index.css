@@ -18,21 +18,21 @@
   --bg-elevated: var(--bg);
   --bg-overlay: var(--bg);
   --text-primary: var(--text);
-  --text-secondary: var(--text);
-  --text-muted: var(--text);
-  --text-faint: var(--text);
+  --text-secondary: rgb(255 255 255 / 0.8);
+  --text-muted: rgb(255 255 255 / 0.6);
+  --text-faint: rgb(255 255 255 / 0.4);
   --accent-cyan: var(--accent);
   --accent-red: var(--accent);
   --accent-green: var(--accent);
-  --border-subtle: rgb(255 255 255 / 0.14);
-  --border-soft: rgb(255 255 255 / 0.28);
+  --border-subtle: rgb(255 255 255 / 0.15);
+  --border-soft: rgb(255 255 255 / 0.3);
   --border-focus: var(--accent);
-  --card-bg: rgb(0 0 0 / 0.92);
-  --card-bg-hover: rgb(0 0 0 / 1);
-  --card-shadow: 0 18px 50px rgb(0 0 0 / 0.5);
+  --card-bg: var(--bg);
+  --card-bg-hover: var(--bg);
+  --card-shadow: none;
   --sidebar-bg: var(--bg);
   --sidebar-border: var(--border-subtle);
-  --header-bg: rgb(0 0 0 / 0.88);
+  --header-bg: var(--bg);
   --header-border: var(--border-subtle);
   --statusbar-bg: var(--accent);
   --statusbar-text: #000000;
@@ -40,16 +40,16 @@
   --tab-active-indicator: var(--accent);
   --btn-primary-bg: var(--accent);
   --btn-primary-text: #000000;
-  --btn-primary-glow: rgb(226 163 61 / 0.38);
-  --btn-ghost-border: var(--border-soft);
+  --btn-primary-glow: none;
+  --btn-ghost-border: var(--accent);
   --btn-ghost-text: var(--text);
   --code-bg: var(--bg);
   --code-border: var(--border-soft);
-  --glow-line-via: rgb(226 163 61 / 0.5);
+  --glow-line-via: var(--accent);
 
   /* Typography */
   --font-display:   'Fraunces', serif;
-  --font-display-fallbacks: 'Noto Sans', 'Noto Sans Tamil', 'Noto Sans Devanagari', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans KR', 'Noto Sans Arabic', 'Noto Sans Hebrew', serif;
+  --font-display-fallbacks: 'Noto Sans', 'Noto Sans Tamil', serif;
   --font-ui:        'Inter', sans-serif;
   --font-mono:      'IBM Plex Mono', monospace;
   --font-tracking:  0em;
@@ -59,12 +59,8 @@
   --scrollbar-hover: var(--accent);
 
   /* Transition */
-  --theme-transition: 420ms cubic-bezier(0.4, 0, 0.2, 1);
+  --theme-transition: 300ms ease;
 
-  /* Interactive glow */
-  --interactive-glow-shadow: 0 0 18px rgb(226 163 61 / 0.28);
-  --interactive-glow-border: rgb(226 163 61 / 0.52);
-  --interactive-glow-bg: rgb(226 163 61 / 0.07);
   --mobile-menu-bg: var(--bg);
   --mobile-menu-border: var(--border-soft);
 }
@@ -72,12 +68,15 @@
 :root.light {
   --bg: #FFFFFF;
   --text: #000000;
-  --border-subtle: rgb(0 0 0 / 0.14);
-  --border-soft: rgb(0 0 0 / 0.28);
-  --card-bg: rgb(255 255 255 / 0.92);
-  --card-bg-hover: rgb(255 255 255 / 1);
-  --card-shadow: 0 18px 50px rgb(0 0 0 / 0.14);
-  --header-bg: rgb(255 255 255 / 0.88);
+  --text-secondary: rgb(0 0 0 / 0.8);
+  --text-muted: rgb(0 0 0 / 0.6);
+  --text-faint: rgb(0 0 0 / 0.4);
+  --border-subtle: rgb(0 0 0 / 0.15);
+  --border-soft: rgb(0 0 0 / 0.3);
+  --card-bg: var(--bg);
+  --card-bg-hover: var(--bg);
+  --card-shadow: none;
+  --header-bg: var(--bg);
   --sidebar-border: var(--border-subtle);
   --header-border: var(--border-subtle);
   --statusbar-text: #000000;

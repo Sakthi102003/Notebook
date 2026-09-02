@@ -4,12 +4,14 @@ import { Tooltip } from 'react-tooltip';
 import { motion } from 'framer-motion';
 import { Activity, Box } from 'lucide-react';
 import StealthCard from '../ui/StealthCard';
+import { useTheme } from './ThemeProvider';
 
 const HEATMAP_THEME = ['#000000', '#E2A33D', '#E2A33D', '#E2A33D', '#E2A33D'];
 
 const WAKATIME_URL = "https://wakatime.com/share/@sakthi102003/4e314795-4465-47a7-a931-aa60be4cd4db.json";
 
 const GithubHeatmap = () => {
+  const { theme } = useTheme();
   const [wakaStats, setWakaStats] = useState<string>('Initializing...');
   const [wakaLabel, setWakaLabel] = useState<string>('Coding activity');
 
@@ -116,11 +118,12 @@ const GithubHeatmap = () => {
                 <GitHubCalendar
                   username="Sakthi102003"
                   year={new Date().getFullYear()}
-                  colorScheme="dark"
+                  colorScheme={theme}
                   blockSize={12}
                   blockMargin={4}
                   fontSize={12}
                   theme={{
+                    light: ['#ebedf0', '#fbdca6', '#f6c373', '#e8a838', '#E2A33D'],
                     dark: HEATMAP_THEME,
                   }}
                   renderBlock={(block: any, activity: any) =>
@@ -132,7 +135,14 @@ const GithubHeatmap = () => {
                 />
               </div>
             </div>
-            <Tooltip id="github-tooltip" className="!bg-stealth-900 !border !border-white/10 !text-white !font-mono !text-[10px] !py-1 !px-2 !rounded-none" />
+            <Tooltip
+              id="github-tooltip"
+              className={`!font-mono !text-[10px] !py-1 !px-2 !rounded-none ${
+                theme === 'light'
+                  ? '!bg-white !border !border-gray-200 !text-black'
+                  : '!bg-stealth-900 !border !border-white/10 !text-white'
+              }`}
+            />
           </div>
         </StealthCard>
       </motion.div>
