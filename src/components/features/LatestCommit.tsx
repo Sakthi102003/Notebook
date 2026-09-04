@@ -14,12 +14,19 @@ interface LatestCommitProps {
     isSmall?: boolean;
 }
 
+const CACHE_KEY = 'latest_github_commit_cache';
+const GITHUB_USERNAME = 'Sakthi102003';
+
 const LatestCommit = ({ isSmall = false }: LatestCommitProps) => {
-    const [commit, setCommit] = useState<CommitData | null>(null);
-    const [loading, setLoading] = useState(true);
-    
-    // Using Sakthi102003 as verified in previous HeroSection logs
-    const GITHUB_USERNAME = 'Sakthi102003';
+    const [commit, setCommit] = useState<CommitData | null>(() => {
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            return cached ? JSON.parse(cached) : null;
+        } catch {
+            return null;
+        }
+    });
+    const [loading, setLoading] = useState(!commit);
 
     useEffect(() => {
         const fetchLatestCommit = async () => {
@@ -39,13 +46,19 @@ const LatestCommit = ({ isSmall = false }: LatestCommitProps) => {
 
                 if (commits.length > 0) {
                     const latestCommit = commits[0];
-                    setCommit({
+                    const commitData: CommitData = {
                         message: latestCommit.commit.message,
                         repo: latestRepo.name,
                         timestamp: latestCommit.commit.author.date,
                         url: latestCommit.html_url,
                         sha: latestCommit.sha.substring(0, 7)
-                    });
+                    };
+                    setCommit(commitData);
+                    try {
+                        localStorage.setItem(CACHE_KEY, JSON.stringify(commitData));
+                    } catch {
+                        // Ignore storage quota errors
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching commit:', error);
@@ -75,7 +88,7 @@ const LatestCommit = ({ isSmall = false }: LatestCommitProps) => {
         return `${days}d ago`;
     };
 
-    if (loading) return (
+    if (loading && !commit) return (
         <div className={`w-full ${isSmall ? 'max-w-xs h-16' : 'max-w-md h-24'} border rounded-2xl flex items-center justify-center animate-pulse`} style={{ background: 'var(--card-bg)', borderColor: 'var(--border-subtle)' }}>
              <span className="text-[10px] font-mono uppercase tracking-[0.3em]" style={{ color: 'var(--accent-green)' }}>Loading latest work...</span>
         </div>

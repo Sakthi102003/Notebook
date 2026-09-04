@@ -53,6 +53,7 @@
   --font-ui:        'Inter', sans-serif;
   --font-mono:      'IBM Plex Mono', monospace;
   --font-tracking:  0em;
+  --leading-display: 1.15;
 
   /* Scrollbar */
   --scrollbar-thumb: rgb(255 255 255 / 0.28);
