@@ -69,13 +69,13 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
                     </div>
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none" style={{ color: 'var(--text-primary)' }}>
+                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight py-1 overflow-visible" style={{ color: 'var(--text-primary)' }}>
                     <span className="block text-lg sm:text-xl font-medium mb-2" style={{ color: 'var(--accent-red)' }}>Hi, I’m</span>
-                    <div className="flex flex-wrap items-end gap-3 md:gap-4">
-                        <span className="font-display">Sakthimurugan</span>
+                    <div className="flex flex-wrap items-baseline gap-3 md:gap-4 pb-2 overflow-visible">
+                        <span className="font-display inline-block py-1">Sakthimurugan</span>
                         <div className="text-xs md:text-sm font-mono mb-1.5 md:mb-3 opacity-70" style={{ color: 'var(--accent-cyan)' }}><AgeCounter /></div>
                     </div>
-                    <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-4 font-display font-medium tracking-tight break-words" style={{ color: 'var(--text-muted)' }}>
+                    <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-4 font-display font-medium tracking-tight break-words py-1" style={{ color: 'var(--text-muted)' }}>
                         I make thoughtful digital experiences and secure tools.
                     </span>
                 </h1>

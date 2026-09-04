@@ -58,14 +58,14 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={`${greetingIndex}-${GREETINGS[greetingIndex].text}`}
-            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
-            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, clipPath: 'inset(0 0% 0 0)' }}
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(-20% 100% -20% -20%)' }}
+            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, clipPath: 'inset(-20% -20% -20% -20%)' }}
             exit={{ opacity: 0, transition: { duration: reduceMotion ? 0.12 : TRANSITION_MS / 1000 } }}
             transition={{
               opacity: { duration: reduceMotion ? 0.22 : 0.12 },
               clipPath: { duration: reduceMotion ? 0 : DRAW_MS / 1000, ease: [0.16, 1, 0.3, 1] },
             }}
-            className="block text-6xl leading-none sm:text-8xl"
+            className="block text-6xl leading-normal sm:text-8xl py-4 px-6 overflow-visible"
             style={{ fontFamily: GREETINGS[greetingIndex].fontFamily, color: '#fff' }}
           >
             {GREETINGS[greetingIndex].text}

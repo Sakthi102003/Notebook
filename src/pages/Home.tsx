@@ -178,9 +178,9 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="leading-none tracking-tight">
-            <span className="typewriter-text inline-flex items-end flex-nowrap gap-2 sm:gap-3 whitespace-nowrap text-[2rem] sm:text-[3rem] md:text-[4rem]">
-              <span className="font-display">Sakthimurugan S</span>
+          <h1 className="leading-tight tracking-tight py-1 overflow-visible">
+            <span className="typewriter-text inline-flex items-baseline flex-nowrap gap-2 sm:gap-3 whitespace-nowrap text-[2rem] sm:text-[3rem] md:text-[4rem] pb-2 overflow-visible">
+              <span className="font-display inline-block py-1">Sakthimurugan S</span>
               <span className="inline-block pb-1 text-[0.62rem] sm:text-[0.9rem] md:text-[1.25rem] font-mono tracking-[0.2em] whitespace-nowrap" style={{ color: 'var(--accent)' }}>
                 <AgeCounter />
               </span>
