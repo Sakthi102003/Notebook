@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { SiX, SiLinkedin, SiGithub, SiGmail, SiDiscord } from 'react-icons/si';
 import { projects } from '../data/projects';
 import ThemeToggle from '../components/ui/ThemeToggle';
+import ScrambleText from '../components/ui/ScrambleText';
 import LatestCommit from '../components/features/LatestCommit';
 import GithubHeatmap from '../components/features/GithubHeatmap';
 import ContactForm from '../components/sections/ContactForm';
@@ -179,8 +180,8 @@ export default function Home() {
           </div>
 
           <h1 className="leading-tight tracking-tight py-1 overflow-visible">
-            <span className="typewriter-text inline-flex items-baseline flex-nowrap gap-2 sm:gap-3 whitespace-nowrap text-[2rem] sm:text-[3rem] md:text-[4rem] pb-2 overflow-visible">
-              <span className="font-display inline-block py-1">Sakthimurugan S</span>
+            <span className="inline-flex items-baseline flex-nowrap gap-2 sm:gap-3 whitespace-nowrap text-[2rem] sm:text-[3rem] md:text-[4rem] pb-2 overflow-visible">
+              <ScrambleText text="Sakthimurugan S" className="font-display inline-block py-1" scrambleSpeed={20} revealSpeed={45} />
               <span className="inline-block pb-1 text-[0.62rem] sm:text-[0.9rem] md:text-[1.25rem] font-mono tracking-[0.2em] whitespace-nowrap" style={{ color: 'var(--accent)' }}>
                 <AgeCounter />
               </span>

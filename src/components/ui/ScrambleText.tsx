@@ -1,90 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface ScrambleTextProps {
-    text: string;
-    className?: string;
-    delay?: number;
-    scrambleSpeed?: number;
-    revealSpeed?: number;
+  text: string;
+  className?: string;
+  delay?: number;
+  scrambleSpeed?: number;
+  revealSpeed?: number;
 }
 
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+<>[]{}-=~/?|\\§±';
+// Printable characters available from a standard keyboard. Spaces stay intact
+// so multi-word names remain easy to recognize while they resolve.
+const KEYBOARD_CHARACTERS =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?';
 
-const ScrambleText: React.FC<ScrambleTextProps> = ({
-    text,
-    className = '',
-    delay = 0,
-    scrambleSpeed = 30,
-    revealSpeed = 50
-}) => {
-    const [displayText, setDisplayText] = useState('');
-    const [isStarted, setIsStarted] = useState(false);
+const randomKeyboardCharacter = () =>
+  KEYBOARD_CHARACTERS[Math.floor(Math.random() * KEYBOARD_CHARACTERS.length)];
 
-    useEffect(() => {
-        const startTimeout = setTimeout(() => {
-            setIsStarted(true);
-        }, delay * 1000);
+const ScrambleText = ({
+  text,
+  className = '',
+  delay = 0,
+  scrambleSpeed = 30,
+  revealSpeed = 50,
+}: ScrambleTextProps) => {
+  const [displayText, setDisplayText] = useState(text);
+  const [isStarted, setIsStarted] = useState(false);
 
-        return () => clearTimeout(startTimeout);
-    }, [delay]);
+  useEffect(() => {
+    setDisplayText(text);
+    setIsStarted(false);
 
-    useEffect(() => {
-        if (!isStarted) return;
+    const startTimeout = window.setTimeout(() => setIsStarted(true), delay * 1000);
+    return () => window.clearTimeout(startTimeout);
+  }, [delay, text]);
 
-        let currentIndex = 0;
-        let scrambleInterval: NodeJS.Timeout;
+  useEffect(() => {
+    if (!isStarted) return;
 
-        const revealNextCharacter = () => {
-            if (currentIndex > text.length) {
-                clearInterval(scrambleInterval);
-                return;
-            }
+    const startedAt = Date.now();
+    const revealDuration = Math.max(revealSpeed, text.length * revealSpeed);
+    const interval = window.setInterval(() => {
+      const elapsed = Date.now() - startedAt;
+      const revealedCharacters = Math.min(text.length, Math.floor(elapsed / revealSpeed));
 
-            const updateText = () => {
-                const scrambled = text.split('').map((char, index) => {
-                    if (index < currentIndex) {
-                        return text[index];
-                    }
-                    if (char === ' ') return ' ';
-                    return characters[Math.floor(Math.random() * characters.length)];
-                }).join('');
+      setDisplayText(text.split('').map((character, index) => {
+        if (character === ' ' || index < revealedCharacters) return character;
+        return randomKeyboardCharacter();
+      }).join(''));
 
-                setDisplayText(scrambled);
-            };
+      if (elapsed >= revealDuration) {
+        setDisplayText(text);
+        window.clearInterval(interval);
+      }
+    }, scrambleSpeed);
 
-            if (!scrambleInterval) {
-                scrambleInterval = setInterval(updateText, scrambleSpeed);
-            }
+    return () => window.clearInterval(interval);
+  }, [isStarted, revealSpeed, scrambleSpeed, text]);
 
-            currentIndex++;
-
-            if (currentIndex <= text.length) {
-                setTimeout(revealNextCharacter, revealSpeed);
-            }
-        };
-
-        revealNextCharacter();
-
-        return () => {
-            if (scrambleInterval) clearInterval(scrambleInterval);
-        };
-    }, [isStarted, text, scrambleSpeed, revealSpeed]);
-
-    return (
-        <span className={`${className} inline-flex items-center`}>
-            <span className="relative">
-                {displayText}
-                {isStarted && (
-                    <motion.span
-                        animate={{ opacity: [1, 0] }}
-                        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                        className="inline-block w-[2px] h-[1.1em] bg-electric-blue ml-1 align-middle shadow-[0_0_8px_#00E5FF]"
-                    />
-                )}
-            </span>
-        </span>
-    );
+  return (
+    <span className={`${className} inline-flex items-center`}>
+      <span className="relative">
+        {displayText}
+        {isStarted && (
+          <motion.span
+            animate={{ opacity: [1, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+            className="inline-block h-[1.1em] w-[2px] ml-1 align-middle bg-electric-blue shadow-[0_0_8px_#00E5FF]"
+          />
+        )}
+      </span>
+    </span>
+  );
 };
 
 export default ScrambleText;

@@ -190,7 +190,7 @@ const UnlockIntroScreen = ({ onUnlock }: UnlockIntroScreenProps) => {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-[14px] font-bold tracking-tight" style={{ color: '#FFFFFF' }}>
-                      Sakthimurugan S.
+                      Sakthimurugan S
                     </div>
                     <div className="truncate text-[11px] font-mono" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                       @sakthimurugans._
